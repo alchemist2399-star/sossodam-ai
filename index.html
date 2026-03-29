@@ -831,7 +831,7 @@
   let toastTimer      = null;
 
   // ============================================================
-  // GAS 백엔드 연결 (fetch 방식 — GitHub Pages용)
+  // GAS 백엔드 연결 (GitHub Pages → GAS CORS 해결)
   // ============================================================
   var GAS_URL = 'https://script.google.com/macros/s/AKfycbwD8-iT8bwgVyRKZiTf1HlQHF4gQYpLNlysgV14IGwobZiuRd5nGAagO8sxITAPLjNR/exec';
 
@@ -846,16 +846,24 @@
         body.context     = args[1];
       }
 
+      // GAS는 text/plain으로 보내야 preflight 없이 CORS 통과
       fetch(GAS_URL, {
         method: 'POST',
-        headers: { 'Content-Type': 'text/plain' },
-        body: JSON.stringify(body)
+        body: JSON.stringify(body),
+        redirect: 'follow'
       })
-      .then(function(res) { return res.json(); })
-      .then(function(data) { onSuccess(data); })
+      .then(function(res) {
+        if (!res.ok) throw new Error('HTTP ' + res.status);
+        return res.text();
+      })
+      .then(function(text) {
+        var data = JSON.parse(text);
+        onSuccess(data);
+      })
       .catch(function(err) {
-        console.error('[GAS fetch 오류]', err);
+        console.error('[GAS 오류]', err);
         if (onFailure) onFailure(err);
+        else onSuccess({ success: false, error: err.message });
       });
     }
   };
