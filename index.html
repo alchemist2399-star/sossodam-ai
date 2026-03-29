@@ -730,6 +730,24 @@
         <span class="voice-chip">TTS</span>
       </div>
 
+      <!-- 신뢰도 + 감지 항목 -->
+      <div id="confidenceCard" style="background:white;border:0.5px solid rgba(0,0,0,0.06);border-radius:var(--radius-md);padding:14px 16px;margin-bottom:12px;display:none;">
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px;">
+          <span style="font-size:12px;font-weight:800;color:var(--ink-muted);">🎯 AI 분석 신뢰도</span>
+          <span id="confidenceScore" style="font-size:13px;font-weight:800;color:var(--flame);margin-left:auto;"></span>
+        </div>
+        <div style="background:#f5f5f5;border-radius:100px;height:6px;overflow:hidden;">
+          <div id="confidenceBar" style="height:6px;border-radius:100px;background:linear-gradient(90deg,var(--flame),var(--ember));transition:width 1s ease;width:0%;"></div>
+        </div>
+        <div id="detectedItems" style="margin-top:10px;font-size:12px;color:var(--ink-muted);"></div>
+      </div>
+
+      <!-- 법령 위반 사항 -->
+      <div id="violationsCard" style="background:#FFF0EE;border:1.5px solid rgba(255,90,54,0.2);border-radius:var(--radius-md);padding:14px 16px;margin-bottom:12px;display:none;">
+        <div style="font-size:12px;font-weight:800;color:var(--flame);margin-bottom:6px;">⚠️ 법령 위반 사항</div>
+        <div id="violationsText" style="font-size:13px;color:var(--ink-soft);line-height:1.65;"></div>
+      </div>
+
       <div class="expert-card">
         <div class="expert-title">📋 전문가 안심 노트</div>
         <div class="expert-row">
@@ -751,6 +769,13 @@
           <div>
             <div class="expert-label">조치 팁</div>
             <div class="expert-val" id="expertTip"></div>
+          </div>
+        </div>
+        <div class="expert-row">
+          <div class="expert-icon">🗓️</div>
+          <div>
+            <div class="expert-label">권장 점검 주기</div>
+            <div class="expert-val" id="expertInspection"></div>
           </div>
         </div>
       </div>
@@ -999,7 +1024,28 @@
     setText('expertBasis',      note.basis      || '');
     setText('expertImportance', note.importance || '');
     setText('expertTip',        note.tip        || '');
+    setText('expertInspection', note.inspection || '');
     setText('resultCuriosity',  data.curiosityQuestion || '');
+
+    // 신뢰도 표시
+    if (data.confidence) {
+      var confCard = document.getElementById('confidenceCard');
+      confCard.style.display = 'block';
+      setText('confidenceScore', data.confidence + '%');
+      setTimeout(function() {
+        document.getElementById('confidenceBar').style.width = data.confidence + '%';
+      }, 300);
+      if (data.detectedItems && data.detectedItems.length > 0) {
+        setText('detectedItems', '감지된 항목: ' + data.detectedItems.join(' · '));
+      }
+    }
+
+    // 법령 위반 사항 표시
+    if (data.violations && data.violations !== '법령 위반 사항 없음') {
+      var vCard = document.getElementById('violationsCard');
+      vCard.style.display = 'block';
+      setText('violationsText', data.violations);
+    }
   }
 
   // ============================================================
