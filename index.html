@@ -278,9 +278,7 @@
       position: absolute; top: 50%; left: 50%;
       transform: translate(-50%,-50%);
     }
-    .scan-corner {
-      position: absolute; inset: 0;
-    }
+    .scan-corner { position: absolute; inset: 0; }
     .scan-corner::before, .scan-corner::after,
     .scan-corner-b::before, .scan-corner-b::after {
       content: ''; position: absolute;
@@ -307,7 +305,7 @@
 
     .analyzing-title { font-size: 20px; font-weight: 800; color: var(--ink); margin-bottom: 8px; }
 
-    /* ★ 수정된 부분 — analyzing-desc */
+    /* ★ 수정된 부분 */
     .analyzing-desc {
       font-size: 14px; color: var(--ink-soft); line-height: 1.9;
       background: white; border-radius: var(--radius-md);
@@ -558,7 +556,6 @@
     <div class="prog-step" id="ps5"></div>
   </div>
 
-  <!-- 스크롤 영역 -->
   <div class="screen-wrap" id="screenWrap">
 
     <!-- SCREEN 1: WELCOME -->
@@ -637,7 +634,7 @@
     </div>
 
     <!-- SCREEN 3: ANALYZING -->
-    <!-- ★ 수정된 부분 -->
+    <!-- ★ 수정된 부분: br 하나로 줄임 -->
     <div class="screen" id="screen-analyzing">
       <div class="scan-wrap">
         <img id="scanImg" class="scan-img-el" alt="분석중" />
@@ -649,7 +646,7 @@
       <h2 class="analyzing-title">소소담이 살펴보고 있어요 🔍</h2>
 
       <div class="analyzing-desc">
-        <strong>사진을 열심히 읽어볼게요.</strong><br/><br/>
+        <strong>사진을 열심히 읽어볼게요.</strong><br/>
         저의 조언은<br/>
         <strong>'안전을 위한 첫걸음'</strong>으로 활용해 주시고,<br/>
         중요한 결정은<br/>
@@ -829,7 +826,6 @@
         body.userMessage = args[0];
         body.context     = args[1];
       }
-
       fetch(GAS_URL, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -893,7 +889,6 @@
       return;
     }
     imageMimeType = 'image/jpeg';
-
     const reader = new FileReader();
     reader.onload = function(e) {
       const img = new Image();
