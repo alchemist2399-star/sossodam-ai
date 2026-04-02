@@ -1187,16 +1187,15 @@
     return { lx: px, ly: ly };
   }
 
-  // ★ 같은 위치 마커 그룹별 원형 균등 분산
-  // 같은 x,y를 가진 마커들을 찾아 반경 R만큼 원형으로 펼침
-  var CIRCLE_RADIUS = 8;
+  // ★ 같은 위치 마커 → 감지 항목 기준 좌우 배치
+  // 5% 이내 = 같은 위치로 간주, 항목을 가리지 않게 좌우로 나열
+  var SIDE_OFFSET = 9; // 항목 중심에서 좌우로 벌어지는 거리(%)
 
   function spreadSamePositions(positions) {
     var result = positions.map(function(p) {
       return { px: p.px, py: p.py };
     });
 
-    // 같은 좌표끼리 그룹핑
     var visited = [];
     for (var i = 0; i < result.length; i++) {
       if (visited.indexOf(i) >= 0) continue;
@@ -1205,21 +1204,24 @@
         if (visited.indexOf(j) >= 0) continue;
         var dx = Math.abs(result[i].px - result[j].px);
         var dy = Math.abs(result[i].py - result[j].py);
-        if (dx < 5 && dy < 5) { // 5% 이내면 같은 위치로 간주
+        if (dx < 5 && dy < 5) {
           group.push(j);
           visited.push(j);
         }
       }
       visited.push(i);
 
-      // 그룹이 2개 이상이면 원형으로 분산
       if (group.length >= 2) {
         var cx = result[i].px;
         var cy = result[i].py;
+        // 홀수 개수: 가운데 하나 중앙, 나머지 좌우 대칭
+        // 짝수 개수: 중앙 기준 좌우 균등 배치
+        var total = group.length;
         group.forEach(function(k, n) {
-          var angle = (n / group.length) * 2 * Math.PI - Math.PI / 2;
-          result[k].px = Math.min(95, Math.max(5, cx + Math.cos(angle) * CIRCLE_RADIUS));
-          result[k].py = Math.min(92, Math.max(5, cy + Math.sin(angle) * CIRCLE_RADIUS));
+          // 좌우 배치: -floor(total/2) ~ +floor(total/2) 스텝
+          var step = n - (total - 1) / 2;
+          result[k].px = Math.min(95, Math.max(5, cx + step * SIDE_OFFSET));
+          result[k].py = cy; // 세로 위치는 그대로 유지
         });
       }
     }
@@ -1347,14 +1349,29 @@
 
   function renderResult(data) {
     setText('resultSummary', data.summary || '소방안전 분석 결과');
+
+    // ★ 위험도 표시: 전체 riskLevel 1개 + detectedItems 항목별 위험도 칩
     var riskMap = {
       low:    ['🟢 안전 양호',      'risk-low'],
       medium: ['🟡 주의 필요',      'risk-medium'],
       high:   ['🔴 즉시 조치 권고', 'risk-high']
     };
     var riskArr = riskMap[data.riskLevel] || riskMap.low;
-    document.getElementById('riskIndicator').innerHTML =
-      '<span class="risk-pill ' + riskArr[1] + '">' + escapeHtml(riskArr[0]) + '</span>';
+    var indicatorHtml = '<span class="risk-pill ' + riskArr[1] + '">' + escapeHtml(riskArr[0]) + '</span>';
+
+    // detectedItems 항목별 위험도 칩 — riskLevel과 다른 위험도가 있을 때만 추가
+    var items = data.detectedItems || [];
+    var shownRisks = {};
+    shownRisks[data.riskLevel] = true;
+    items.forEach(function(item) {
+      var r = item.risk || 'low';
+      if (!shownRisks[r] && riskMap[r]) {
+        shownRisks[r] = true;
+        var ra = riskMap[r];
+        indicatorHtml += '<span class="risk-pill ' + ra[1] + '" style="margin-left:6px;">' + escapeHtml(ra[0]) + '</span>';
+      }
+    });
+    document.getElementById('riskIndicator').innerHTML = indicatorHtml;
 
     setText('resultGreeting',   data.greeting   || '');
     setText('resultAnalysis',   data.analysis   || '');
@@ -1366,7 +1383,6 @@
     setText('expertInspection', note.inspection || '');
     setText('resultCuriosity',  data.curiosityQuestion || '');
 
-    // ★ 마커+툴팁 렌더링
     renderMarkers(data.detectedItems || []);
   }
 
