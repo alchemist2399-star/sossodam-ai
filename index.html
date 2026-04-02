@@ -1187,11 +1187,11 @@
     return { lx: px, ly: ly };
   }
 
-  // ★ 같은 위치 마커 → 감지 항목 기준 좌우 배치
-  // 5% 이내 = 같은 위치로 간주, 항목을 가리지 않게 좌우로 나열
-  var SIDE_OFFSET = 9; // 항목 중심에서 좌우로 벌어지는 거리(%)
+  // ★ 같은 위치 마커 → 감지 항목 원본 좌표 기준 좌우 바깥 배치
+  // 항목 중심(origX, origY) 기준으로 마커를 좌우로 펼쳐서 항목을 가리지 않게 함
+  var SIDE_GAP = 12; // 항목 중심에서 마커까지 최소 거리(%)
 
-  function spreadSamePositions(positions) {
+  function spreadSamePositions(positions, origXArr, origYArr) {
     var result = positions.map(function(p) {
       return { px: p.px, py: p.py };
     });
@@ -1202,8 +1202,9 @@
       var group = [i];
       for (var j = i + 1; j < result.length; j++) {
         if (visited.indexOf(j) >= 0) continue;
-        var dx = Math.abs(result[i].px - result[j].px);
-        var dy = Math.abs(result[i].py - result[j].py);
+        var dx = Math.abs(origXArr[i] - origXArr[j]);
+        var dy = Math.abs(origYArr[i] - origYArr[j]);
+        // 원본 감지 좌표 기준으로 5% 이내면 같은 항목 위치로 간주
         if (dx < 5 && dy < 5) {
           group.push(j);
           visited.push(j);
@@ -1212,16 +1213,25 @@
       visited.push(i);
 
       if (group.length >= 2) {
-        var cx = result[i].px;
-        var cy = result[i].py;
-        // 홀수 개수: 가운데 하나 중앙, 나머지 좌우 대칭
-        // 짝수 개수: 중앙 기준 좌우 균등 배치
+        // 감지 항목의 원본 중심 좌표
+        var cx = origXArr[i];
+        var cy = origYArr[i];
         var total = group.length;
+
         group.forEach(function(k, n) {
-          // 좌우 배치: -floor(total/2) ~ +floor(total/2) 스텝
+          // 중앙 기준 좌우 대칭 배치 — 항목 중심에서 SIDE_GAP 이상 띄움
           var step = n - (total - 1) / 2;
-          result[k].px = Math.min(95, Math.max(5, cx + step * SIDE_OFFSET));
-          result[k].py = cy; // 세로 위치는 그대로 유지
+          var newX = cx + step * SIDE_GAP * 2;
+
+          // 화면 경계 처리
+          newX = Math.min(95, Math.max(5, newX));
+
+          // y는 항목 위쪽(마커가 항목보다 위에 있도록)
+          var newY = cy > 15 ? cy - 10 : cy + 10;
+          newY = Math.min(92, Math.max(5, newY));
+
+          result[k].px = newX;
+          result[k].py = newY;
         });
       }
     }
@@ -1244,16 +1254,19 @@
     wrap.querySelectorAll('.marker-pin, .marker-pulse-ring, .marker-label').forEach(function(el) { el.remove(); });
     activeMarkerIdx = -1;
 
-    // 1단계: 초기 위치 계산
+    // 1단계: 초기 위치 계산 + 원본 좌표 저장
+    var origXArr = [], origYArr = [];
     var positions = items.map(function(item) {
       var xPct = item.x != null ? item.x : 50;
       var yPct = item.y != null ? item.y : 50;
+      origXArr.push(xPct);
+      origYArr.push(yPct);
       var off  = calcPinOffset(xPct, yPct);
       return { px: off.px, py: off.py };
     });
 
-    // 2단계: 같은 위치 그룹 원형 분산
-    positions = spreadSamePositions(positions);
+    // 2단계: 원본 좌표 기준 같은 위치 그룹 좌우 분산
+    positions = spreadSamePositions(positions, origXArr, origYArr);
 
     // 3단계: 렌더링
     items.forEach(function(item, idx) {
