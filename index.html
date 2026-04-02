@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>찰깍! 안전점검 — 소방안전 AI</title>
+  <title>소화기 AI — 소방안전 AI</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet" />
@@ -27,9 +27,7 @@
       --ease-smooth: cubic-bezier(0.4, 0, 0.2, 1);
       --safe-bottom: env(safe-area-inset-bottom, 0px);
     }
-
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
     html {
       background: #FFF9F6;
       -webkit-text-size-adjust: 100%;
@@ -44,7 +42,6 @@
       overflow-y: auto;
       -webkit-overflow-scrolling: touch;
     }
-
     #app {
       min-height: 100vh;
       display: flex;
@@ -54,7 +51,6 @@
       margin: 0 auto;
       box-shadow: -9999px 0 0 9999px #FFF9F6, 9999px 0 0 9999px #FFF9F6;
     }
-
     .app-header {
       padding: 14px 20px 12px;
       background: linear-gradient(135deg, var(--flame) 0%, #FF7A50 100%);
@@ -89,10 +85,13 @@
       -webkit-background-clip: text; -webkit-text-fill-color: transparent;
     }
     .app-tagline {
-      font-size: 11px; color: var(--ink-muted);
+      font-size: 11px; color: rgba(255,255,255,0.6);
       margin-left: auto; letter-spacing: 0.2px;
     }
-
+    .app-tagline b {
+      color: white;
+      font-weight: 900;
+    }
     .progress-bar {
       display: flex; padding: 0 20px; gap: 4px;
       background: #FFF9F6;
@@ -104,13 +103,11 @@
     }
     .prog-step.done   { background: var(--flame); }
     .prog-step.active { background: linear-gradient(90deg, var(--flame), var(--ember)); }
-
     .screen-wrap {
       flex: 1;
       overflow: visible;
       padding-bottom: 40px;
     }
-
     .screen { display: none; padding: 20px 18px 0; }
     .screen.active {
       display: block;
@@ -121,7 +118,6 @@
       from { opacity: 0; transform: translateY(20px); }
       to   { opacity: 1; transform: translateY(0); }
     }
-
     .card {
       background: var(--card-bg);
       border: 1px solid rgba(255,255,255,0.8);
@@ -130,7 +126,6 @@
       box-shadow: var(--shadow-sm);
     }
     .card + .card { margin-top: 12px; }
-
     .btn {
       display: flex; align-items: center; justify-content: center; gap: 8px;
       border: none; cursor: pointer; font-family: var(--font-main);
@@ -140,7 +135,6 @@
       user-select: none; white-space: nowrap;
     }
     .btn:active { transform: scale(0.96); opacity: 0.9; }
-
     .btn-primary {
       width: 100%; padding: 17px;
       background: linear-gradient(135deg, var(--flame), var(--ember));
@@ -161,7 +155,6 @@
     }
     .btn-row { display: flex; gap: 10px; }
     .btn-row .btn { flex: 1; }
-
     .toast {
       position: fixed; bottom: 32px; left: 50%;
       transform: translateX(-50%) translateY(80px);
@@ -174,9 +167,7 @@
       opacity: 0; pointer-events: none;
     }
     .toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
-
     #screen-welcome { padding-top: 8px; }
-
     .hero-section {
       text-align: center;
       padding: 28px 8px 24px;
@@ -202,7 +193,6 @@
     }
     .hero-title em { color: var(--flame); font-style: normal; }
     .hero-sub { font-size: 14px; color: var(--ink-soft); line-height: 1.75; }
-
     .feature-list { display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px; }
     .feature-item {
       display: flex; align-items: center; gap: 14px;
@@ -221,19 +211,14 @@
     .fi-green { background: linear-gradient(135deg, #E0FFF5, #CCFFE8); }
     .feature-text strong { display: block; font-size: 14px; font-weight: 700; color: var(--ink); }
     .feature-text span   { font-size: 12px; color: var(--ink-muted); margin-top: 2px; display: block; }
-
     .disclaimer {
       font-size: 11px; color: var(--ink-muted); text-align: center;
       line-height: 1.7; margin-top: 16px; padding: 0 4px;
     }
-
     #screen-upload { padding-top: 16px; }
-
     .section-title { font-size: 20px; font-weight: 800; color: var(--ink); margin-bottom: 4px; letter-spacing: -0.3px; }
     .section-sub   { font-size: 13px; color: var(--ink-muted); margin-bottom: 20px; }
-
     #fileInput { display: none; }
-
     .upload-zone {
       background: white;
       border: 2px dashed rgba(255,90,54,0.25);
@@ -252,7 +237,6 @@
     .upload-zone-icon { font-size: 48px; margin-bottom: 14px; display: block; }
     .upload-zone h3 { font-size: 16px; font-weight: 700; color: var(--ink); margin-bottom: 6px; }
     .upload-zone p  { font-size: 13px; color: var(--ink-muted); }
-
     .preview-wrap { position: relative; margin-bottom: 14px; border-radius: var(--radius-lg); overflow: hidden; }
     #previewImg {
       width: 100%; max-height: 260px; object-fit: cover;
@@ -265,9 +249,7 @@
       cursor: pointer; font-size: 15px; display: none;
       align-items: center; justify-content: center;
     }
-
     #screen-analyzing { padding-top: 40px; text-align: center; }
-
     .scan-wrap {
       position: relative; width: 220px; height: 220px;
       margin: 0 auto 28px;
@@ -302,7 +284,6 @@
       90%  { opacity: 1; }
       100% { top: calc(100% - 10px); opacity: 0; }
     }
-
     .analyzing-title { font-size: 20px; font-weight: 800; color: var(--ink); margin-bottom: 8px; }
     .analyzing-desc {
       font-size: 14px; color: var(--ink-soft); line-height: 1.9;
@@ -314,15 +295,12 @@
       overflow-wrap: break-word;
     }
     .analyzing-desc strong { color: var(--flame); }
-
     .dot-loader { display: flex; gap: 6px; justify-content: center; margin-top: 8px; }
     .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--flame); animation: dotB 1.2s ease-in-out infinite; }
     .dot:nth-child(2) { animation-delay: 0.2s; }
     .dot:nth-child(3) { animation-delay: 0.4s; }
     @keyframes dotB { 0%,80%,100%{transform:scale(0.6);opacity:0.4} 40%{transform:scale(1);opacity:1} }
-
     #screen-result { padding-top: 16px; }
-
     .result-tag {
       display: inline-flex; align-items: center; gap: 5px;
       background: linear-gradient(135deg, var(--flame), var(--ember));
@@ -339,8 +317,6 @@
     .risk-low    { background: #E6FFF4; color: #1A9E6E; }
     .risk-medium { background: #FFF8E3; color: #C47A00; }
     .risk-high   { background: #FFE8E3; color: #CC2200; }
-
-    /* ★ 마커 이미지 래퍼 */
     .marker-img-wrap {
       position: relative;
       width: 100%;
@@ -367,8 +343,6 @@
       border-radius: 100px;
       pointer-events: none;
     }
-
-    /* ★ 마커 버튼 */
     .marker-pin {
       position: absolute;
       width: 30px; height: 30px;
@@ -387,8 +361,6 @@
       border-color: white;
     }
     .marker-pin svg { width: 13px; height: 13px; pointer-events: none; }
-
-    /* 마커 pulse 링 */
     .marker-pulse-ring {
       position: absolute;
       width: 30px; height: 30px;
@@ -403,8 +375,6 @@
       70%  { transform: translate(-50%,-50%) scale(1.75); opacity: 0; }
       100% { transform: translate(-50%,-50%) scale(1.75); opacity: 0; }
     }
-
-    /* ★ 라벨 박스 (꼬리 없음) */
     .marker-label {
       position: absolute;
       transform: translateX(-50%);
@@ -424,8 +394,6 @@
     .mlr-high   { background: #FFE8E3; color: #CC2200; }
     .mlr-medium { background: #FFF8E3; color: #C47A00; }
     .mlr-low    { background: #E6FFF4; color: #1A9E6E; }
-
-    /* ★ 항목 목록 (마커와 연동) */
     .detected-list {
       background: white;
       border: 1px solid rgba(0,0,0,0.05);
@@ -463,7 +431,6 @@
     .badge-high   { background: #FFE8E3; color: #CC2200; }
     .badge-medium { background: #FFF8E3; color: #C47A00; }
     .badge-low    { background: #E6FFF4; color: #1A9E6E; }
-
     .docent-card {
       background: white;
       border-radius: var(--radius-lg);
@@ -485,7 +452,6 @@
     .step-label { font-size: 10px; font-weight: 700; color: var(--ink-muted); letter-spacing: 0.5px; text-transform: uppercase; margin-bottom: 3px; }
     .step-text  { font-size: 14px; color: var(--ink-soft); line-height: 1.75; }
     .step-sep   { width: 1px; height: 14px; background: rgba(0,0,0,0.06); margin: 0 0 0 12px; }
-
     .voice-bar {
       display: flex; align-items: center; gap: 10px;
       background: white; border: 1px solid rgba(0,0,0,0.05);
@@ -497,7 +463,6 @@
     .voice-bar:active { opacity: 0.85; }
     .voice-label { font-size: 14px; font-weight: 600; color: var(--ink-soft); flex: 1; }
     .voice-chip { font-size: 10px; background: #E8F4FD; color: #1A7ABF; border-radius: 100px; padding: 3px 9px; font-weight: 700; }
-
     .expert-card {
       background: linear-gradient(135deg, rgba(232,244,253,0.8), rgba(212,245,236,0.8));
       border: 1px solid rgba(26,122,191,0.12);
@@ -510,7 +475,6 @@
     .expert-icon { font-size: 16px; flex-shrink: 0; margin-top: 1px; }
     .expert-label { font-size: 10px; font-weight: 700; color: var(--ink-muted); letter-spacing: 0.4px; text-transform: uppercase; margin-bottom: 2px; }
     .expert-val   { font-size: 13px; color: var(--ink-soft); line-height: 1.65; }
-
     .curiosity-card {
       background: linear-gradient(135deg, #FFF8EE, #FFFDF5);
       border: 1.5px solid rgba(255,179,71,0.2);
@@ -521,7 +485,6 @@
     .curiosity-card:active { opacity: 0.85; }
     .curiosity-label { font-size: 10px; font-weight: 800; color: var(--ember); letter-spacing: 0.5px; margin-bottom: 5px; }
     .curiosity-q { font-size: 14px; color: var(--ink-soft); line-height: 1.65; }
-
     .unrelated-card {
       background: linear-gradient(135deg, #FFF8EE, #FFFDF5);
       border: 1.5px solid rgba(255,179,71,0.3);
@@ -544,9 +507,7 @@
     .unrelated-hint {
       font-size: 13px; color: var(--ink-muted); line-height: 1.6;
     }
-
     #screen-chat { padding-top: 16px; padding-bottom: 0; }
-
     .chat-header {
       display: flex; align-items: center; gap: 12px; margin-bottom: 14px;
     }
@@ -566,7 +527,6 @@
       font-size: 16px; cursor: pointer;
       -webkit-tap-highlight-color: transparent;
     }
-
     .chat-messages {
       background: white; border: 1px solid rgba(0,0,0,0.05);
       border-radius: var(--radius-lg); padding: 14px;
@@ -574,7 +534,6 @@
       margin-bottom: 12px; scroll-behavior: smooth;
     }
     .chat-messages::-webkit-scrollbar { display: none; }
-
     .msg { display: flex; gap: 8px; margin-bottom: 12px; }
     .msg:last-child { margin-bottom: 0; }
     @keyframes msgIn { from{opacity:0;transform:translateY(8px)} to{opacity:1;transform:translateY(0)} }
@@ -609,7 +568,6 @@
     .typing-dot:nth-child(2) { animation-delay: 0.2s; }
     .typing-dot:nth-child(3) { animation-delay: 0.4s; }
     @keyframes typB { 0%,80%,100%{transform:translateY(0);opacity:0.4} 40%{transform:translateY(-4px);opacity:1} }
-
     .chip-row { display: flex; gap: 8px; margin-bottom: 10px; overflow-x: auto; padding-bottom: 4px; }
     .chip-row::-webkit-scrollbar { display: none; }
     .chip-btn {
@@ -621,7 +579,6 @@
       -webkit-tap-highlight-color: transparent;
     }
     .chip-btn:active { opacity: 0.8; }
-
     .chat-input-row {
       display: flex; gap: 8px; align-items: flex-end;
       padding-bottom: 12px;
@@ -647,7 +604,6 @@
       -webkit-tap-highlight-color: transparent;
     }
     .btn-send:active { transform: scale(0.93); }
-
     #screen-complete { padding-top: 56px; text-align: center; }
     .complete-icon {
       width: 110px; height: 110px; margin: 0 auto 24px;
@@ -673,7 +629,6 @@
       border-radius: 100px; padding: 7px 16px; margin-bottom: 24px;
       font-size: 13px; color: var(--mint-dark); font-weight: 700;
     }
-
     .mt8  { margin-top: 8px; }
     .mt12 { margin-top: 12px; }
     .mt16 { margin-top: 16px; }
@@ -682,15 +637,12 @@
 </head>
 <body>
 <div class="toast" id="toast"></div>
-
 <div id="app">
-
   <header class="app-header" id="appHeader">
     <div class="app-logo-icon">🔥</div>
-    <div class="app-logo-text">찰깍! 안전점검</div>
-    <div class="app-tagline">소방안전 AI</div>
+    <div class="app-logo-text">소화기 AI</div>
+    <div class="app-tagline"><b>소</b>방·<b>화</b>재예방·<b>하</b>기</div>
   </header>
-
   <div class="progress-bar" id="progressBar" style="display:none; padding-top:10px; padding-bottom:10px;">
     <div class="prog-step" id="ps1"></div>
     <div class="prog-step" id="ps2"></div>
@@ -698,21 +650,18 @@
     <div class="prog-step" id="ps4"></div>
     <div class="prog-step" id="ps5"></div>
   </div>
-
   <div class="screen-wrap" id="screenWrap">
-
     <!-- SCREEN 1: WELCOME -->
     <div class="screen active" id="screen-welcome">
       <div class="hero-section">
         <div class="hero-icon">🏠</div>
         <h1 class="hero-title">
-          안녕하세요!<br/><em>찰깍!</em> 한 번으로<br/>소방안전을 점검해요
+          안녕하세요!<br/><em>소화기 AI</em>로<br/>소방안전을 점검해요
         </h1>
         <p class="hero-sub" style="margin-top:8px">
           사진 한 장이면 충분해요.<br/>AI가 소방안전 위험 요소를 바로 찾아드려요.
         </p>
       </div>
-
       <div class="feature-list">
         <div class="feature-item">
           <div class="feature-icon fi-red">📸</div>
@@ -725,7 +674,7 @@
           <div class="feature-icon fi-blue">💬</div>
           <div class="feature-text">
             <strong>친절한 도슨트 해설</strong>
-            <span>비유로 쉽고 따뜻하게 설명해 드려요</span>
+            <span>쉽고 따뜻하게 설명해 드려요</span>
           </div>
         </div>
         <div class="feature-item">
@@ -736,22 +685,17 @@
           </div>
         </div>
       </div>
-
       <button class="btn btn-primary" onclick="goToUpload()">📷 사진으로 시작하기</button>
-
       <p class="disclaimer">
-        찰깍! 안전점검의 답변은 참고용 가이드예요.<br/>
+        소화기 AI의 답변은 참고용 가이드예요.<br/>
         중요한 결정은 꼭 전문가와 상의해 주세요.
       </p>
     </div>
-
     <!-- SCREEN 2: UPLOAD -->
     <div class="screen" id="screen-upload">
       <div class="section-title">📍 어디를 살펴볼까요?</div>
       <div class="section-sub">소화기, 유도등, 복도, 피난구 어디든 괜찮아요</div>
-
       <input type="file" id="fileInput" accept="image/*" onchange="handleFile(event)" />
-
       <div class="upload-zone" id="uploadZone"
            onclick="document.getElementById('fileInput').click()"
            role="button" tabindex="0">
@@ -759,12 +703,10 @@
         <h3>사진을 선택해 주세요</h3>
         <p>갤러리에서 선택하거나 카메라로 찍어요</p>
       </div>
-
       <div class="preview-wrap">
         <img id="previewImg" alt="미리보기" />
         <button class="preview-remove" id="removeBtn" onclick="removeImage()">✕</button>
       </div>
-
       <div style="display:flex; flex-direction:column; gap:10px;">
         <button class="btn btn-primary" id="analyzeBtn" onclick="startAnalysis()" style="display:none">
           🔥 AI 분석 시작하기
@@ -775,7 +717,6 @@
         </div>
       </div>
     </div>
-
     <!-- SCREEN 3: ANALYZING -->
     <div class="screen" id="screen-analyzing">
       <div class="scan-wrap">
@@ -784,9 +725,7 @@
         <div class="scan-corner-b"></div>
         <div class="scan-beam"></div>
       </div>
-
-      <h2 class="analyzing-title">찰깍! 안전점검 중이에요 🔍</h2>
-
+      <h2 class="analyzing-title">소화기 AI가 점검 중이에요 🔍</h2>
       <div class="analyzing-desc">
         <strong>사진을 꼼꼼히 분석하고 있어요.</strong><br/>
         AI 점검 결과는<br/>
@@ -794,48 +733,40 @@
         중요한 결정은<br/>
         꼭 전문가와 상의해 주세요 💛
       </div>
-
       <div class="dot-loader">
         <div class="dot"></div>
         <div class="dot"></div>
         <div class="dot"></div>
       </div>
     </div>
-
     <!-- SCREEN 4: RESULT -->
     <div class="screen" id="screen-result">
       <div class="result-tag">✨ 분석 완료</div>
       <div class="result-title" id="resultSummary">소방안전 분석 결과</div>
       <div id="riskIndicator"></div>
-
-      <!-- ★ 무관 사진 안내 카드 -->
+      <!-- 무관 사진 안내 카드 -->
       <div id="unrelatedCard" class="unrelated-card" style="display:none;">
         <span class="unrelated-icon">📷</span>
         <div class="unrelated-detected" id="unrelatedDetected"></div>
         <div class="unrelated-msg">소방안전 분석이 어려운 사진이에요.</div>
         <div class="unrelated-hint">소화기, 복도, 전선, 비상구 등<br/>소방안전 관련 사진을 찍어주세요 😊</div>
       </div>
-
       <!-- 정상 분석 결과 -->
       <div id="normalResult">
-
-        <!-- ★ 마커+라벨 이미지 영역 -->
+        <!-- 마커+라벨 이미지 영역 -->
         <div class="marker-img-wrap" id="markerImgWrap" style="display:none;">
           <img id="markerImg" alt="분석 사진" />
           <div class="marker-img-hint">마커를 눌러보세요</div>
         </div>
-
-        <!-- ★ 감지 항목 목록 -->
+        <!-- 감지 항목 목록 -->
         <div class="detected-list" id="detectedList" style="display:none;">
           <div class="detected-list-label">감지된 항목 — 눌러서 마커 확인</div>
-          <!-- 항목은 JS로 동적 생성 -->
         </div>
-
         <div class="docent-card">
           <div class="docent-step">
             <div><div class="step-badge sb1">1</div></div>
             <div>
-              <div class="step-label">환대와 관찰</div>
+              <div class="step-label">들어가기 전에</div>
               <div class="step-text" id="resultGreeting"></div>
             </div>
           </div>
@@ -843,7 +774,7 @@
           <div class="docent-step" style="margin-top:12px">
             <div><div class="step-badge sb2">2</div></div>
             <div>
-              <div class="step-label">비유 해설</div>
+              <div class="step-label">쉬운 설명</div>
               <div class="step-text" id="resultAnalysis"></div>
             </div>
           </div>
@@ -856,13 +787,11 @@
             </div>
           </div>
         </div>
-
         <div class="voice-bar" onclick="toggleVoice()" role="button" tabindex="0">
           <span id="voiceIcon" style="font-size:20px">🔊</span>
           <span class="voice-label" id="voiceLabel">음성으로 들어보기</span>
           <span class="voice-chip">TTS</span>
         </div>
-
         <div class="expert-card">
           <div class="expert-title">📋 전문가 안심 노트</div>
           <div class="expert-row">
@@ -894,76 +823,62 @@
             </div>
           </div>
         </div>
-
         <div class="curiosity-card" onclick="sendCuriosity()" role="button" tabindex="0">
           <div class="curiosity-label">💡 더 궁금하신가요?</div>
           <div class="curiosity-q" id="resultCuriosity"></div>
         </div>
-
         <div class="btn-row mt8">
           <button class="btn btn-ghost" onclick="goToScreen('screen-chat')">💬 더 물어보기</button>
           <button class="btn btn-mint" onclick="goToComplete()">✅ 안심 완료!</button>
         </div>
       </div>
-
       <!-- 무관 사진일 때 버튼 -->
       <div id="unrelatedBtn" style="display:none; margin-top:16px;">
         <button class="btn btn-primary" onclick="retakePhoto()">📷 다시 찍어볼게요</button>
       </div>
     </div>
-
     <!-- SCREEN 5: CHAT -->
     <div class="screen" id="screen-chat">
       <div class="chat-header">
         <div class="chat-avatar">🔥</div>
         <div>
-          <div class="chat-name">찰깍! 안전점검</div>
+          <div class="chat-name">소화기 AI</div>
           <div class="chat-status">● 온라인</div>
         </div>
         <div class="chat-back" onclick="goToScreen('screen-result')">←</div>
       </div>
-
       <div class="chat-messages" id="chatMessages"></div>
-
       <div class="chip-row">
         <button class="chip-btn" onclick="sendChip('소화기 버리는 방법이 궁금해요')">🗑️ 소화기 폐기</button>
         <button class="chip-btn" onclick="sendChip('가까운 소화기 판매처가 어디예요?')">🛒 구매처 안내</button>
         <button class="chip-btn" onclick="sendChip('전문가 점검은 어떻게 받나요?')">🔧 전문가 점검</button>
       </div>
-
       <div class="chat-input-row">
         <textarea id="chatInput" placeholder="궁금한 점을 물어보세요 😊" rows="1"
                   onkeydown="handleChatKey(event)" oninput="autoResize(this)"></textarea>
         <button class="btn-send" onclick="sendChat()">➤</button>
       </div>
-
       <button class="btn btn-mint mt12 mb12" onclick="goToComplete()">✅ 안심 완료!</button>
     </div>
-
     <!-- SCREEN 6: COMPLETE -->
     <div class="screen" id="screen-complete">
       <div class="complete-icon">🛡️</div>
       <div class="complete-title">오늘도 <span>안전</span>하게!<br/>잘 하셨어요 🎉</div>
-
       <div class="complete-msg">
         <p id="completeMsg">
           오늘 덕분에 이 공간이 훨씬 더 따뜻하고 안전해졌어요.<br/><br/>
           작은 관심 하나가 소중한 생명을 지키는 큰 힘이 된답니다. 💛
         </p>
       </div>
-
       <div class="complete-chip">
         <span id="statsText">오늘도 안심을 챙겼어요! 🛡️</span>
       </div>
-
       <button class="btn btn-primary" onclick="restartApp()">
         🔄 다른 곳도 살펴볼게요
       </button>
     </div>
-
   </div>
 </div>
-
 <script>
   var currentScreen   = 'screen-welcome';
   var imageBase64     = '';
@@ -972,12 +887,8 @@
   var voicePlaying    = false;
   var speechUtterance = null;
   var toastTimer      = null;
-
-  // ★ 마커 상태
   var activeMarkerIdx = -1;
-
   var GAS_URL = 'https://sossodam-api.99kuki.workers.dev';
-
   var GAS = {
     run: function(method, args, onSuccess, onFailure) {
       var body = { action: method };
@@ -1001,7 +912,6 @@
       });
     }
   };
-
   function showToast(msg, duration) {
     duration = duration || 3200;
     var t = document.getElementById('toast');
@@ -1010,7 +920,6 @@
     clearTimeout(toastTimer);
     toastTimer = setTimeout(function() { t.classList.remove('show'); }, duration);
   }
-
   function goToScreen(id) {
     if (currentScreen === id) return;
     document.getElementById(currentScreen).classList.remove('active');
@@ -1021,7 +930,6 @@
     updateProgress();
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
-
   function updateProgress() {
     var steps = ['screen-welcome','screen-upload','screen-analyzing','screen-result','screen-chat','screen-complete'];
     var idx   = steps.indexOf(currentScreen);
@@ -1035,15 +943,12 @@
       else if (i === idx - 1) el.classList.add('active');
     });
   }
-
   function goToUpload() { goToScreen('screen-upload'); }
-
   function triggerCamera() {
     var fi = document.getElementById('fileInput');
     fi.setAttribute('capture', 'environment');
     fi.click();
   }
-
   function handleFile(event) {
     var file = event.target.files[0];
     if (!file) return;
@@ -1084,7 +989,6 @@
     reader.onerror = function() { showToast('파일을 읽는 중 오류가 발생했어요.'); };
     reader.readAsDataURL(file);
   }
-
   function removeImage() {
     imageBase64 = '';
     document.getElementById('previewImg').src = '';
@@ -1094,7 +998,6 @@
     document.getElementById('uploadZone').style.display = 'block';
     document.getElementById('fileInput').value = '';
   }
-
   var uz = document.getElementById('uploadZone');
   uz.addEventListener('dragover',  function(e) { e.preventDefault(); uz.classList.add('drag-over'); });
   uz.addEventListener('dragleave', function()  { uz.classList.remove('drag-over'); });
@@ -1105,21 +1008,18 @@
     try { var dt = new DataTransfer(); dt.items.add(file); document.getElementById('fileInput').files = dt.files; } catch(_) {}
     handleFile({ target: { files: [file] } });
   });
-
   function startAnalysis() {
     if (!imageBase64) { showToast('사진을 먼저 선택해 주세요.'); return; }
     document.getElementById('scanImg').src = 'data:' + imageMimeType + ';base64,' + imageBase64;
     goToScreen('screen-analyzing');
     GAS.run('analyzeImage', [imageBase64, imageMimeType], onAnalysisSuccess, onAnalysisError);
   }
-
   function onAnalysisSuccess(response) {
     if (!response || !response.success) {
       onAnalysisError(response ? response.error : '알 수 없는 오류');
       return;
     }
     analysisResult = response.data;
-
     if (analysisResult.isFireSafetyRelated === false) {
       goToScreen('screen-result');
       document.getElementById('unrelatedCard').style.display = 'block';
@@ -1136,30 +1036,24 @@
       }
       return;
     }
-
     document.getElementById('unrelatedCard').style.display = 'none';
     document.getElementById('normalResult').style.display  = 'block';
     document.getElementById('unrelatedBtn').style.display  = 'none';
     document.getElementById('resultSummary').style.display = 'block';
     document.getElementById('riskIndicator').style.display = 'block';
-
     renderResult(analysisResult);
     goToScreen('screen-result');
     initChat();
   }
-
   function retakePhoto() {
     removeImage();
     goToScreen('screen-upload');
   }
-
   function onAnalysisError(err) {
     console.error('Analysis error:', err);
     goToScreen('screen-upload');
     showToast('분석 중 오류가 발생했어요 😥 잠시 후 다시 시도해 주세요.');
   }
-
-  // ★ 위험도별 색상 설정
   var RISK_COLOR = {
     high:   '#E24B4A',
     medium: '#EF9F27',
@@ -1170,8 +1064,6 @@
     medium: '주의 필요',
     low:    '확인 권장'
   };
-
-  // ★ 마커 오프셋: 대상물을 가리지 않도록 살짝 비껴서 배치
   function calcPinOffset(xPct, yPct) {
     var ox = xPct > 75 ? -7 : 7;
     var oy = yPct > 75 ? -7 : 7;
@@ -1180,22 +1072,15 @@
       py: Math.min(97, Math.max(3, yPct + oy))
     };
   }
-
-  // ★ 라벨 위치: 마커 위쪽
   function calcLabelPos(px, py) {
     var ly = py > 20 ? py - 15 : py + 18;
     return { lx: px, ly: ly };
   }
-
-  // ★ 같은 위치 마커 → 감지 항목 원본 좌표 기준 좌우 바깥 배치
-  // 항목 중심(origX, origY) 기준으로 마커를 좌우로 펼쳐서 항목을 가리지 않게 함
-  var SIDE_GAP = 12; // 항목 중심에서 마커까지 최소 거리(%)
-
+  var SIDE_GAP = 12;
   function spreadSamePositions(positions, origXArr, origYArr) {
     var result = positions.map(function(p) {
       return { px: p.px, py: p.py };
     });
-
     var visited = [];
     for (var i = 0; i < result.length; i++) {
       if (visited.indexOf(i) >= 0) continue;
@@ -1204,32 +1089,22 @@
         if (visited.indexOf(j) >= 0) continue;
         var dx = Math.abs(origXArr[i] - origXArr[j]);
         var dy = Math.abs(origYArr[i] - origYArr[j]);
-        // 원본 감지 좌표 기준으로 5% 이내면 같은 항목 위치로 간주
         if (dx < 5 && dy < 5) {
           group.push(j);
           visited.push(j);
         }
       }
       visited.push(i);
-
       if (group.length >= 2) {
-        // 감지 항목의 원본 중심 좌표
         var cx = origXArr[i];
         var cy = origYArr[i];
         var total = group.length;
-
         group.forEach(function(k, n) {
-          // 중앙 기준 좌우 대칭 배치 — 항목 중심에서 SIDE_GAP 이상 띄움
           var step = n - (total - 1) / 2;
           var newX = cx + step * SIDE_GAP * 2;
-
-          // 화면 경계 처리
           newX = Math.min(95, Math.max(5, newX));
-
-          // y는 항목 위쪽(마커가 항목보다 위에 있도록)
           var newY = cy > 15 ? cy - 10 : cy + 10;
           newY = Math.min(92, Math.max(5, newY));
-
           result[k].px = newX;
           result[k].py = newY;
         });
@@ -1237,8 +1112,6 @@
     }
     return result;
   }
-
-  // ★ 마커+라벨 렌더링 (꼬리 없음, 동일 위치 원형 분산)
   function renderMarkers(items) {
     var wrap = document.getElementById('markerImgWrap');
     if (!items || items.length === 0) {
@@ -1246,15 +1119,11 @@
       document.getElementById('detectedList').style.display = 'none';
       return;
     }
-
     var markerImg = document.getElementById('markerImg');
     markerImg.src = 'data:' + imageMimeType + ';base64,' + imageBase64;
     wrap.style.display = 'block';
-
     wrap.querySelectorAll('.marker-pin, .marker-pulse-ring, .marker-label').forEach(function(el) { el.remove(); });
     activeMarkerIdx = -1;
-
-    // 1단계: 초기 위치 계산 + 원본 좌표 저장
     var origXArr = [], origYArr = [];
     var positions = items.map(function(item) {
       var xPct = item.x != null ? item.x : 50;
@@ -1264,18 +1133,13 @@
       var off  = calcPinOffset(xPct, yPct);
       return { px: off.px, py: off.py };
     });
-
-    // 2단계: 원본 좌표 기준 같은 위치 그룹 좌우 분산
     positions = spreadSamePositions(positions, origXArr, origYArr);
-
-    // 3단계: 렌더링
     items.forEach(function(item, idx) {
       var risk  = item.risk  || 'low';
       var color = RISK_COLOR[risk] || RISK_COLOR.low;
       var px    = positions[idx].px;
       var py    = positions[idx].py;
       var lp    = calcLabelPos(px, py);
-
       var ring = document.createElement('div');
       ring.className = 'marker-pulse-ring';
       ring.style.left = px + '%';
@@ -1283,7 +1147,6 @@
       ring.style.background = color;
       ring.style.animationDelay = (idx * 0.4) + 's';
       wrap.appendChild(ring);
-
       var pin = document.createElement('div');
       pin.className = 'marker-pin';
       pin.style.left = px + '%';
@@ -1297,7 +1160,6 @@
         + '</svg>';
       pin.addEventListener('click', function() { toggleMarker(idx); });
       wrap.appendChild(pin);
-
       var label = document.createElement('div');
       label.className = 'marker-label';
       label.setAttribute('data-label', idx);
@@ -1310,22 +1172,17 @@
         + '<span class="marker-label-risk mlr-' + risk + '">' + escapeHtml(RISK_LABEL[risk]) + '</span>';
       wrap.appendChild(label);
     });
-
     renderDetectedList(items);
   }
-
   function toggleMarker(idx) {
     var pins      = document.querySelectorAll('.marker-pin');
     var labels    = document.querySelectorAll('.marker-label');
     var listItems = document.querySelectorAll('.detected-list-item');
     var wasActive = (activeMarkerIdx === idx);
-
-    // 모두 초기화
     pins.forEach(function(p)   { p.classList.remove('active'); });
     labels.forEach(function(l) { l.classList.remove('visible'); });
     listItems.forEach(function(li) { li.classList.remove('active'); });
     activeMarkerIdx = -1;
-
     if (!wasActive) {
       var targetPin   = document.querySelector('.marker-pin[data-idx="'   + idx + '"]');
       var targetLabel = document.querySelector('.marker-label[data-label="' + idx + '"]');
@@ -1336,16 +1193,12 @@
       activeMarkerIdx = idx;
     }
   }
-
   function renderDetectedList(items) {
     var list = document.getElementById('detectedList');
-    // 기존 항목 제거 (label 제외)
     var existing = list.querySelectorAll('.detected-list-item');
     existing.forEach(function(el) { el.remove(); });
-
     items.forEach(function(item, idx) {
       var risk  = item.risk  || 'low';
-      var color = RISK_COLOR[risk] || RISK_COLOR.low;
       var row   = document.createElement('div');
       row.className = 'detected-list-item';
       row.setAttribute('data-idx', idx);
@@ -1356,14 +1209,10 @@
       row.addEventListener('click', function() { toggleMarker(idx); });
       list.appendChild(row);
     });
-
     list.style.display = items.length > 0 ? 'block' : 'none';
   }
-
   function renderResult(data) {
     setText('resultSummary', data.summary || '소방안전 분석 결과');
-
-    // ★ 위험도 표시: 전체 riskLevel 1개 + detectedItems 항목별 위험도 칩
     var riskMap = {
       low:    ['🟢 안전 양호',      'risk-low'],
       medium: ['🟡 주의 필요',      'risk-medium'],
@@ -1371,8 +1220,6 @@
     };
     var riskArr = riskMap[data.riskLevel] || riskMap.low;
     var indicatorHtml = '<span class="risk-pill ' + riskArr[1] + '">' + escapeHtml(riskArr[0]) + '</span>';
-
-    // detectedItems 항목별 위험도 칩 — riskLevel과 다른 위험도가 있을 때만 추가
     var items = data.detectedItems || [];
     var shownRisks = {};
     shownRisks[data.riskLevel] = true;
@@ -1385,7 +1232,6 @@
       }
     });
     document.getElementById('riskIndicator').innerHTML = indicatorHtml;
-
     setText('resultGreeting',   data.greeting   || '');
     setText('resultAnalysis',   data.analysis   || '');
     setText('resultSolution',   data.solution   || '');
@@ -1395,10 +1241,8 @@
     setText('expertTip',        note.tip        || '');
     setText('expertInspection', note.inspection || '');
     setText('resultCuriosity',  data.curiosityQuestion || '');
-
     renderMarkers(data.detectedItems || []);
   }
-
   function toggleVoice() {
     if (!analysisResult) return;
     if (!('speechSynthesis' in window)) { showToast('이 브라우저는 음성을 지원하지 않아요.'); return; }
@@ -1421,14 +1265,12 @@
   document.addEventListener('visibilitychange', function() {
     if (document.hidden && voicePlaying) { window.speechSynthesis.cancel(); setVoiceUI(false); }
   });
-
   function initChat() {
     document.getElementById('chatMessages').innerHTML = '';
     var strong = document.createElement('strong');
     strong.textContent = (analysisResult && analysisResult.summary) ? analysisResult.summary : '소방안전';
     addAiMessageParts(['안녕하세요! ', strong, '에 대해 살펴봤어요. 더 궁금한 점 편하게 물어보세요 😊']);
   }
-
   function addAiMessageParts(parts) {
     var msgs = document.getElementById('chatMessages');
     var row  = document.createElement('div'); row.className = 'msg msg-ai';
@@ -1440,7 +1282,6 @@
     row.appendChild(av); row.appendChild(bubble);
     msgs.appendChild(row); msgs.scrollTop = msgs.scrollHeight;
   }
-
   function addAiMessage(text) {
     var msgs = document.getElementById('chatMessages');
     var row  = document.createElement('div'); row.className = 'msg msg-ai';
@@ -1453,7 +1294,6 @@
     row.appendChild(av); row.appendChild(bubble);
     msgs.appendChild(row); msgs.scrollTop = msgs.scrollHeight;
   }
-
   function addUserMessage(text) {
     var msgs = document.getElementById('chatMessages');
     var row  = document.createElement('div'); row.className = 'msg msg-user';
@@ -1462,7 +1302,6 @@
     row.appendChild(bubble); row.appendChild(av);
     msgs.appendChild(row); msgs.scrollTop = msgs.scrollHeight;
   }
-
   function showTyping() {
     var msgs = document.getElementById('chatMessages');
     var row  = document.createElement('div'); row.className = 'msg msg-ai'; row.id = 'typingMsg';
@@ -1470,7 +1309,6 @@
     msgs.appendChild(row); msgs.scrollTop = msgs.scrollHeight;
   }
   function hideTyping() { var t = document.getElementById('typingMsg'); if (t) t.remove(); }
-
   function sendChat() {
     var input = document.getElementById('chatInput');
     var text  = input.value.trim();
@@ -1495,13 +1333,11 @@
   }
   function handleChatKey(e) { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendChat(); } }
   function autoResize(el) { el.style.height = 'auto'; el.style.height = Math.min(el.scrollHeight, 110) + 'px'; }
-
   function goToComplete() {
     if (voicePlaying) { window.speechSynthesis && window.speechSynthesis.cancel(); setVoiceUI(false); }
     goToScreen('screen-complete');
     GAS.run('recordUsage', [], function(res) { if (res && res.success) setText('statsText', res.message); }, function() {});
   }
-
   function restartApp() {
     imageBase64 = ''; imageMimeType = 'image/jpeg'; analysisResult = null;
     activeMarkerIdx = -1;
@@ -1516,7 +1352,6 @@
     updateProgress();
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
-
   function setText(id, val) { var el = document.getElementById(id); if (el) el.textContent = val; }
   function escapeHtml(t) {
     return String(t)
@@ -1525,7 +1360,6 @@
       .replace(/>/g,'&gt;')
       .replace(/"/g,'&quot;');
   }
-
   function fillBackground() {
     var minH = window.innerHeight;
     document.getElementById('app').style.minHeight = minH + 'px';
