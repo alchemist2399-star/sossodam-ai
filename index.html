@@ -1076,39 +1076,34 @@
     var ly = py > 20 ? py - 15 : py + 18;
     return { lx: px, ly: ly };
   }
-  var SIDE_GAP = 12;
-  function spreadSamePositions(positions, origXArr, origYArr) {
+  // 방법B: 실제로 겹치는 마커만 물리적으로 밀어내는 방식
+  function spreadSamePositions(positions) {
     var result = positions.map(function(p) {
       return { px: p.px, py: p.py };
     });
-    var visited = [];
-    for (var i = 0; i < result.length; i++) {
-      if (visited.indexOf(i) >= 0) continue;
-      var group = [i];
-      for (var j = i + 1; j < result.length; j++) {
-        if (visited.indexOf(j) >= 0) continue;
-        var dx = Math.abs(origXArr[i] - origXArr[j]);
-        var dy = Math.abs(origYArr[i] - origYArr[j]);
-        if (dx < 5 && dy < 5) {
-          group.push(j);
-          visited.push(j);
+    var MIN_DIST = 9;
+    var MAX_ITER = 30;
+    for (var iter = 0; iter < MAX_ITER; iter++) {
+      var moved = false;
+      for (var i = 0; i < result.length; i++) {
+        for (var j = i + 1; j < result.length; j++) {
+          var dx = result[j].px - result[i].px;
+          var dy = result[j].py - result[i].py;
+          var dist = Math.sqrt(dx * dx + dy * dy);
+          if (dist < MIN_DIST) {
+            moved = true;
+            if (dist < 0.01) { dx = 1; dy = 0; dist = 1; }
+            var overlap = (MIN_DIST - dist) / 2;
+            var nx = (dx / dist) * overlap;
+            var ny = (dy / dist) * overlap;
+            result[i].px = Math.min(95, Math.max(5, result[i].px - nx));
+            result[i].py = Math.min(95, Math.max(5, result[i].py - ny));
+            result[j].px = Math.min(95, Math.max(5, result[j].px + nx));
+            result[j].py = Math.min(95, Math.max(5, result[j].py + ny));
+          }
         }
       }
-      visited.push(i);
-      if (group.length >= 2) {
-        var cx = origXArr[i];
-        var cy = origYArr[i];
-        var total = group.length;
-        group.forEach(function(k, n) {
-          var step = n - (total - 1) / 2;
-          var newX = cx + step * SIDE_GAP * 2;
-          newX = Math.min(95, Math.max(5, newX));
-          var newY = cy > 15 ? cy - 10 : cy + 10;
-          newY = Math.min(92, Math.max(5, newY));
-          result[k].px = newX;
-          result[k].py = newY;
-        });
-      }
+      if (!moved) break;
     }
     return result;
   }
@@ -1133,7 +1128,7 @@
       var off  = calcPinOffset(xPct, yPct);
       return { px: off.px, py: off.py };
     });
-    positions = spreadSamePositions(positions, origXArr, origYArr);
+    positions = spreadSamePositions(positions);
     items.forEach(function(item, idx) {
       var risk  = item.risk  || 'low';
       var color = RISK_COLOR[risk] || RISK_COLOR.low;
