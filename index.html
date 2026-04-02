@@ -404,14 +404,7 @@
       100% { transform: translate(-50%,-50%) scale(1.75); opacity: 0; }
     }
 
-    /* ★ SVG 오버레이 (V자 선) */
-    .marker-svg-overlay {
-      position: absolute;
-      top: 0; left: 0; width: 100%; height: 100%;
-      pointer-events: none; z-index: 6;
-    }
-
-    /* ★ V자 라벨 박스 */
+    /* ★ 라벨 박스 (꼬리 없음) */
     .marker-label {
       position: absolute;
       transform: translateX(-50%);
@@ -421,7 +414,7 @@
       display: none; align-items: center; gap: 5px;
       white-space: nowrap; z-index: 8;
       pointer-events: none;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+      box-shadow: 0 2px 12px rgba(0,0,0,0.18);
       border-top: 2.5px solid transparent;
     }
     .marker-label.visible { display: flex; }
@@ -826,12 +819,10 @@
       <!-- 정상 분석 결과 -->
       <div id="normalResult">
 
-        <!-- ★ 마커+V자라벨 이미지 영역 -->
+        <!-- ★ 마커+라벨 이미지 영역 -->
         <div class="marker-img-wrap" id="markerImgWrap" style="display:none;">
           <img id="markerImg" alt="분석 사진" />
-          <svg class="marker-svg-overlay" id="markerSvg"></svg>
           <div class="marker-img-hint">마커를 눌러보세요</div>
-          <!-- 마커·라벨은 JS로 동적 생성 -->
         </div>
 
         <!-- ★ 감지 항목 목록 -->
@@ -1180,53 +1171,23 @@
     low:    '확인 권장'
   };
 
-  // ★ 마커 오프셋: 대상물을 가리지 않도록 마커를 살짝 비켜서 배치
-  // x,y는 대상물 중심 좌표 → 마커는 오른쪽 아래 방향으로 오프셋
+  // ★ 마커 오프셋: 대상물을 가리지 않도록 살짝 비켜서 배치
   function calcPinOffset(xPct, yPct) {
-    // 오른쪽 공간이 없으면 왼쪽으로, 아래 공간이 없으면 위로
     var ox = xPct > 75 ? -7 : 7;
     var oy = yPct > 75 ? -7 : 7;
-    return { px: Math.min(97, Math.max(3, xPct + ox)), py: Math.min(97, Math.max(3, yPct + oy)) };
+    return {
+      px: Math.min(97, Math.max(3, xPct + ox)),
+      py: Math.min(97, Math.max(3, yPct + oy))
+    };
   }
 
-  // ★ 라벨 위치: 마커 위쪽에 배치, 화면 끝에서 뒤집기
-  function calcLabelPos(pxPct, pyPct) {
-    // 라벨 높이 약 30px 기준, 이미지 높이 대비 약 12%
-    var ly = pyPct > 20 ? pyPct - 15 : pyPct + 18;
-    return { lx: pxPct, ly: ly };
+  // ★ 라벨 위치: 마커 위쪽
+  function calcLabelPos(px, py) {
+    var ly = py > 20 ? py - 15 : py + 18;
+    return { lx: px, ly: ly };
   }
 
-  // ★ V자 선 그리기 (SVG)
-  function drawVTail(svg, pxPct, pyPct, lxPct, lyPct, color, id) {
-    var old = document.getElementById(id);
-    if (old) old.remove();
-
-    var g = document.createElementNS('http://www.w3.org/2000/svg', 'g');
-    g.setAttribute('id', id);
-
-    var spread = 5; // V자 벌어짐
-    // 마커 중심에서 V자 두 선이 라벨 하단 중심으로 모임
-    var l1 = document.createElementNS('http://www.w3.org/2000/svg', 'line');
-    l1.setAttribute('x1', (pxPct - spread) + '%'); l1.setAttribute('y1', pyPct + '%');
-    l1.setAttribute('x2', lxPct + '%');            l1.setAttribute('y2', (lyPct + 12) + '%');
-    l1.setAttribute('stroke', color); l1.setAttribute('stroke-width', '1.8');
-    l1.setAttribute('stroke-linecap', 'round');
-
-    var l2 = document.createElementNS('http://www.w3.org/2000/svg', 'line');
-    l2.setAttribute('x1', (pxPct + spread) + '%'); l2.setAttribute('y1', pyPct + '%');
-    l2.setAttribute('x2', lxPct + '%');            l2.setAttribute('y2', (lyPct + 12) + '%');
-    l2.setAttribute('stroke', color); l2.setAttribute('stroke-width', '1.8');
-    l2.setAttribute('stroke-linecap', 'round');
-
-    var dot = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
-    dot.setAttribute('cx', lxPct + '%'); dot.setAttribute('cy', (lyPct + 12) + '%');
-    dot.setAttribute('r', '2.5'); dot.setAttribute('fill', color);
-
-    g.appendChild(l1); g.appendChild(l2); g.appendChild(dot);
-    svg.appendChild(g);
-  }
-
-  // ★ 마커+V자라벨 렌더링
+  // ★ 마커+라벨 렌더링 (꼬리 없음)
   function renderMarkers(items) {
     var wrap = document.getElementById('markerImgWrap');
     if (!items || items.length === 0) {
@@ -1241,9 +1202,6 @@
 
     // 기존 요소 제거
     wrap.querySelectorAll('.marker-pin, .marker-pulse-ring, .marker-label').forEach(function(el) { el.remove(); });
-    var svg = document.getElementById('markerSvg');
-    while (svg.firstChild) svg.removeChild(svg.firstChild);
-
     activeMarkerIdx = -1;
 
     items.forEach(function(item, idx) {
@@ -1252,15 +1210,14 @@
       var xPct  = item.x != null ? item.x : 50;
       var yPct  = item.y != null ? item.y : 50;
 
-      // 마커를 대상물 옆으로 오프셋
+      // 마커 오프셋 계산
       var off = calcPinOffset(xPct, yPct);
       var px = off.px, py = off.py;
 
-      // 라벨 위치
+      // 라벨 위치 계산
       var lp = calcLabelPos(px, py);
-      var lx = lp.lx, ly = lp.ly;
 
-      // pulse 링 (마커 위치에)
+      // pulse 링
       var ring = document.createElement('div');
       ring.className = 'marker-pulse-ring';
       ring.style.left = px + '%';
@@ -1276,10 +1233,6 @@
       pin.style.top  = py + '%';
       pin.style.background = color;
       pin.setAttribute('data-idx', idx);
-      pin.setAttribute('data-px', px);
-      pin.setAttribute('data-py', py);
-      pin.setAttribute('data-lx', lx);
-      pin.setAttribute('data-ly', ly);
       pin.innerHTML = '<svg viewBox="0 0 13 13" fill="none" xmlns="http://www.w3.org/2000/svg">'
         + '<circle cx="6.5" cy="6.5" r="4.5" fill="white" fill-opacity="0.9"/>'
         + '<rect x="5.8" y="2.8" width="1.4" height="3.8" rx="0.7" fill="' + color + '"/>'
@@ -1288,12 +1241,12 @@
       pin.addEventListener('click', function() { toggleMarker(idx); });
       wrap.appendChild(pin);
 
-      // V자 라벨 박스
+      // 라벨 박스 (꼬리 없음)
       var label = document.createElement('div');
       label.className = 'marker-label';
       label.setAttribute('data-label', idx);
-      label.style.left        = lx + '%';
-      label.style.top         = ly + '%';
+      label.style.left           = lp.lx + '%';
+      label.style.top            = lp.ly + '%';
       label.style.borderTopColor = color;
       label.innerHTML =
         '<span class="marker-label-dot" style="background:' + color + ';"></span>'
@@ -1306,39 +1259,22 @@
   }
 
   function toggleMarker(idx) {
-    var pins   = document.querySelectorAll('.marker-pin');
-    var labels = document.querySelectorAll('.marker-label');
+    var pins      = document.querySelectorAll('.marker-pin');
+    var labels    = document.querySelectorAll('.marker-label');
     var listItems = document.querySelectorAll('.detected-list-item');
-    var svg    = document.getElementById('markerSvg');
-
     var wasActive = (activeMarkerIdx === idx);
 
     // 모두 초기화
-    pins.forEach(function(p) { p.classList.remove('active'); });
+    pins.forEach(function(p)   { p.classList.remove('active'); });
     labels.forEach(function(l) { l.classList.remove('visible'); });
     listItems.forEach(function(li) { li.classList.remove('active'); });
-    while (svg.firstChild) svg.removeChild(svg.firstChild);
     activeMarkerIdx = -1;
 
     if (!wasActive) {
-      var targetPin   = document.querySelector('.marker-pin[data-idx="' + idx + '"]');
+      var targetPin   = document.querySelector('.marker-pin[data-idx="'   + idx + '"]');
       var targetLabel = document.querySelector('.marker-label[data-label="' + idx + '"]');
       var targetLi    = document.querySelector('.detected-list-item[data-idx="' + idx + '"]');
-
-      if (targetPin) {
-        targetPin.classList.add('active');
-        var px    = parseFloat(targetPin.getAttribute('data-px'));
-        var py    = parseFloat(targetPin.getAttribute('data-py'));
-        var lx    = parseFloat(targetPin.getAttribute('data-lx'));
-        var ly    = parseFloat(targetPin.getAttribute('data-ly'));
-        var color = RISK_COLOR[targetPin.getAttribute('data-idx') >= 0
-          ? (document.querySelector('.marker-label[data-label="' + idx + '"]').querySelector('.marker-label-dot').style.background)
-          : 'low'];
-        // 색상은 dot에서 직접 가져오기
-        var dotEl = targetLabel ? targetLabel.querySelector('.marker-label-dot') : null;
-        var lineColor = dotEl ? dotEl.style.background : '#888';
-        drawVTail(svg, px, py, lx, ly, lineColor, 'vtail_' + idx);
-      }
+      if (targetPin)   targetPin.classList.add('active');
       if (targetLabel) targetLabel.classList.add('visible');
       if (targetLi)    targetLi.classList.add('active');
       activeMarkerIdx = idx;
