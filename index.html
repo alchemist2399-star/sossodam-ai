@@ -633,6 +633,55 @@
     .mt12 { margin-top: 12px; }
     .mt16 { margin-top: 16px; }
     .mb12 { margin-bottom: 12px; }
+
+    /* ── 에러 카드 ── */
+    .error-screen-wrap {
+      display: none;
+      padding: 20px 18px;
+    }
+    .error-screen-wrap.active { display: block; }
+    .error-card-box {
+      background: var(--card-bg);
+      border: 1px solid rgba(0,0,0,0.06);
+      border-radius: var(--radius-lg);
+      padding: 32px 20px 24px;
+      text-align: center;
+      margin-top: 32px;
+      box-shadow: var(--shadow-sm);
+    }
+    .error-icon-circle {
+      width: 64px; height: 64px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 28px; margin: 0 auto 16px;
+    }
+    .error-title {
+      font-size: 17px; font-weight: 800; color: var(--ink);
+      line-height: 1.5; margin-bottom: 10px;
+    }
+    .error-desc {
+      font-size: 14px; color: var(--ink-soft);
+      line-height: 1.8; margin-bottom: 20px;
+    }
+    .error-desc strong { color: var(--ink); }
+    .error-action-btn {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 12px 22px; border-radius: 100px;
+      font-size: 14px; font-weight: 700;
+      border: none; cursor: pointer;
+      font-family: var(--font-main);
+      -webkit-tap-highlight-color: transparent;
+    }
+    .error-action-btn:active { opacity: 0.85; transform: scale(0.97); }
+    .err-quota  .error-icon-circle { background: #FFF3CD; }
+    .err-quota  .error-action-btn  { background: #FFF3CD; color: #856404; }
+    .err-rate   .error-icon-circle { background: #FFE8E3; }
+    .err-rate   .error-action-btn  { background: #FFE8E3; color: #993C1D; }
+    .err-image  .error-icon-circle { background: #E6F1FB; }
+    .err-image  .error-action-btn  { background: #E6F1FB; color: #185FA5; }
+    .err-safety .error-icon-circle { background: #F0F0F0; }
+    .err-safety .error-action-btn  { background: #F0F0F0; color: #444; }
+    .err-api    .error-icon-circle { background: #FFE8E3; }
+    .err-api    .error-action-btn  { background: #FFE8E3; color: #993C1D; }
   </style>
 </head>
 <body>
@@ -715,6 +764,15 @@
           <button class="btn btn-ghost" onclick="goToScreen('screen-welcome')">← 처음으로</button>
           <button class="btn btn-ghost" onclick="triggerCamera()">📷 카메라</button>
         </div>
+      </div>
+    </div>
+    <!-- SCREEN ERROR -->
+    <div class="error-screen-wrap" id="screen-error">
+      <div class="error-card-box" id="errorCardBox">
+        <div class="error-icon-circle" id="errorIcon"></div>
+        <div class="error-title" id="errorTitle"></div>
+        <div class="error-desc" id="errorDesc"></div>
+        <button class="error-action-btn" id="errorActionBtn" onclick="handleErrorAction()"></button>
       </div>
     </div>
     <!-- SCREEN 3: ANALYZING -->
@@ -907,6 +965,100 @@
       });
     }
   };
+
+  var ERROR_INFO = {
+    QUOTA_EXCEEDED: {
+      cls:    'err-quota',
+      icon:   '📊',
+      title:  '오늘 분석 한도에\n도달했어요',
+      desc:   'Gemini AI 무료 일일 한도를 모두 사용했어요.<br/><strong>내일 자정 이후</strong>에 다시 시도해 주세요.',
+      action: '📅 내일 다시 시도할게요',
+      next:   'welcome'
+    },
+    RATE_LIMIT: {
+      cls:    'err-rate',
+      icon:   '⏳',
+      title:  'AI가 잠시 바빠요',
+      desc:   '요청이 너무 많이 몰렸어요.<br/><strong>10~30초 후</strong>에 다시 시도해 주세요.',
+      action: '🔄 다시 시도하기',
+      next:   'upload'
+    },
+    IMAGE_TOO_BIG: {
+      cls:    'err-image',
+      icon:   '📷',
+      title:  '이미지가 너무 커요',
+      desc:   '사진 용량이 5MB를 초과해요.<br/>더 작은 사진으로 <strong>다시 선택</strong>해 주세요.',
+      action: '📁 다른 사진 선택하기',
+      next:   'upload'
+    },
+    INVALID_IMAGE: {
+      cls:    'err-image',
+      icon:   '📷',
+      title:  '지원하지 않는 파일이에요',
+      desc:   'JPG, PNG, WEBP, GIF 형식만 가능해요.<br/><strong>다른 사진</strong>을 선택해 주세요.',
+      action: '📁 다른 사진 선택하기',
+      next:   'upload'
+    },
+    SAFETY_BLOCK: {
+      cls:    'err-safety',
+      icon:   '🚫',
+      title:  '이 사진은 분석할 수 없어요',
+      desc:   'AI 안전 필터에 의해 처리가 제한됐어요.<br/><strong>다른 사진</strong>으로 시도해 주세요.',
+      action: '📷 다른 사진으로 시도하기',
+      next:   'upload'
+    },
+    API_ERROR: {
+      cls:    'err-api',
+      icon:   '🔧',
+      title:  'AI 서비스에\n일시적 문제가 생겼어요',
+      desc:   '서버가 잠깐 바빠요.<br/><strong>잠시 후</strong> 다시 시도해 주세요.',
+      action: '🔄 다시 시도하기',
+      next:   'upload'
+    },
+    UNKNOWN: {
+      cls:    'err-api',
+      icon:   '❓',
+      title:  '알 수 없는 오류가 발생했어요',
+      desc:   '일시적인 문제일 수 있어요.<br/><strong>잠시 후</strong> 다시 시도해 주세요.',
+      action: '🔄 다시 시도하기',
+      next:   'upload'
+    }
+  };
+  var errorNextAction = 'upload';
+
+  function showErrorScreen(code) {
+    var info = ERROR_INFO[code] || ERROR_INFO['UNKNOWN'];
+    errorNextAction = info.next;
+    var box = document.getElementById('errorCardBox');
+    box.className = 'error-card-box ' + info.cls;
+    document.getElementById('errorIcon').textContent  = info.icon;
+    document.getElementById('errorTitle').textContent = info.title;
+    document.getElementById('errorDesc').innerHTML    = info.desc;
+    document.getElementById('errorActionBtn').textContent = info.action;
+    var wrap = document.getElementById('screen-error');
+    if (currentScreen) {
+      document.getElementById(currentScreen).classList.remove('active');
+    }
+    wrap.classList.add('active');
+    currentScreen = 'screen-error';
+    updateProgress();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function handleErrorAction() {
+    document.getElementById('screen-error').classList.remove('active');
+    if (errorNextAction === 'welcome') {
+      currentScreen = 'screen-welcome';
+      document.getElementById('screen-welcome').classList.add('active');
+    } else {
+      currentScreen = 'screen-upload';
+      removeImage();
+      document.getElementById('screen-upload').classList.add('active');
+    }
+    updateProgress();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
   function showToast(msg, duration) {
     duration = duration || 3200;
     var t = document.getElementById('toast');
@@ -1011,7 +1163,7 @@
   }
   function onAnalysisSuccess(response) {
     if (!response || !response.success) {
-      onAnalysisError(response ? response.error : '알 수 없는 오류');
+      onAnalysisError(response || { code: 'UNKNOWN' });
       return;
     }
     analysisResult = response.data;
@@ -1046,8 +1198,9 @@
   }
   function onAnalysisError(err) {
     console.error('Analysis error:', err);
-    goToScreen('screen-upload');
-    showToast('분석 중 오류가 발생했어요 😥 잠시 후 다시 시도해 주세요.');
+    var code = (typeof err === 'object' && err && err.code) ? err.code
+             : (typeof err === 'string' ? err : 'UNKNOWN');
+    showErrorScreen(code);
   }
   var RISK_COLOR = {
     high:   '#E24B4A',
