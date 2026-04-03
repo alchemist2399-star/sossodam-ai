@@ -744,21 +744,17 @@
       <div class="result-tag">✨ 분석 완료</div>
       <div class="result-title" id="resultSummary">소방안전 분석 결과</div>
       <div id="riskIndicator"></div>
-      <!-- 무관 사진 안내 카드 -->
       <div id="unrelatedCard" class="unrelated-card" style="display:none;">
         <span class="unrelated-icon">📷</span>
         <div class="unrelated-detected" id="unrelatedDetected"></div>
         <div class="unrelated-msg">소방안전 분석이 어려운 사진이에요.</div>
         <div class="unrelated-hint">소화기, 복도, 전선, 비상구 등<br/>소방안전 관련 사진을 찍어주세요 😊</div>
       </div>
-      <!-- 정상 분석 결과 -->
       <div id="normalResult">
-        <!-- 마커+라벨 이미지 영역 -->
         <div class="marker-img-wrap" id="markerImgWrap" style="display:none;">
           <img id="markerImg" alt="분석 사진" />
           <div class="marker-img-hint">마커를 눌러보세요</div>
         </div>
-        <!-- 감지 항목 목록 -->
         <div class="detected-list" id="detectedList" style="display:none;">
           <div class="detected-list-label">감지된 항목 — 눌러서 마커 확인</div>
         </div>
@@ -832,7 +828,6 @@
           <button class="btn btn-mint" onclick="goToComplete()">✅ 안심 완료!</button>
         </div>
       </div>
-      <!-- 무관 사진일 때 버튼 -->
       <div id="unrelatedBtn" style="display:none; margin-top:16px;">
         <button class="btn btn-primary" onclick="retakePhoto()">📷 다시 찍어볼게요</button>
       </div>
@@ -1076,7 +1071,6 @@
     var ly = py > 20 ? py - 15 : py + 18;
     return { lx: px, ly: ly };
   }
-  // 방법B: 실제로 겹치는 마커만 물리적으로 밀어내는 방식
   function spreadSamePositions(positions) {
     var result = positions.map(function(p) {
       return { px: p.px, py: p.py };
@@ -1107,7 +1101,6 @@
     }
     return result;
   }
-  // 좌표가 모두 비슷하게 몰려있는지 감지 → 격자 폴백
   function isClustered(positions) {
     if (positions.length <= 1) return false;
     var xs = positions.map(function(p) { return p.px; });
@@ -1116,7 +1109,6 @@
     var yRange = Math.max.apply(null, ys) - Math.min.apply(null, ys);
     return xRange < 15 && yRange < 15;
   }
-  // 격자 균등 배치 (폴백용)
   function gridPositions(count) {
     var cols = Math.ceil(Math.sqrt(count));
     var rows = Math.ceil(count / cols);
@@ -1145,16 +1137,12 @@
     wrap.style.display = 'block';
     wrap.querySelectorAll('.marker-pin, .marker-pulse-ring, .marker-label').forEach(function(el) { el.remove(); });
     activeMarkerIdx = -1;
-    var origXArr = [], origYArr = [];
     var positions = items.map(function(item) {
       var xPct = item.x != null ? item.x : 50;
       var yPct = item.y != null ? item.y : 50;
-      origXArr.push(xPct);
-      origYArr.push(yPct);
       var off  = calcPinOffset(xPct, yPct);
       return { px: off.px, py: off.py };
     });
-    // 좌표가 한 곳에 몰려있으면 격자 균등 배치로 폴백
     if (isClustered(positions)) {
       positions = gridPositions(items.length);
     } else {
@@ -1349,8 +1337,14 @@
   }
   function sendMessage(text) {
     addUserMessage(text); showTyping();
+    // ★ v8.12: categories 추가 — 백엔드가 관련 DB 섹션만 골라서 답변할 수 있어요
     var context = analysisResult
-      ? { summary: analysisResult.summary, riskLevel: analysisResult.riskLevel, solution: analysisResult.solution }
+      ? {
+          summary:    analysisResult.summary,
+          riskLevel:  analysisResult.riskLevel,
+          solution:   analysisResult.solution,
+          categories: analysisResult.categories || []
+        }
       : null;
     GAS.run('chatFollowUp', [text, context],
       function(res) { hideTyping(); addAiMessage(res && res.success ? res.message : '잠시 연결이 불안정해요 😥 다시 시도해 주세요!'); },
