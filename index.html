@@ -354,7 +354,7 @@
     </div>
     <div class="splash-text">
       <div class="splash-title">소화기 <em>AI</em></div>
-      <div class="splash-sub">소방 · 화재예방 · 하기</div>
+      <div class="splash-sub"><span style="color:white;font-weight:900;font-size:14px;">소</span>방 · <span style="color:white;font-weight:900;font-size:14px;">화</span>재예방 · 하<span style="color:white;font-weight:900;font-size:14px;">기</span></div>
     </div>
     <div class="splash-dots">
       <div class="splash-dot active"></div>
@@ -974,6 +974,32 @@
   function fillBackground(){document.getElementById('app').style.minHeight=window.innerHeight+'px';}
   fillBackground();
   window.addEventListener('resize',fillBackground);
+
+  // 스플래시 — 1.8초 후 자동 제거
+  window.addEventListener('load', function() {
+    setTimeout(function() {
+      var splash = document.getElementById('screen-splash');
+      if (splash) {
+        splash.classList.add('hide');
+        setTimeout(function() { splash.style.display = 'none'; }, 650);
+      }
+    }, 1800);
+  });
+
+  // 로딩 스텝 메시지 순환
+  var stepMessages = ['🔍 소방시설 확인 중...','📋 소방법령 DB 대조 중...','⚠️ 위험 요소 분석 중...','✅ 결과 정리 중...'];
+  var stepIdx = 0, stepTimer = null;
+  function startStepMessages() {
+    stepIdx = 0;
+    var el = document.getElementById('progressStep');
+    if (el) el.textContent = stepMessages[0];
+    stepTimer = setInterval(function() {
+      stepIdx = (stepIdx + 1) % stepMessages.length;
+      var el = document.getElementById('progressStep');
+      if (el) el.textContent = stepMessages[stepIdx];
+    }, 1800);
+  }
+  function stopStepMessages() { if (stepTimer) { clearInterval(stepTimer); stepTimer = null; } }
   window.addEventListener('orientationchange',function(){setTimeout(fillBackground,300);});
 </script>
 </body>
