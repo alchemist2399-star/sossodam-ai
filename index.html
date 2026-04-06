@@ -914,6 +914,7 @@
   }
 
   function startAnalysis() {
+    if (!navigator.onLine) { showToast('📡 인터넷 연결이 없어요. 연결 후 다시 시도해 주세요.', 5000); return; }
     if (!imageBase64) { showToast('사진을 먼저 선택해 주세요.'); return; }
     document.getElementById('scanImg').src = 'data:' + imageMimeType + ';base64,' + imageBase64;
     goToScreen('screen-analyzing');
@@ -1247,6 +1248,17 @@
   fillBackground();
   window.addEventListener('resize', fillBackground);
   window.addEventListener('orientationchange', function(){ setTimeout(fillBackground, 300); });
+
+  /* ─── 오프라인 감지 ─── */
+  window.addEventListener('offline', function() {
+    showToast('📡 인터넷 연결이 끊겼어요. 연결을 확인해 주세요.', 5000);
+  });
+  window.addEventListener('online', function() {
+    showToast('✅ 인터넷에 다시 연결됐어요!', 3000);
+  });
+  if (!navigator.onLine) {
+    showToast('📡 인터넷 연결이 없어요. 연결 후 이용해 주세요.', 5000);
+  }
 </script>
 </body>
 </html>
