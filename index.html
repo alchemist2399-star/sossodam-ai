@@ -110,25 +110,25 @@
     .splash-char-wrap {
       position: relative; display: flex; align-items: center;
       justify-content: center; flex-shrink: 0;
-      width: 260px; height: 260px;
+      width: 300px; height: 300px;
     }
     .splash-halo {
-      position: absolute; width: 200px; height: 200px; border-radius: 50%;
-      background: radial-gradient(circle, rgba(255,255,255,0.28) 0%, rgba(255,255,255,0.12) 50%, transparent 75%);
+      position: absolute; width: 240px; height: 240px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(255,255,255,0.55) 0%, rgba(255,255,255,0.30) 40%, rgba(255,255,255,0.08) 70%, transparent 100%);
       animation: haloPulse 2.8s ease-in-out infinite;
     }
     .splash-halo-outer {
-      position: absolute; width: 240px; height: 240px; border-radius: 50%;
-      background: radial-gradient(circle, rgba(255,255,255,0.08) 0%, transparent 70%);
+      position: absolute; width: 295px; height: 295px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(255,255,255,0.18) 0%, rgba(255,255,255,0.08) 50%, transparent 75%);
       animation: haloPulse 2.8s ease-in-out infinite reverse;
     }
-    @keyframes haloPulse { 0%,100%{transform:scale(1);opacity:0.8} 50%{transform:scale(1.06);opacity:1} }
+    @keyframes haloPulse { 0%,100%{transform:scale(1);opacity:0.85} 50%{transform:scale(1.08);opacity:1} }
     .splash-char-img {
-      width: 230px; height: 230px; object-fit: contain; position: relative; z-index: 1;
+      width: 270px; height: 270px; object-fit: contain; position: relative; z-index: 1;
       animation: charFloat 2.8s ease-in-out infinite;
-      filter: drop-shadow(0 12px 24px rgba(100,20,0,0.28));
+      filter: drop-shadow(0 16px 28px rgba(100,20,0,0.32));
     }
-    @keyframes charFloat { 0%,100%{transform:translateY(0px)} 50%{transform:translateY(-12px)} }
+    @keyframes charFloat { 0%,100%{transform:translateY(0px)} 50%{transform:translateY(-14px)} }
     .splash-text { display: flex; flex-direction: column; align-items: center; margin-top: 10px; flex-shrink: 0; }
     .splash-title {
       font-size: 30px; font-weight: 900; color: white; margin-bottom: 6px;
