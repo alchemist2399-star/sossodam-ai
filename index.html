@@ -536,7 +536,10 @@
 
     <!-- ════════════════ SCREEN 4: RESULT ════════════════ -->
     <div class="screen" id="screen-result">
-      <div class="result-tag">✨ 분석 완료</div>
+      <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:10px;">
+        <button class="btn btn-ghost" onclick="retakePhoto()" style="width:auto; padding:9px 16px; font-size:13px;">← 다시 찍기</button>
+        <div class="result-tag" style="margin-bottom:0;">✨ 분석 완료</div>
+      </div>
       <div class="result-title" id="resultSummary">소방안전 분석 결과</div>
       <div id="riskIndicator"></div>
       <div id="unrelatedCard" class="unrelated-card" style="display:none;">
