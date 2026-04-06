@@ -284,6 +284,22 @@
     .err-safety .error-action-btn  { background: #F0F0F0; color: #444; }
     .err-api    .error-icon-circle { background: #FFE8E3; }
     .err-api    .error-action-btn  { background: #FFE8E3; color: #993C1D; }
+
+    /* ── 진행률 바 ── */
+    .progress-wrap { margin: 12px 0 6px; }
+    .progress-track {
+      background: rgba(0,0,0,0.07); border-radius: 100px;
+      height: 5px; overflow: hidden; margin-bottom: 6px;
+    }
+    .progress-fill {
+      height: 100%; border-radius: 100px;
+      background: linear-gradient(90deg, var(--flame), var(--ember));
+      animation: progressAnim 3s ease-in-out infinite;
+    }
+    @keyframes progressAnim { 0%{width:5%} 60%{width:82%} 100%{width:96%} }
+    .progress-step {
+      font-size: 12px; font-weight: 700; color: var(--flame);
+    }
   </style>
 </head>
 <body>
@@ -387,6 +403,12 @@
         <strong>'안전을 위한 첫걸음'</strong>으로 활용해 주시고,<br/>
         중요한 결정은<br/>
         꼭 전문가와 상의해 주세요 💛
+      </div>
+      <div class="progress-wrap">
+        <div class="progress-track">
+          <div class="progress-fill"></div>
+        </div>
+        <div class="progress-step" id="progressStep">🔍 소방시설 확인 중...</div>
       </div>
       <div class="dot-loader">
         <div class="dot"></div>
@@ -665,9 +687,11 @@
     if (!imageBase64) { showToast('사진을 먼저 선택해 주세요.'); return; }
     document.getElementById('scanImg').src = 'data:' + imageMimeType + ';base64,' + imageBase64;
     goToScreen('screen-analyzing');
+    startStepMessages();
     GAS.run('analyzeImage', [imageBase64, imageMimeType], onAnalysisSuccess, onAnalysisError);
   }
   function onAnalysisSuccess(response) {
+    stopStepMessages();
     if (!response || !response.success) { onAnalysisError(response || { code: 'UNKNOWN' }); return; }
     analysisResult = response.data;
     if (analysisResult.isFireSafetyRelated === false) {
