@@ -534,6 +534,9 @@
         <div class="dot"></div>
         <div class="dot"></div>
       </div>
+      <button class="btn btn-ghost" onclick="cancelAnalysis()" style="margin-top:24px; width:auto; padding:11px 28px; font-size:14px; margin-left:auto; margin-right:auto; display:flex;">
+        ✕ 분석 취소
+      </button>
     </div>
 
     <!-- ════════════════ SCREEN 4: RESULT ════════════════ -->
@@ -962,7 +965,14 @@
     initChat();
   }
 
-  function retakePhoto() { removeImage(); goToScreen('screen-upload'); }
+  function cancelAnalysis() {
+    clearTimeout(analysisTimer);
+    clearTimeout(stepTimer);
+    stopStepMessages();
+    showToast('분석을 취소했어요.', 2500);
+    removeImage();
+    goToScreen('screen-upload');
+  }
 
   function onAnalysisError(err) {
     clearTimeout(analysisTimer);
