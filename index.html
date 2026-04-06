@@ -1257,6 +1257,28 @@
     counter.style.color = count >= 180 ? '#E24B4A' : count >= 150 ? '#EF9F27' : 'var(--ink-muted)';
   }
 
+  /* ─── 키보드 올라올 때 입력창 자동 스크롤 ─── */
+  var chatInput = document.getElementById('chatInput');
+  if (chatInput) {
+    chatInput.addEventListener('focus', function() {
+      setTimeout(function() {
+        chatInput.scrollIntoView({ behavior: 'smooth', block: 'end' });
+      }, 350);
+    });
+  }
+  if (window.visualViewport) {
+    window.visualViewport.addEventListener('resize', function() {
+      if (currentScreen === 'screen-chat') {
+        setTimeout(function() {
+          var chatInput = document.getElementById('chatInput');
+          if (chatInput && document.activeElement === chatInput) {
+            chatInput.scrollIntoView({ behavior: 'smooth', block: 'end' });
+          }
+        }, 100);
+      }
+    });
+  }
+
   /* ─── 완료 ─── */
   function goToComplete() {
     if (voicePlaying) { window.speechSynthesis && window.speechSynthesis.cancel(); setVoiceUI(false); }
