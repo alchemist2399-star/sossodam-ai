@@ -670,6 +670,7 @@
   var toastTimer      = null;
   var activeMarkerIdx = -1;
   var stepTimer       = null;
+  var analysisTimer   = null;
 
   var GAS_URL = 'https://sossodam-api.99kuki.workers.dev';
   var GAS = {
@@ -919,10 +920,15 @@
     document.getElementById('scanImg').src = 'data:' + imageMimeType + ';base64,' + imageBase64;
     goToScreen('screen-analyzing');
     startStepMessages();
+    analysisTimer = setTimeout(function() {
+      stopStepMessages();
+      showErrorScreen('RATE_LIMIT');
+    }, 30000);
     GAS.run('analyzeImage', [imageBase64, imageMimeType], onAnalysisSuccess, onAnalysisError);
   }
 
   function onAnalysisSuccess(response) {
+    clearTimeout(analysisTimer);
     stopStepMessages();
     if (!response || !response.success) { onAnalysisError(response || { code: 'UNKNOWN' }); return; }
     analysisResult = response.data;
@@ -953,6 +959,7 @@
   function retakePhoto() { removeImage(); goToScreen('screen-upload'); }
 
   function onAnalysisError(err) {
+    clearTimeout(analysisTimer);
     console.error('Analysis error:', err);
     stopStepMessages();
     var code = (typeof err === 'object' && err && err.code) ? err.code : (typeof err === 'string' ? err : 'UNKNOWN');
