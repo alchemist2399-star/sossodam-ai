@@ -25,7 +25,6 @@
       --font-deco:  'DM Serif Display', serif;
       --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
       --ease-smooth: cubic-bezier(0.4, 0, 0.2, 1);
-      --safe-bottom: env(safe-area-inset-bottom, 0px);
     }
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     html { background: #FFF9F6; -webkit-text-size-adjust: 100%; }
@@ -57,23 +56,21 @@
     }
     .app-logo-icon {
       width: 36px; height: 36px; border-radius: 10px;
-      background: rgba(255,255,255,0.22) !important;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.15) !important;
+      background: rgba(255,255,255,0.22);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.15);
       display: flex; align-items: center; justify-content: center;
       font-size: 18px; flex-shrink: 0;
     }
     .app-logo-text {
       font-family: var(--font-deco); font-size: 20px; font-style: italic;
-      background: none !important;
-      -webkit-background-clip: unset !important;
-      -webkit-text-fill-color: white !important;
+      color: white;
     }
     .app-tagline {
-      font-size: 11px; color: rgba(255,255,255,0.6) !important;
+      font-size: 11px; color: rgba(255,255,255,0.6);
       margin-left: auto; letter-spacing: 0.2px;
     }
     .app-tagline b { color: white; font-weight: 900; }
-    .progress-bar { display: flex; padding: 0 20px; gap: 4px; background: #FFF9F6; }
+    .progress-bar { display: flex; padding: 10px 20px; gap: 4px; background: #FFF9F6; }
     .prog-step { flex: 1; height: 3px; border-radius: 2px; background: rgba(0,0,0,0.07); transition: all 0.4s var(--ease-smooth); }
     .prog-step.done   { background: var(--flame); }
     .prog-step.active { background: linear-gradient(90deg, var(--flame), var(--ember)); }
@@ -92,8 +89,51 @@
     .btn-row .btn { flex: 1; }
     .toast { position: fixed; bottom: 32px; left: 50%; transform: translateX(-50%) translateY(80px); background: #1C1C2E; color: white; padding: 13px 22px; border-radius: 100px; font-size: 14px; font-weight: 500; box-shadow: 0 8px 28px rgba(0,0,0,0.22); z-index: 9999; max-width: 88vw; text-align: center; transition: transform 0.35s var(--ease-spring), opacity 0.25s; opacity: 0; pointer-events: none; }
     .toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
+
+    /* ── SPLASH ── */
+    #screen-splash {
+      position: fixed; inset: 0; z-index: 9999;
+      background: linear-gradient(145deg, #FF5A36 0%, #FF7A42 50%, #FFB347 100%);
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      padding-bottom: 20px;
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    #screen-splash.hide { opacity: 0; transform: scale(1.04); pointer-events: none; }
+    .splash-top { height: 24px; flex-shrink: 0; }
+    .splash-char-wrap {
+      position: relative; display: flex; align-items: center;
+      justify-content: center; flex-shrink: 0;
+    }
+    .splash-halo {
+      position: absolute; width: 155px; height: 155px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(255,255,255,0.92) 0%, rgba(255,255,255,0.70) 40%, rgba(255,255,255,0.20) 70%, rgba(255,255,255,0) 100%);
+      animation: haloPulse 2.5s ease-in-out infinite;
+    }
+    @keyframes haloPulse { 0%,100%{transform:scale(1);opacity:0.9} 50%{transform:scale(1.04);opacity:1} }
+    /* 이미지 없을 때 대체 아이콘 */
+    .splash-char-emoji {
+      width: 180px; height: 180px; position: relative; z-index: 1;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 100px;
+      animation: charFloat 2.5s ease-in-out infinite;
+      filter: drop-shadow(0 6px 16px rgba(150,30,0,0.22));
+    }
+    @keyframes charFloat { 0%,100%{transform:translateY(0px)} 50%{transform:translateY(-10px)} }
+    .splash-text { display: flex; flex-direction: column; align-items: center; margin-top: 22px; flex-shrink: 0; }
+    .splash-title { font-size: 28px; font-weight: 900; color: white; margin-bottom: 6px; text-shadow: 0 2px 12px rgba(0,0,0,0.2); letter-spacing: -0.5px; font-family: var(--font-main); }
+    .splash-title em { font-family: var(--font-deco); font-style: italic; color: #FFE8B0; }
+    .splash-sub { font-size: 12px; color: rgba(255,255,255,0.78); letter-spacing: 0.5px; }
+    .splash-dots { display: flex; gap: 7px; margin-top: 52px; }
+    .splash-dot { width: 7px; height: 7px; border-radius: 50%; background: rgba(255,255,255,0.35); transition: all 0.4s; }
+    .splash-dot.active { background: white; width: 22px; border-radius: 4px; }
+    .splash-progress-wrap { margin-top: 16px; width: 160px; }
+    .splash-progress-track { background: rgba(255,255,255,0.25); border-radius: 100px; height: 4px; overflow: hidden; }
+    .splash-progress-fill { height: 100%; border-radius: 100px; background: white; transition: width 0.6s ease; width: 5%; }
+    .splash-progress-label { font-size: 11px; color: rgba(255,255,255,0.8); text-align: center; margin-top: 8px; }
+
+    /* ── WELCOME ── */
     #screen-welcome { padding-top: 8px; }
-    .hero-section { text-align: center; padding: 28px 8px 24px; }
+    .hero-section { text-align: center; padding: 20px 8px 16px; }
     .hero-icon {
       width: 96px; height: 96px; margin: 0 auto 20px;
       border-radius: 28px;
@@ -109,7 +149,7 @@
     }
     .hero-title { font-size: 22px; font-weight: 800; line-height: 1.5; color: var(--ink); letter-spacing: -0.5px; margin-bottom: 10px; }
     .hero-title em { color: var(--flame); font-style: normal; }
-    .hero-sub { font-size: 14px; color: var(--ink-soft); line-height: 1.75; }
+    .hero-sub { font-size: 14px; color: var(--ink-soft); line-height: 1.75; margin-bottom: 20px; }
     .feature-list { display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px; }
     .feature-item { display: flex; align-items: center; gap: 14px; background: white; border-radius: var(--radius-md); padding: 14px 16px; border: 1px solid rgba(0,0,0,0.05); box-shadow: var(--shadow-sm); }
     .feature-icon { width: 42px; height: 42px; border-radius: 13px; display: flex; align-items: center; justify-content: center; font-size: 20px; flex-shrink: 0; }
@@ -119,6 +159,8 @@
     .feature-text strong { display: block; font-size: 14px; font-weight: 700; color: var(--ink); }
     .feature-text span   { font-size: 12px; color: var(--ink-muted); margin-top: 2px; display: block; }
     .disclaimer { font-size: 11px; color: var(--ink-muted); text-align: center; line-height: 1.7; margin-top: 16px; padding: 0 4px; }
+
+    /* ── UPLOAD ── */
     #screen-upload { padding-top: 16px; }
     .section-title { font-size: 20px; font-weight: 800; color: var(--ink); margin-bottom: 4px; letter-spacing: -0.3px; }
     .section-sub   { font-size: 13px; color: var(--ink-muted); margin-bottom: 20px; }
@@ -131,6 +173,8 @@
     .preview-wrap { position: relative; margin-bottom: 14px; border-radius: var(--radius-lg); overflow: hidden; }
     #previewImg { width: 100%; max-height: 260px; object-fit: cover; display: none; border-radius: var(--radius-lg); }
     .preview-remove { position: absolute; top: 10px; right: 10px; width: 32px; height: 32px; border-radius: 50%; background: rgba(0,0,0,0.55); color: white; border: none; cursor: pointer; font-size: 15px; display: none; align-items: center; justify-content: center; }
+
+    /* ── ANALYZING ── */
     #screen-analyzing { padding-top: 40px; text-align: center; }
     .scan-wrap { position: relative; width: 220px; height: 220px; margin: 0 auto 28px; }
     .scan-img-el { width: 200px; height: 200px; object-fit: cover; border-radius: 20px; position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); }
@@ -151,6 +195,12 @@
     .dot:nth-child(2) { animation-delay: 0.2s; }
     .dot:nth-child(3) { animation-delay: 0.4s; }
     @keyframes dotB { 0%,80%,100%{transform:scale(0.6);opacity:0.4} 40%{transform:scale(1);opacity:1} }
+    .progress-wrap { margin: 12px 0 6px; }
+    .progress-track { background: rgba(0,0,0,0.07); border-radius: 100px; height: 5px; overflow: hidden; margin-bottom: 6px; }
+    .progress-fill { height: 100%; border-radius: 100px; background: linear-gradient(90deg, var(--flame), var(--ember)); transition: width 0.8s ease; }
+    .progress-step { font-size: 12px; font-weight: 700; color: var(--flame); transition: opacity 0.3s; }
+
+    /* ── RESULT ── */
     #screen-result { padding-top: 16px; }
     .result-tag { display: inline-flex; align-items: center; gap: 5px; background: linear-gradient(135deg, var(--flame), var(--ember)); color: white; padding: 5px 12px; border-radius: 100px; font-size: 11px; font-weight: 700; margin-bottom: 10px; box-shadow: 0 3px 10px rgba(255,90,54,0.3); }
     .result-title { font-size: 18px; font-weight: 800; color: var(--ink); margin-bottom: 8px; line-height: 1.4; }
@@ -218,6 +268,8 @@
     .unrelated-detected { font-size: 13px; color: var(--ink-muted); background: white; border-radius: var(--radius-md); padding: 10px 14px; margin-bottom: 14px; border: 1px solid rgba(0,0,0,0.05); }
     .unrelated-msg  { font-size: 15px; font-weight: 700; color: var(--ink-soft); line-height: 1.7; margin-bottom: 6px; }
     .unrelated-hint { font-size: 13px; color: var(--ink-muted); line-height: 1.6; }
+
+    /* ── CHAT ── */
     #screen-chat { padding-top: 16px; padding-bottom: 0; }
     .chat-header { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; }
     .chat-avatar { width: 42px; height: 42px; border-radius: 13px; background: linear-gradient(135deg, var(--flame), var(--ember)); display: flex; align-items: center; justify-content: center; font-size: 20px; flex-shrink: 0; box-shadow: 0 3px 12px rgba(255,90,54,0.3); }
@@ -226,10 +278,9 @@
     .chat-back { margin-left: auto; width: 36px; height: 36px; border-radius: 50%; background: white; border: 1.5px solid rgba(0,0,0,0.08); display: flex; align-items: center; justify-content: center; font-size: 16px; cursor: pointer; -webkit-tap-highlight-color: transparent; }
     .chat-messages { background: white; border: 1px solid rgba(0,0,0,0.05); border-radius: var(--radius-lg); padding: 14px; height: 260px; overflow-y: auto; margin-bottom: 12px; scroll-behavior: smooth; }
     .chat-messages::-webkit-scrollbar { display: none; }
-    .msg { display: flex; gap: 8px; margin-bottom: 12px; }
+    .msg { display: flex; gap: 8px; margin-bottom: 12px; animation: msgIn 0.3s var(--ease-spring); }
     .msg:last-child { margin-bottom: 0; }
     @keyframes msgIn { from{opacity:0;transform:translateY(8px)} to{opacity:1;transform:translateY(0)} }
-    .msg { animation: msgIn 0.3s var(--ease-spring); }
     .msg-ai { flex-direction: row; }
     .msg-user { flex-direction: row-reverse; }
     .msg-av { width: 28px; height: 28px; border-radius: 9px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 14px; margin-top: 2px; }
@@ -253,6 +304,8 @@
     #chatInput::placeholder { color: var(--ink-muted); }
     .btn-send { width: 46px; height: 46px; border-radius: 50%; flex-shrink: 0; background: linear-gradient(135deg, var(--flame), var(--ember)); color: white; border: none; cursor: pointer; font-size: 18px; box-shadow: 0 3px 14px rgba(255,90,54,0.35); display: flex; align-items: center; justify-content: center; -webkit-tap-highlight-color: transparent; }
     .btn-send:active { transform: scale(0.93); }
+
+    /* ── COMPLETE ── */
     #screen-complete { padding-top: 56px; text-align: center; }
     .complete-icon { width: 110px; height: 110px; margin: 0 auto 24px; border-radius: 50%; background: linear-gradient(135deg, #E8FFF5, #D0F5E8); display: flex; align-items: center; justify-content: center; font-size: 58px; box-shadow: 0 0 0 8px rgba(46,196,161,0.1); animation: completePop 0.6s var(--ease-spring) both; }
     @keyframes completePop { 0%{transform:scale(0);opacity:0} 60%{transform:scale(1.08)} 100%{transform:scale(1);opacity:1} }
@@ -261,15 +314,13 @@
     .complete-msg { background: white; border-radius: var(--radius-md); padding: 18px 20px; margin: 18px 0 24px; text-align: left; border: 1px solid rgba(0,0,0,0.05); }
     .complete-msg p { font-size: 15px; color: var(--ink-soft); line-height: 1.8; }
     .complete-chip { display: inline-flex; align-items: center; gap: 6px; background: rgba(46,196,161,0.08); border: 1px solid rgba(46,196,161,0.18); border-radius: 100px; padding: 7px 16px; margin-bottom: 24px; font-size: 13px; color: var(--mint-dark); font-weight: 700; }
-    .mt8  { margin-top: 8px; }
-    .mt12 { margin-top: 12px; }
-    .mt16 { margin-top: 16px; }
-    .mb12 { margin-bottom: 12px; }
+
+    /* ── ERROR ── */
     .error-screen-wrap { display: none; padding: 20px 18px; }
     .error-screen-wrap.active { display: block; }
     .error-card-box { background: var(--card-bg); border: 1px solid rgba(0,0,0,0.06); border-radius: var(--radius-lg); padding: 32px 20px 24px; text-align: center; margin-top: 32px; box-shadow: var(--shadow-sm); }
     .error-icon-circle { width: 64px; height: 64px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 28px; margin: 0 auto 16px; }
-    .error-title { font-size: 17px; font-weight: 800; color: var(--ink); line-height: 1.5; margin-bottom: 10px; }
+    .error-title { font-size: 17px; font-weight: 800; color: var(--ink); line-height: 1.5; margin-bottom: 10px; white-space: pre-line; }
     .error-desc { font-size: 14px; color: var(--ink-soft); line-height: 1.8; margin-bottom: 20px; }
     .error-desc strong { color: var(--ink); }
     .error-action-btn { display: inline-flex; align-items: center; gap: 6px; padding: 12px 22px; border-radius: 100px; font-size: 14px; font-weight: 700; border: none; cursor: pointer; font-family: var(--font-main); -webkit-tap-highlight-color: transparent; }
@@ -285,77 +336,71 @@
     .err-api    .error-icon-circle { background: #FFE8E3; }
     .err-api    .error-action-btn  { background: #FFE8E3; color: #993C1D; }
 
-    #screen-splash {
-      position: fixed; inset: 0; z-index: 9999;
-      background: linear-gradient(145deg, #FF5A36 0%, #FF7A42 50%, #FFB347 100%);
-      display: flex; flex-direction: column; align-items: center; justify-content: center;
-      padding-bottom: 20px; transition: opacity 0.6s ease, transform 0.6s ease;
-    }
-    #screen-splash.hide { opacity: 0; transform: scale(1.04); pointer-events: none; }
-    .splash-top { height: 24px; flex-shrink: 0; }
-    .splash-char-wrap { position: relative; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
-    .splash-halo {
-      position: absolute; width: 155px; height: 155px; border-radius: 50%;
-      background: radial-gradient(circle, rgba(255,255,255,0.92) 0%, rgba(255,255,255,0.70) 40%, rgba(255,255,255,0.20) 70%, rgba(255,255,255,0) 100%);
-      animation: haloPulse 2.5s ease-in-out infinite;
-    }
-    @keyframes haloPulse { 0%,100%{transform:scale(1);opacity:0.9;} 50%{transform:scale(1.04);opacity:1;} }
-    .splash-char-img {
-      width: 220px; height: 220px; object-fit: contain; position: relative; z-index: 1;
-      animation: charFloat 2.5s ease-in-out infinite;
-      filter: contrast(1.08) saturate(1.15) drop-shadow(0 6px 16px rgba(150,30,0,0.22));
-    }
-    @keyframes charFloat { 0%,100%{transform:translateY(0px);} 50%{transform:translateY(-10px);} }
-    .splash-text { display: flex; flex-direction: column; align-items: center; margin-top: 22px; flex-shrink: 0; }
-    .splash-title { font-size: 28px; font-weight: 900; color: white; margin-bottom: 6px; text-shadow: 0 2px 12px rgba(0,0,0,0.2); letter-spacing: -0.5px; font-family: var(--font-main); }
-    .splash-title em { font-family: var(--font-deco); font-style: italic; color: #FFE8B0; }
-    .splash-sub { font-size: 12px; color: rgba(255,255,255,0.78); letter-spacing: 0.5px; }
-    .splash-dots { display: flex; gap: 7px; margin-top: 52px; }
-    .splash-dot { width: 7px; height: 7px; border-radius: 50%; background: rgba(255,255,255,0.35); }
-    .splash-dot.active { background: white; width: 22px; border-radius: 4px; animation: dotAnim 1.2s ease-in-out infinite; }
-    @keyframes dotAnim { 0%,100%{opacity:1;} 50%{opacity:0.5;} }
-    .progress-wrap { margin: 12px 0 6px; }
-    .progress-track { background: rgba(0,0,0,0.07); border-radius: 100px; height: 5px; overflow: hidden; margin-bottom: 6px; }
-    .progress-fill { height: 100%; border-radius: 100px; background: linear-gradient(90deg, var(--flame), var(--ember)); transition: width 0.8s ease; }
-    .progress-step { font-size: 12px; font-weight: 700; color: var(--flame); transition: opacity 0.3s; }
+    .mt8  { margin-top: 8px; }
+    .mt12 { margin-top: 12px; }
+    .mt16 { margin-top: 16px; }
+    .mb12 { margin-bottom: 12px; }
   </style>
 </head>
 <body>
 <div class="toast" id="toast"></div>
 <div id="app">
+
+  <!-- ════════════════ SPLASH ════════════════ -->
   <div id="screen-splash">
     <div class="splash-top"></div>
     <div class="splash-char-wrap">
       <div class="splash-halo"></div>
-      <img class="splash-char-img"EqBGIIHUeoYLDX3 src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAABWQAAALwCAYAAAAQ3XxqAAEAAElEQVR4nOz9eZhkSVqfib5mdhZfYs09K2vLWrqqeqmu3hvUgJBYxNIISSDmttQzQoMEv
+      <!-- base64 이미지가 있으면 여기 src에 넣으세요. 없으면 이모지 대체 사용 -->
+      <div class="splash-char-emoji">🧯</div>
     </div>
     <div class="splash-text">
       <div class="splash-title">소화기 <em>AI</em></div>
-      <div class="splash-sub"><span style="color:white;font-weight:900;font-size:14px;">소</span>방 · <span style="color:white;font-weight:900;font-size:14px;">화</span>재예방 · 하<span style="color:white;font-weight:900;font-size:14px;">기</span></div>
+      <div class="splash-sub">
+        <span style="color:white;font-weight:900;font-size:14px;">소</span>방 ·
+        <span style="color:white;font-weight:900;font-size:14px;">화</span>재예방 ·
+        하<span style="color:white;font-weight:900;font-size:14px;">기</span>
+      </div>
+    </div>
+    <div class="splash-progress-wrap">
+      <div class="splash-progress-track">
+        <div class="splash-progress-fill" id="splashProgressFill"></div>
+      </div>
+      <div class="splash-progress-label" id="splashProgressLabel">준비 중...</div>
     </div>
     <div class="splash-dots">
-      <div class="splash-dot active"></div>
-      <div class="splash-dot"></div>
-      <div class="splash-dot"></div>
+      <div class="splash-dot active" id="sdot1"></div>
+      <div class="splash-dot" id="sdot2"></div>
+      <div class="splash-dot" id="sdot3"></div>
     </div>
   </div>
+
+  <!-- ════════════════ HEADER ════════════════ -->
   <header class="app-header" id="appHeader">
     <div class="app-logo-icon">🔥</div>
     <div class="app-logo-text">소화기 AI</div>
     <div class="app-tagline"><b>소</b>방·<b>화</b>재예방·하<b>기</b></div>
   </header>
-  <div class="progress-bar" id="progressBar" style="display:none; padding-top:10px; padding-bottom:10px;">
+
+  <div class="progress-bar" id="progressBar" style="display:none;">
     <div class="prog-step" id="ps1"></div>
     <div class="prog-step" id="ps2"></div>
     <div class="prog-step" id="ps3"></div>
     <div class="prog-step" id="ps4"></div>
     <div class="prog-step" id="ps5"></div>
   </div>
+
   <div class="screen-wrap" id="screenWrap">
-    <!-- SCREEN 1: WELCOME -->
+
+    <!-- ════════════════ SCREEN 1: WELCOME ════════════════ -->
     <div class="screen active" id="screen-welcome">
       <div class="hero-section">
-        <div style="width:100%;height:200px;border-radius:24px;overflow:hidden;margin-bottom:20px;position:relative;box-shadow:0 12px 32px rgba(255,90,54,0.18);">
+        <div class="hero-icon">🧯</div>
+        <div class="hero-title">우리 주변 소방안전,<br/><em>AI</em>가 함께 확인해요</div>
+        <div class="hero-sub">사진 한 장으로 소화기·유도등·비상구를<br/>쉽고 빠르게 점검해드려요</div>
+      </div>
+      <div class="feature-list">
+        <div class="feature-item">
           <div class="feature-icon fi-red">📸</div>
           <div class="feature-text">
             <strong>사진 한 장으로 AI 분석</strong>
@@ -383,7 +428,8 @@
         중요한 결정은 꼭 전문가와 상의해 주세요.
       </p>
     </div>
-    <!-- SCREEN 2: UPLOAD -->
+
+    <!-- ════════════════ SCREEN 2: UPLOAD ════════════════ -->
     <div class="screen" id="screen-upload">
       <div class="section-title">📍 어디를 살펴볼까요?</div>
       <div class="section-sub">소화기, 유도등, 복도, 피난구 어디든 괜찮아요</div>
@@ -409,7 +455,8 @@
         </div>
       </div>
     </div>
-    <!-- SCREEN ERROR -->
+
+    <!-- ════════════════ SCREEN ERROR ════════════════ -->
     <div class="error-screen-wrap" id="screen-error">
       <div class="error-card-box" id="errorCardBox">
         <div class="error-icon-circle" id="errorIcon"></div>
@@ -418,7 +465,8 @@
         <button class="error-action-btn" id="errorActionBtn" onclick="handleErrorAction()"></button>
       </div>
     </div>
-    <!-- SCREEN 3: ANALYZING -->
+
+    <!-- ════════════════ SCREEN 3: ANALYZING ════════════════ -->
     <div class="screen" id="screen-analyzing">
       <div class="scan-wrap">
         <img id="scanImg" class="scan-img-el" alt="분석중" />
@@ -444,7 +492,8 @@
         <div class="dot"></div>
       </div>
     </div>
-    <!-- SCREEN 4: RESULT -->
+
+    <!-- ════════════════ SCREEN 4: RESULT ════════════════ -->
     <div class="screen" id="screen-result">
       <div class="result-tag">✨ 분석 완료</div>
       <div class="result-title" id="resultSummary">소방안전 분석 결과</div>
@@ -525,7 +574,8 @@
         <button class="btn btn-primary" onclick="retakePhoto()">📷 다시 찍어볼게요</button>
       </div>
     </div>
-    <!-- SCREEN 5: CHAT -->
+
+    <!-- ════════════════ SCREEN 5: CHAT ════════════════ -->
     <div class="screen" id="screen-chat">
       <div class="chat-header">
         <div class="chat-avatar">🔥</div>
@@ -548,7 +598,8 @@
       </div>
       <button class="btn btn-mint mt12 mb12" onclick="goToComplete()">✅ 안심 완료!</button>
     </div>
-    <!-- SCREEN 6: COMPLETE -->
+
+    <!-- ════════════════ SCREEN 6: COMPLETE ════════════════ -->
     <div class="screen" id="screen-complete">
       <div class="complete-icon">🛡️</div>
       <div class="complete-title">오늘도 <span>안전</span>하게!<br/>잘 하셨어요 🎉</div>
@@ -563,9 +614,12 @@
       </div>
       <button class="btn btn-primary" onclick="restartApp()">🔄 다른 곳도 살펴볼게요</button>
     </div>
-  </div>
-</div>
+
+  </div><!-- /screen-wrap -->
+</div><!-- /app -->
+
 <script>
+  /* ─── 전역 상태 ─── */
   var currentScreen   = 'screen-welcome';
   var imageBase64     = '';
   var imageMimeType   = 'image/jpeg';
@@ -574,44 +628,103 @@
   var speechUtterance = null;
   var toastTimer      = null;
   var activeMarkerIdx = -1;
+  var stepTimer       = null;
+
   var GAS_URL = 'https://sossodam-api.99kuki.workers.dev';
   var GAS = {
     run: function(method, args, onSuccess, onFailure) {
       var body = { action: method };
-      if (method === 'analyzeImage') { body.base64Data = args[0]; body.mimeType = args[1]; }
+      if (method === 'analyzeImage')  { body.base64Data = args[0]; body.mimeType = args[1]; }
       else if (method === 'chatFollowUp') { body.userMessage = args[0]; body.context = args[1]; }
-      fetch(GAS_URL, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) })
+      fetch(GAS_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(body)
+      })
       .then(function(res) { return res.json(); })
       .then(function(data) { onSuccess(data); })
-      .catch(function(err) { console.error('[GAS fetch 오류]', err); if (onFailure) onFailure(err); });
+      .catch(function(err) {
+        console.error('[GAS fetch 오류]', err);
+        if (onFailure) onFailure(err);
+      });
     }
   };
+
+  /* ─── 스플래시 전환 ─── */
+  var SPLASH_STEPS = ['AI 엔진 준비 중...', '소방 데이터 로딩...', '준비 완료!'];
+  var splashStep = 0;
+
+  function runSplash() {
+    var fill  = document.getElementById('splashProgressFill');
+    var label = document.getElementById('splashProgressLabel');
+    var dots  = [document.getElementById('sdot1'), document.getElementById('sdot2'), document.getElementById('sdot3')];
+
+    var pcts = [30, 70, 100];
+
+    function advance() {
+      if (splashStep >= SPLASH_STEPS.length) {
+        // 완료 → 페이드 아웃
+        setTimeout(function() {
+          var splash = document.getElementById('screen-splash');
+          splash.classList.add('hide');
+          setTimeout(function() { splash.style.display = 'none'; }, 650);
+        }, 300);
+        return;
+      }
+      fill.style.width  = pcts[splashStep] + '%';
+      label.textContent = SPLASH_STEPS[splashStep];
+      dots.forEach(function(d, i) {
+        d.classList.toggle('active', i === splashStep);
+      });
+      splashStep++;
+      setTimeout(advance, splashStep === SPLASH_STEPS.length ? 500 : 700);
+    }
+
+    // 폰트 로드 후 시작 (최대 500ms 대기)
+    if (document.fonts && document.fonts.ready) {
+      document.fonts.ready.then(function() { setTimeout(advance, 200); });
+    } else {
+      setTimeout(advance, 300);
+    }
+  }
+
+  window.addEventListener('load', runSplash);
+
+  /* ─── 에러 화면 ─── */
   var ERROR_INFO = {
-    QUOTA_EXCEEDED: { cls:'err-quota', icon:'📊', title:'오늘 분석 한도에\n도달했어요', desc:'Gemini AI 무료 일일 한도를 모두 사용했어요.<br/><strong>내일 자정 이후</strong>에 다시 시도해 주세요.', action:'📅 내일 다시 시도할게요', next:'welcome' },
-    RATE_LIMIT:     { cls:'err-rate',  icon:'⏳', title:'AI가 잠시 바빠요', desc:'요청이 너무 많이 몰렸어요.<br/><strong>10~30초 후</strong>에 다시 시도해 주세요.', action:'🔄 다시 시도하기', next:'upload' },
-    IMAGE_TOO_BIG:  { cls:'err-image', icon:'📷', title:'이미지가 너무 커요', desc:'사진 용량이 5MB를 초과해요.<br/>더 작은 사진으로 <strong>다시 선택</strong>해 주세요.', action:'📁 다른 사진 선택하기', next:'upload' },
-    INVALID_IMAGE:  { cls:'err-image', icon:'📷', title:'지원하지 않는 파일이에요', desc:'JPG, PNG, WEBP, GIF 형식만 가능해요.<br/><strong>다른 사진</strong>을 선택해 주세요.', action:'📁 다른 사진 선택하기', next:'upload' },
-    SAFETY_BLOCK:   { cls:'err-safety',icon:'🚫', title:'이 사진은 분석할 수 없어요', desc:'AI 안전 필터에 의해 처리가 제한됐어요.<br/><strong>다른 사진</strong>으로 시도해 주세요.', action:'📷 다른 사진으로 시도하기', next:'upload' },
-    API_ERROR:      { cls:'err-api',   icon:'🔧', title:'AI 서비스에\n일시적 문제가 생겼어요', desc:'서버가 잠깐 바빠요.<br/><strong>잠시 후</strong> 다시 시도해 주세요.', action:'🔄 다시 시도하기', next:'upload' },
-    UNKNOWN:        { cls:'err-api',   icon:'❓', title:'알 수 없는 오류가 발생했어요', desc:'일시적인 문제일 수 있어요.<br/><strong>잠시 후</strong> 다시 시도해 주세요.', action:'🔄 다시 시도하기', next:'upload' }
+    QUOTA_EXCEEDED: { cls:'err-quota', icon:'📊', title:'오늘 분석 한도에\n도달했어요',    desc:'Gemini AI 무료 일일 한도를 모두 사용했어요.<br/><strong>내일 자정 이후</strong>에 다시 시도해 주세요.', action:'📅 내일 다시 시도할게요', next:'welcome' },
+    RATE_LIMIT:     { cls:'err-rate',  icon:'⏳', title:'AI가 잠시 바빠요',             desc:'요청이 너무 많이 몰렸어요.<br/><strong>10~30초 후</strong>에 다시 시도해 주세요.',                       action:'🔄 다시 시도하기',        next:'upload'  },
+    IMAGE_TOO_BIG:  { cls:'err-image', icon:'📷', title:'이미지가 너무 커요',            desc:'사진 용량이 5MB를 초과해요.<br/>더 작은 사진으로 <strong>다시 선택</strong>해 주세요.',                    action:'📁 다른 사진 선택하기',    next:'upload'  },
+    INVALID_IMAGE:  { cls:'err-image', icon:'📷', title:'지원하지 않는 파일이에요',       desc:'JPG, PNG, WEBP, GIF 형식만 가능해요.<br/><strong>다른 사진</strong>을 선택해 주세요.',                   action:'📁 다른 사진 선택하기',    next:'upload'  },
+    SAFETY_BLOCK:   { cls:'err-safety',icon:'🚫', title:'이 사진은 분석할 수 없어요',    desc:'AI 안전 필터에 의해 처리가 제한됐어요.<br/><strong>다른 사진</strong>으로 시도해 주세요.',                  action:'📷 다른 사진으로 시도하기', next:'upload'  },
+    API_ERROR:      { cls:'err-api',   icon:'🔧', title:'AI 서비스에\n일시적 문제가 생겼어요', desc:'서버가 잠깐 바빠요.<br/><strong>잠시 후</strong> 다시 시도해 주세요.',                              action:'🔄 다시 시도하기',        next:'upload'  },
+    UNKNOWN:        { cls:'err-api',   icon:'❓', title:'알 수 없는 오류가 발생했어요',   desc:'일시적인 문제일 수 있어요.<br/><strong>잠시 후</strong> 다시 시도해 주세요.',                              action:'🔄 다시 시도하기',        next:'upload'  }
   };
   var errorNextAction = 'upload';
+
   function showErrorScreen(code) {
     var info = ERROR_INFO[code] || ERROR_INFO['UNKNOWN'];
     errorNextAction = info.next;
     var box = document.getElementById('errorCardBox');
     box.className = 'error-card-box ' + info.cls;
-    document.getElementById('errorIcon').textContent  = info.icon;
-    document.getElementById('errorTitle').textContent = info.title;
-    document.getElementById('errorDesc').innerHTML    = info.desc;
+    document.getElementById('errorIcon').textContent     = info.icon;
+    document.getElementById('errorTitle').textContent    = info.title;
+    document.getElementById('errorDesc').innerHTML       = info.desc;
     document.getElementById('errorActionBtn').textContent = info.action;
+
+    // 현재 화면 숨기기 (일반 .screen 또는 error wrap 모두 처리)
+    var cur = document.getElementById(currentScreen);
+    if (cur) {
+      cur.classList.remove('active');
+      if (cur.classList.contains('error-screen-wrap')) cur.classList.remove('active');
+    }
     var wrap = document.getElementById('screen-error');
-    if (currentScreen) document.getElementById(currentScreen).classList.remove('active');
     wrap.classList.add('active');
     currentScreen = 'screen-error';
     updateProgress();
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
+
   function handleErrorAction() {
     document.getElementById('screen-error').classList.remove('active');
     if (errorNextAction === 'welcome') {
@@ -625,6 +738,8 @@
     updateProgress();
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
+
+  /* ─── 토스트 ─── */
   function showToast(msg, duration) {
     duration = duration || 3200;
     var t = document.getElementById('toast');
@@ -632,16 +747,22 @@
     clearTimeout(toastTimer);
     toastTimer = setTimeout(function() { t.classList.remove('show'); }, duration);
   }
+
+  /* ─── 화면 전환 ─── */
   function goToScreen(id) {
     if (currentScreen === id) return;
-    document.getElementById(currentScreen).classList.remove('active');
+    var cur = document.getElementById(currentScreen);
+    if (cur) {
+      cur.classList.remove('active');
+    }
     var next = document.getElementById(id);
-    void next.offsetWidth;
+    void next.offsetWidth; // reflow
     next.classList.add('active');
     currentScreen = id;
     updateProgress();
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
+
   function updateProgress() {
     var steps = ['screen-welcome','screen-upload','screen-analyzing','screen-result','screen-chat','screen-complete'];
     var idx = steps.indexOf(currentScreen);
@@ -655,54 +776,61 @@
       else if (i === idx - 1) el.classList.add('active');
     });
   }
+
   function goToUpload() { goToScreen('screen-upload'); }
+
   function triggerCamera() {
     var fi = document.getElementById('fileInput');
     fi.setAttribute('capture', 'environment');
     fi.click();
   }
+
+  /* ─── 파일 처리 ─── */
   function handleFile(event) {
     try {
-    var file = event.target.files[0];
-    if (!file) return;
-    if (!file.type.startsWith('image/')) { showToast('이미지 파일만 선택해 주세요.'); return; }
-    imageMimeType = 'image/jpeg';
-    var reader = new FileReader();
-    reader.onload = function(e) {
-      var img = new Image();
-      img.onload = function() {
-        var canvas = document.createElement('canvas');
-        var w = img.width, h = img.height, MAX = 1920;
-        if (w > MAX || h > MAX) {
-          if (w > h) { h = Math.round(h * MAX / w); w = MAX; }
-          else { w = Math.round(w * MAX / h); h = MAX; }
-        }
-        canvas.width = w; canvas.height = h;
-        var ctx = canvas.getContext('2d');
-        ctx.drawImage(img, 0, 0, w, h);
-        var compressed = canvas.toDataURL('image/jpeg', 0.85);
-        imageBase64 = compressed.split(',')[1];
-        var preview = document.getElementById('previewImg');
-        preview.src = compressed; preview.style.display = 'block';
-        document.getElementById('removeBtn').style.display = 'flex';
-        document.getElementById('analyzeBtn').style.display = 'flex';
-        document.getElementById('uploadZone').style.display = 'none';
+      var file = event.target.files[0];
+      if (!file) return;
+      if (!file.type.startsWith('image/')) { showToast('이미지 파일만 선택해 주세요.'); return; }
+      imageMimeType = 'image/jpeg';
+      var reader = new FileReader();
+      reader.onload = function(e) {
+        var img = new Image();
+        img.onload = function() {
+          var canvas = document.createElement('canvas');
+          var w = img.width, h = img.height, MAX = 1920;
+          if (w > MAX || h > MAX) {
+            if (w > h) { h = Math.round(h * MAX / w); w = MAX; }
+            else { w = Math.round(w * MAX / h); h = MAX; }
+          }
+          canvas.width = w; canvas.height = h;
+          var ctx = canvas.getContext('2d');
+          ctx.drawImage(img, 0, 0, w, h);
+          var compressed = canvas.toDataURL('image/jpeg', 0.85);
+          imageBase64 = compressed.split(',')[1];
+          var preview = document.getElementById('previewImg');
+          preview.src = compressed; preview.style.display = 'block';
+          document.getElementById('removeBtn').style.display = 'flex';
+          document.getElementById('analyzeBtn').style.display = 'flex';
+          document.getElementById('uploadZone').style.display = 'none';
+        };
+        img.src = e.target.result;
       };
-      img.src = e.target.result;
-    };
-    reader.onerror = function() { showToast('파일을 읽는 중 오류가 발생했어요.'); };
-    reader.readAsDataURL(file);
-    } catch(e){ console.error('[handleFile]',e); showToast('파일 처리 중 오류가 발생했어요.'); }
+      reader.onerror = function() { showToast('파일을 읽는 중 오류가 발생했어요.'); };
+      reader.readAsDataURL(file);
+    } catch(e) { console.error('[handleFile]', e); showToast('파일 처리 중 오류가 발생했어요.'); }
   }
+
   function removeImage() {
     imageBase64 = '';
-    document.getElementById('previewImg').src = '';
-    document.getElementById('previewImg').style.display = 'none';
+    var preview = document.getElementById('previewImg');
+    preview.src = ''; preview.style.display = 'none';
     document.getElementById('removeBtn').style.display = 'none';
     document.getElementById('analyzeBtn').style.display = 'none';
     document.getElementById('uploadZone').style.display = 'block';
     document.getElementById('fileInput').value = '';
   }
+
+  /* 드래그 앤 드롭 */
   var uz = document.getElementById('uploadZone');
   uz.addEventListener('dragover',  function(e) { e.preventDefault(); uz.classList.add('drag-over'); });
   uz.addEventListener('dragleave', function()  { uz.classList.remove('drag-over'); });
@@ -713,6 +841,37 @@
     try { var dt = new DataTransfer(); dt.items.add(file); document.getElementById('fileInput').files = dt.files; } catch(_) {}
     handleFile({ target: { files: [file] } });
   });
+
+  /* ─── 분석 ─── */
+  var STEP_MESSAGES = [
+    { pct: 15, text: '🔍 소방시설 확인 중...' },
+    { pct: 35, text: '🧯 소화기 상태 분석 중...' },
+    { pct: 55, text: '🚪 비상구·유도등 검토 중...' },
+    { pct: 72, text: '📋 점검 보고서 작성 중...' },
+    { pct: 88, text: '✨ 마지막 확인 중...' }
+  ];
+  var stepIdx = 0;
+
+  function startStepMessages() {
+    stepIdx = 0;
+    updateStep();
+  }
+
+  function updateStep() {
+    if (stepIdx >= STEP_MESSAGES.length) return;
+    var s = STEP_MESSAGES[stepIdx];
+    document.getElementById('progressFill').style.width = s.pct + '%';
+    document.getElementById('progressStep').textContent = s.text;
+    stepIdx++;
+    stepTimer = setTimeout(updateStep, 1800);
+  }
+
+  function stopStepMessages() {
+    clearTimeout(stepTimer);
+    document.getElementById('progressFill').style.width = '100%';
+    document.getElementById('progressStep').textContent = '✅ 분석 완료!';
+  }
+
   function startAnalysis() {
     if (!imageBase64) { showToast('사진을 먼저 선택해 주세요.'); return; }
     document.getElementById('scanImg').src = 'data:' + imageMimeType + ';base64,' + imageBase64;
@@ -720,44 +879,55 @@
     startStepMessages();
     GAS.run('analyzeImage', [imageBase64, imageMimeType], onAnalysisSuccess, onAnalysisError);
   }
+
   function onAnalysisSuccess(response) {
     stopStepMessages();
     if (!response || !response.success) { onAnalysisError(response || { code: 'UNKNOWN' }); return; }
     analysisResult = response.data;
+
     if (analysisResult.isFireSafetyRelated === false) {
       goToScreen('screen-result');
-      document.getElementById('unrelatedCard').style.display = 'block';
-      document.getElementById('normalResult').style.display  = 'none';
-      document.getElementById('unrelatedBtn').style.display  = 'block';
-      document.getElementById('resultSummary').style.display = 'none';
-      document.getElementById('riskIndicator').style.display = 'none';
+      document.getElementById('unrelatedCard').style.display  = 'block';
+      document.getElementById('normalResult').style.display   = 'none';
+      document.getElementById('unrelatedBtn').style.display   = 'block';
+      document.getElementById('resultSummary').style.display  = 'none';
+      document.getElementById('riskIndicator').style.display  = 'none';
       var items = analysisResult.detectedItems || [];
       var names = items.map(function(it) { return typeof it === 'string' ? it : (it.name || ''); }).filter(Boolean);
       if (names.length > 0) setText('unrelatedDetected', '감지된 항목: ' + names.join(', ') + ' 입니다.');
       return;
     }
-    document.getElementById('unrelatedCard').style.display = 'none';
-    document.getElementById('normalResult').style.display  = 'block';
-    document.getElementById('unrelatedBtn').style.display  = 'none';
-    document.getElementById('resultSummary').style.display = 'block';
-    document.getElementById('riskIndicator').style.display = 'block';
+
+    document.getElementById('unrelatedCard').style.display  = 'none';
+    document.getElementById('normalResult').style.display   = 'block';
+    document.getElementById('unrelatedBtn').style.display   = 'none';
+    document.getElementById('resultSummary').style.display  = 'block';
+    document.getElementById('riskIndicator').style.display  = 'block';
     renderResult(analysisResult);
     goToScreen('screen-result');
     initChat();
   }
+
   function retakePhoto() { removeImage(); goToScreen('screen-upload'); }
+
   function onAnalysisError(err) {
     console.error('Analysis error:', err);
+    stopStepMessages();
     var code = (typeof err === 'object' && err && err.code) ? err.code : (typeof err === 'string' ? err : 'UNKNOWN');
     showErrorScreen(code);
   }
+
+  /* ─── 마커 ─── */
   var RISK_COLOR = { high:'#E24B4A', medium:'#EF9F27', low:'#2EC4A1' };
   var RISK_LABEL = { high:'즉시 조치', medium:'주의 필요', low:'확인 권장' };
+
   function calcPinOffset(xPct, yPct) {
     var ox = xPct > 75 ? -7 : 7, oy = yPct > 75 ? -7 : 7;
     return { px: Math.min(97, Math.max(3, xPct + ox)), py: Math.min(97, Math.max(3, yPct + oy)) };
   }
+
   function calcLabelPos(px, py) { return { lx: px, ly: py > 20 ? py - 15 : py + 18 }; }
+
   function spreadSamePositions(positions) {
     var result = positions.map(function(p) { return { px: p.px, py: p.py }; });
     var MIN_DIST = 9, MAX_ITER = 30;
@@ -783,11 +953,13 @@
     }
     return result;
   }
+
   function isClustered(positions) {
     if (positions.length <= 1) return false;
     var xs = positions.map(function(p){return p.px;}), ys = positions.map(function(p){return p.py;});
     return (Math.max.apply(null,xs)-Math.min.apply(null,xs) < 15) && (Math.max.apply(null,ys)-Math.min.apply(null,ys) < 15);
   }
+
   function gridPositions(count) {
     var cols = Math.ceil(Math.sqrt(count)), rows = Math.ceil(count/cols), result = [];
     var xStep = 80/(cols+1), yStep = 80/(rows+1);
@@ -796,160 +968,244 @@
     }
     return result;
   }
+
   function renderMarkers(items) {
     var wrap = document.getElementById('markerImgWrap');
-    if (!items || items.length === 0) { wrap.style.display='none'; document.getElementById('detectedList').style.display='none'; return; }
+    if (!items || items.length === 0) {
+      wrap.style.display = 'none';
+      document.getElementById('detectedList').style.display = 'none';
+      return;
+    }
     document.getElementById('markerImg').src = 'data:' + imageMimeType + ';base64,' + imageBase64;
     wrap.style.display = 'block';
     wrap.querySelectorAll('.marker-pin,.marker-pulse-ring,.marker-label').forEach(function(el){el.remove();});
     activeMarkerIdx = -1;
     var positions = items.map(function(item) {
-      var xPct = item.x!=null?item.x:50, yPct = item.y!=null?item.y:50;
+      var xPct = item.x != null ? item.x : 50, yPct = item.y != null ? item.y : 50;
       return calcPinOffset(xPct, yPct);
     });
     positions = isClustered(positions) ? gridPositions(items.length) : spreadSamePositions(positions);
     items.forEach(function(item, idx) {
-      var risk=item.risk||'low', color=RISK_COLOR[risk]||RISK_COLOR.low;
-      var px=positions[idx].px, py=positions[idx].py, lp=calcLabelPos(px,py);
-      var ring=document.createElement('div'); ring.className='marker-pulse-ring';
-      ring.style.left=px+'%'; ring.style.top=py+'%'; ring.style.background=color; ring.style.animationDelay=(idx*0.4)+'s';
-      wrap.appendChild(ring);
-      var pin=document.createElement('div'); pin.className='marker-pin';
-      pin.style.left=px+'%'; pin.style.top=py+'%'; pin.style.background=color; pin.setAttribute('data-idx',idx);
-      pin.innerHTML='<svg viewBox="0 0 13 13" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="6.5" cy="6.5" r="4.5" fill="white" fill-opacity="0.9"/><rect x="5.8" y="2.8" width="1.4" height="3.8" rx="0.7" fill="'+color+'"/><rect x="5.8" y="7.5" width="1.4" height="1.4" rx="0.7" fill="'+color+'"/></svg>';
+      var risk = item.risk || 'low', color = RISK_COLOR[risk] || RISK_COLOR.low;
+      var px = positions[idx].px, py = positions[idx].py, lp = calcLabelPos(px, py);
+      var ring = document.createElement('div'); ring.className = 'marker-pulse-ring';
+      ring.style.left = px+'%'; ring.style.top = py+'%'; ring.style.background = color;
+      ring.style.animationDelay = (idx*0.4)+'s'; wrap.appendChild(ring);
+      var pin = document.createElement('div'); pin.className = 'marker-pin';
+      pin.style.left = px+'%'; pin.style.top = py+'%'; pin.style.background = color;
+      pin.setAttribute('data-idx', idx);
+      pin.innerHTML = '<svg viewBox="0 0 13 13" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="6.5" cy="6.5" r="4.5" fill="white" fill-opacity="0.9"/><rect x="5.8" y="2.8" width="1.4" height="3.8" rx="0.7" fill="'+color+'"/><rect x="5.8" y="7.5" width="1.4" height="1.4" rx="0.7" fill="'+color+'"/></svg>';
       pin.addEventListener('click', function(){toggleMarker(idx);}); wrap.appendChild(pin);
-      var label=document.createElement('div'); label.className='marker-label'; label.setAttribute('data-label',idx);
-      label.style.left=lp.lx+'%'; label.style.top=lp.ly+'%'; label.style.borderTopColor=color;
-      label.innerHTML='<span class="marker-label-dot" style="background:'+color+';"></span><span class="marker-label-name">'+escapeHtml(item.name||'')+'</span><span class="marker-label-risk mlr-'+risk+'">'+escapeHtml(RISK_LABEL[risk])+'</span>';
+      var label = document.createElement('div'); label.className = 'marker-label'; label.setAttribute('data-label', idx);
+      label.style.left = lp.lx+'%'; label.style.top = lp.ly+'%'; label.style.borderTopColor = color;
+      label.innerHTML = '<span class="marker-label-dot" style="background:'+color+';"></span><span class="marker-label-name">'+escapeHtml(item.name||'')+'</span><span class="marker-label-risk mlr-'+risk+'">'+escapeHtml(RISK_LABEL[risk])+'</span>';
       wrap.appendChild(label);
     });
     renderDetectedList(items);
   }
+
   function toggleMarker(idx) {
-    var pins=document.querySelectorAll('.marker-pin'), labels=document.querySelectorAll('.marker-label'), listItems=document.querySelectorAll('.detected-list-item');
-    var wasActive=(activeMarkerIdx===idx);
-    pins.forEach(function(p){p.classList.remove('active');}); labels.forEach(function(l){l.classList.remove('visible');}); listItems.forEach(function(li){li.classList.remove('active');}); activeMarkerIdx=-1;
+    var pins = document.querySelectorAll('.marker-pin');
+    var labels = document.querySelectorAll('.marker-label');
+    var listItems = document.querySelectorAll('.detected-list-item');
+    var wasActive = (activeMarkerIdx === idx);
+    pins.forEach(function(p){p.classList.remove('active');});
+    labels.forEach(function(l){l.classList.remove('visible');});
+    listItems.forEach(function(li){li.classList.remove('active');});
+    activeMarkerIdx = -1;
     if (!wasActive) {
-      var tp=document.querySelector('.marker-pin[data-idx="'+idx+'"]'), tl=document.querySelector('.marker-label[data-label="'+idx+'"]'), tli=document.querySelector('.detected-list-item[data-idx="'+idx+'"]');
-      if(tp)tp.classList.add('active'); if(tl)tl.classList.add('visible'); if(tli)tli.classList.add('active');
-      activeMarkerIdx=idx;
+      var tp = document.querySelector('.marker-pin[data-idx="'+idx+'"]');
+      var tl = document.querySelector('.marker-label[data-label="'+idx+'"]');
+      var tli = document.querySelector('.detected-list-item[data-idx="'+idx+'"]');
+      if(tp) tp.classList.add('active');
+      if(tl) tl.classList.add('visible');
+      if(tli) tli.classList.add('active');
+      activeMarkerIdx = idx;
     }
   }
+
   function renderDetectedList(items) {
-    var list=document.getElementById('detectedList');
+    var list = document.getElementById('detectedList');
     list.querySelectorAll('.detected-list-item').forEach(function(el){el.remove();});
-    items.forEach(function(item,idx) {
-      var risk=item.risk||'low', row=document.createElement('div');
-      row.className='detected-list-item'; row.setAttribute('data-idx',idx);
-      row.innerHTML='<span class="detected-dot dot-'+risk+'"></span><span class="detected-item-name">'+escapeHtml(item.name||'')+'</span><span class="detected-item-badge badge-'+risk+'">'+escapeHtml(RISK_LABEL[risk]||risk)+'</span>';
-      row.addEventListener('click',function(){toggleMarker(idx);}); list.appendChild(row);
+    items.forEach(function(item, idx) {
+      var risk = item.risk || 'low', row = document.createElement('div');
+      row.className = 'detected-list-item'; row.setAttribute('data-idx', idx);
+      row.innerHTML = '<span class="detected-dot dot-'+risk+'"></span><span class="detected-item-name">'+escapeHtml(item.name||'')+'</span><span class="detected-item-badge badge-'+risk+'">'+escapeHtml(RISK_LABEL[risk]||risk)+'</span>';
+      row.addEventListener('click', function(){toggleMarker(idx);}); list.appendChild(row);
     });
-    list.style.display=items.length>0?'block':'none';
+    list.style.display = items.length > 0 ? 'block' : 'none';
   }
+
+  /* ─── 결과 렌더링 ─── */
   function renderResult(data) {
-    setText('resultSummary', data.summary||'소방안전 분석 결과');
-    var riskMap={low:['🟢 안전 양호','risk-low'],medium:['🟡 주의 필요','risk-medium'],high:['🔴 즉시 조치 권고','risk-high']};
-    var riskArr=riskMap[data.riskLevel]||riskMap.low;
-    var indicatorHtml='<span class="risk-pill '+riskArr[1]+'">'+escapeHtml(riskArr[0])+'</span>';
-    var items=data.detectedItems||[], shownRisks={};
-    shownRisks[data.riskLevel]=true;
-    items.forEach(function(item){var r=item.risk||'low';if(!shownRisks[r]&&riskMap[r]){shownRisks[r]=true;var ra=riskMap[r];indicatorHtml+='<span class="risk-pill '+ra[1]+'" style="margin-left:6px;">'+escapeHtml(ra[0])+'</span>';}});
-    document.getElementById('riskIndicator').innerHTML=indicatorHtml;
-    setText('resultGreeting',data.greeting||''); setText('resultAnalysis',data.analysis||''); setText('resultSolution',data.solution||'');
-    var note=data.expertNote||{};
-    setText('expertBasis',note.basis||''); setText('expertImportance',note.importance||''); setText('expertTip',note.tip||''); setText('expertInspection',note.inspection||'');
-    setText('resultCuriosity',data.curiosityQuestion||'');
-    renderMarkers(data.detectedItems||[]);
+    setText('resultSummary', data.summary || '소방안전 분석 결과');
+    var riskMap = {
+      low:    ['🟢 안전 양호', 'risk-low'],
+      medium: ['🟡 주의 필요', 'risk-medium'],
+      high:   ['🔴 즉시 조치 권고', 'risk-high']
+    };
+    var riskArr = riskMap[data.riskLevel] || riskMap.low;
+    var indicatorHtml = '<span class="risk-pill '+riskArr[1]+'">'+escapeHtml(riskArr[0])+'</span>';
+    var items = data.detectedItems || [], shownRisks = {};
+    shownRisks[data.riskLevel] = true;
+    items.forEach(function(item) {
+      var r = item.risk || 'low';
+      if (!shownRisks[r] && riskMap[r]) {
+        shownRisks[r] = true;
+        var ra = riskMap[r];
+        indicatorHtml += '<span class="risk-pill '+ra[1]+'" style="margin-left:6px;">'+escapeHtml(ra[0])+'</span>';
+      }
+    });
+    document.getElementById('riskIndicator').innerHTML = indicatorHtml;
+    setText('resultGreeting',  data.greeting  || '');
+    setText('resultAnalysis',  data.analysis  || '');
+    setText('resultSolution',  data.solution  || '');
+    var note = data.expertNote || {};
+    setText('expertBasis',      note.basis      || '');
+    setText('expertImportance', note.importance || '');
+    setText('expertTip',        note.tip        || '');
+    setText('expertInspection', note.inspection || '');
+    setText('resultCuriosity', data.curiosityQuestion || '');
+    renderMarkers(data.detectedItems || []);
   }
+
+  /* ─── 음성 ─── */
   function toggleVoice() {
     if (!analysisResult) return;
     if (!('speechSynthesis' in window)) { showToast('이 브라우저는 음성을 지원하지 않아요.'); return; }
     if (voicePlaying) { window.speechSynthesis.cancel(); setVoiceUI(false); return; }
-    var text=[analysisResult.greeting,analysisResult.analysis,analysisResult.solution,'팁: '+(analysisResult.expertNote?analysisResult.expertNote.tip||'':'')].filter(Boolean).join(' ');
-    speechUtterance=new SpeechSynthesisUtterance(text); speechUtterance.lang='ko-KR'; speechUtterance.rate=0.95; speechUtterance.pitch=1.05;
-    speechUtterance.onend=speechUtterance.onerror=function(){setVoiceUI(false);};
+    var text = [analysisResult.greeting, analysisResult.analysis, analysisResult.solution,
+                '팁: '+(analysisResult.expertNote ? analysisResult.expertNote.tip||'' : '')].filter(Boolean).join(' ');
+    speechUtterance = new SpeechSynthesisUtterance(text);
+    speechUtterance.lang = 'ko-KR'; speechUtterance.rate = 0.95; speechUtterance.pitch = 1.05;
+    speechUtterance.onend = speechUtterance.onerror = function(){ setVoiceUI(false); };
     window.speechSynthesis.speak(speechUtterance); setVoiceUI(true);
   }
+
   function setVoiceUI(playing) {
-    voicePlaying=playing;
-    document.getElementById('voiceLabel').textContent=playing?'재생 중... (탭하여 중지)':'음성으로 들어보기';
-    document.getElementById('voiceIcon').textContent=playing?'⏸️':'🔊';
+    voicePlaying = playing;
+    document.getElementById('voiceLabel').textContent = playing ? '재생 중... (탭하여 중지)' : '음성으로 들어보기';
+    document.getElementById('voiceIcon').textContent  = playing ? '⏸️' : '🔊';
   }
-  document.addEventListener('visibilitychange',function(){if(document.hidden&&voicePlaying){window.speechSynthesis&&window.speechSynthesis.cancel();setVoiceUI(false);}});
+
+  document.addEventListener('visibilitychange', function() {
+    if (document.hidden && voicePlaying) { window.speechSynthesis && window.speechSynthesis.cancel(); setVoiceUI(false); }
+  });
+
+  /* ─── 채팅 ─── */
   function initChat() {
-    document.getElementById('chatMessages').textContent='';
-    var strong=document.createElement('strong');
-    strong.textContent=(analysisResult&&analysisResult.summary)?analysisResult.summary:'소방안전';
-    addAiMessageParts(['안녕하세요! ',strong,'에 대해 살펴봤어요. 더 궁금한 점 편하게 물어보세요 😊']);
+    document.getElementById('chatMessages').textContent = '';
+    var strong = document.createElement('strong');
+    strong.textContent = (analysisResult && analysisResult.summary) ? analysisResult.summary : '소방안전';
+    addAiMessageParts(['안녕하세요! ', strong, '에 대해 살펴봤어요. 더 궁금한 점 편하게 물어보세요 😊']);
   }
+
   function addAiMessageParts(parts) {
-    var msgs=document.getElementById('chatMessages');
-    var row=document.createElement('div'); row.className='msg msg-ai';
-    var av=document.createElement('div'); av.className='msg-av'; av.textContent='🔥';
-    var bubble=document.createElement('div'); bubble.className='msg-bubble';
-    parts.forEach(function(p){bubble.appendChild(typeof p==='string'?document.createTextNode(p):p);});
-    row.appendChild(av); row.appendChild(bubble); msgs.appendChild(row); msgs.scrollTop=msgs.scrollHeight;
+    var msgs = document.getElementById('chatMessages');
+    var row = document.createElement('div'); row.className = 'msg msg-ai';
+    var av = document.createElement('div'); av.className = 'msg-av'; av.textContent = '🔥';
+    var bubble = document.createElement('div'); bubble.className = 'msg-bubble';
+    parts.forEach(function(p){ bubble.appendChild(typeof p === 'string' ? document.createTextNode(p) : p); });
+    row.appendChild(av); row.appendChild(bubble); msgs.appendChild(row); msgs.scrollTop = msgs.scrollHeight;
   }
+
   function addAiMessage(text) {
-    var msgs=document.getElementById('chatMessages');
-    var row=document.createElement('div'); row.className='msg msg-ai';
-    var av=document.createElement('div'); av.className='msg-av'; av.textContent='🔥';
-    var bubble=document.createElement('div'); bubble.className='msg-bubble';
-    text.split('\n').forEach(function(line,i,arr){bubble.appendChild(document.createTextNode(line));if(i<arr.length-1)bubble.appendChild(document.createElement('br'));});
-    row.appendChild(av); row.appendChild(bubble); msgs.appendChild(row); msgs.scrollTop=msgs.scrollHeight;
+    var msgs = document.getElementById('chatMessages');
+    var row = document.createElement('div'); row.className = 'msg msg-ai';
+    var av = document.createElement('div'); av.className = 'msg-av'; av.textContent = '🔥';
+    var bubble = document.createElement('div'); bubble.className = 'msg-bubble';
+    text.split('\n').forEach(function(line, i, arr) {
+      bubble.appendChild(document.createTextNode(line));
+      if (i < arr.length - 1) bubble.appendChild(document.createElement('br'));
+    });
+    row.appendChild(av); row.appendChild(bubble); msgs.appendChild(row); msgs.scrollTop = msgs.scrollHeight;
   }
+
   function addUserMessage(text) {
-    var msgs=document.getElementById('chatMessages');
-    var row=document.createElement('div'); row.className='msg msg-user';
-    var bubble=document.createElement('div'); bubble.className='msg-bubble'; bubble.textContent=text;
-    var av=document.createElement('div'); av.className='msg-av'; av.textContent='😊';
-    row.appendChild(bubble); row.appendChild(av); msgs.appendChild(row); msgs.scrollTop=msgs.scrollHeight;
+    var msgs = document.getElementById('chatMessages');
+    var row = document.createElement('div'); row.className = 'msg msg-user';
+    var bubble = document.createElement('div'); bubble.className = 'msg-bubble'; bubble.textContent = text;
+    var av = document.createElement('div'); av.className = 'msg-av'; av.textContent = '😊';
+    row.appendChild(bubble); row.appendChild(av); msgs.appendChild(row); msgs.scrollTop = msgs.scrollHeight;
   }
+
   function showTyping() {
-    var msgs=document.getElementById('chatMessages');
-    var row=document.createElement('div'); row.className='msg msg-ai'; row.id='typingMsg';
-    row.innerHTML='<div class="msg-av">🔥</div><div class="typing-ind"><div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div></div>';
-    msgs.appendChild(row); msgs.scrollTop=msgs.scrollHeight;
+    var msgs = document.getElementById('chatMessages');
+    var row = document.createElement('div'); row.className = 'msg msg-ai'; row.id = 'typingMsg';
+    row.innerHTML = '<div class="msg-av">🔥</div><div class="typing-ind"><div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div></div>';
+    msgs.appendChild(row); msgs.scrollTop = msgs.scrollHeight;
   }
-  function hideTyping() { var t=document.getElementById('typingMsg'); if(t)t.remove(); }
+
+  function hideTyping() { var t = document.getElementById('typingMsg'); if(t) t.remove(); }
+
   function sendChat() {
-    var input=document.getElementById('chatInput'), text=input.value.trim();
-    if(!text) return;
-    input.value=''; input.style.height='auto'; sendMessage(text);
+    var input = document.getElementById('chatInput'), text = input.value.trim();
+    if (!text) return;
+    input.value = ''; input.style.height = 'auto'; sendMessage(text);
   }
-  function sendChip(text) { if(currentScreen!=='screen-chat')goToScreen('screen-chat'); sendMessage(text); }
-  function sendCuriosity() { var q=document.getElementById('resultCuriosity').textContent.trim(); if(q){goToScreen('screen-chat');sendMessage(q);} }
+
+  function sendChip(text) { if(currentScreen !== 'screen-chat') goToScreen('screen-chat'); sendMessage(text); }
+
+  function sendCuriosity() {
+    var q = document.getElementById('resultCuriosity').textContent.trim();
+    if (q) { goToScreen('screen-chat'); sendMessage(q); }
+  }
+
   function sendMessage(text) {
     addUserMessage(text); showTyping();
-    var context=analysisResult?{summary:analysisResult.summary,riskLevel:analysisResult.riskLevel,solution:analysisResult.solution,categories:analysisResult.categories||[]}:null;
-    GAS.run('chatFollowUp',[text,context],function(res){hideTyping();addAiMessage(res&&res.success?res.message:'잠시 연결이 불안정해요 😥 다시 시도해 주세요!');},function(){hideTyping();addAiMessage('연결에 문제가 생겼어요. 잠시 후 다시 시도해 주세요 😊');});
+    var context = analysisResult ? {
+      summary: analysisResult.summary,
+      riskLevel: analysisResult.riskLevel,
+      solution: analysisResult.solution,
+      categories: analysisResult.categories || []
+    } : null;
+    GAS.run('chatFollowUp', [text, context],
+      function(res) { hideTyping(); addAiMessage(res && res.success ? res.message : '잠시 연결이 불안정해요 😥 다시 시도해 주세요!'); },
+      function()    { hideTyping(); addAiMessage('연결에 문제가 생겼어요. 잠시 후 다시 시도해 주세요 😊'); }
+    );
   }
-  function handleChatKey(e) { if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendChat();} }
-  function autoResize(el) { el.style.height='auto'; el.style.height=Math.min(el.scrollHeight,110)+'px'; }
+
+  function handleChatKey(e) { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendChat(); } }
+  function autoResize(el) { el.style.height = 'auto'; el.style.height = Math.min(el.scrollHeight, 110)+'px'; }
+
+  /* ─── 완료 ─── */
   function goToComplete() {
-    if(voicePlaying){window.speechSynthesis&&window.speechSynthesis.cancel();setVoiceUI(false);}
+    if (voicePlaying) { window.speechSynthesis && window.speechSynthesis.cancel(); setVoiceUI(false); }
     goToScreen('screen-complete');
-    GAS.run('recordUsage',[],function(res){if(res&&res.success)setText('statsText',res.message);},function(){});
+    GAS.run('recordUsage', [],
+      function(res) { if (res && res.success) setText('statsText', res.message); },
+      function() {}
+    );
   }
+
+  /* ─── 재시작 ─── */
   function restartApp() {
-    imageBase64=''; imageMimeType='image/jpeg'; analysisResult=null; activeMarkerIdx=-1;
-    if(voicePlaying){window.speechSynthesis&&window.speechSynthesis.cancel();setVoiceUI(false);}
+    imageBase64 = ''; imageMimeType = 'image/jpeg'; analysisResult = null; activeMarkerIdx = -1;
+    if (voicePlaying) { window.speechSynthesis && window.speechSynthesis.cancel(); setVoiceUI(false); }
     removeImage();
-    document.getElementById('chatMessages').textContent='';
+    document.getElementById('chatMessages').textContent = '';
     document.getElementById('fileInput').removeAttribute('capture');
-    document.getElementById(currentScreen).classList.remove('active');
-    currentScreen='screen-welcome';
+    var cur = document.getElementById(currentScreen);
+    if (cur) cur.classList.remove('active');
+    currentScreen = 'screen-welcome';
     void document.getElementById('screen-welcome').offsetWidth;
     document.getElementById('screen-welcome').classList.add('active');
     updateProgress();
-    window.scrollTo({top:0,behavior:'smooth'});
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   }
-  function setText(id,val){var el=document.getElementById(id);if(el)el.textContent=val;}
-  function escapeHtml(t){return String(t).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
-  function fillBackground(){document.getElementById('app').style.minHeight=window.innerHeight+'px';}
+
+  /* ─── 유틸 ─── */
+  function setText(id, val) { var el = document.getElementById(id); if(el) el.textContent = val; }
+  function escapeHtml(t) {
+    return String(t)
+      .replace(/&/g,'&amp;').replace(/</g,'&lt;')
+      .replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  }
+
+  function fillBackground() { document.getElementById('app').style.minHeight = window.innerHeight+'px'; }
   fillBackground();
-  window.addEventListener('resize',fillBackground);
-  window.addEventListener('orientationchange',function(){setTimeout(fillBackground,300);});
+  window.addEventListener('resize', fillBackground);
+  window.addEventListener('orientationchange', function(){ setTimeout(fillBackground, 300); });
 </script>
 </body>
 </html>
