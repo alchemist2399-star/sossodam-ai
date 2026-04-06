@@ -645,8 +645,11 @@
       <div class="chat-input-row">
         <textarea id="chatInput" placeholder="궁금한 점을 물어보세요 😊" rows="1"
                   maxlength="200"
-                  onkeydown="handleChatKey(event)" oninput="autoResize(this)"></textarea>
+                  onkeydown="handleChatKey(event)" oninput="autoResize(this); updateCharCount(this)"></textarea>
         <button class="btn-send" onclick="sendChat()">➤</button>
+      </div>
+      <div style="text-align:right; font-size:11px; color:var(--ink-muted); margin-top:-6px; margin-bottom:4px; padding-right:4px;">
+        <span id="charCount">0</span>/200
       </div>
       <button class="btn btn-mint mt12 mb12" onclick="goToComplete()">✅ 안심 완료!</button>
     </div>
@@ -1236,6 +1239,13 @@
 
   function handleChatKey(e) { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendChat(); } }
   function autoResize(el) { el.style.height = 'auto'; el.style.height = Math.min(el.scrollHeight, 110)+'px'; }
+  function updateCharCount(el) {
+    var count = el.value.length;
+    var counter = document.getElementById('charCount');
+    if (!counter) return;
+    counter.textContent = count;
+    counter.style.color = count >= 180 ? '#E24B4A' : count >= 150 ? '#EF9F27' : 'var(--ink-muted)';
+  }
 
   /* ─── 완료 ─── */
   function goToComplete() {
