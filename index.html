@@ -29,7 +29,13 @@
       --ease-smooth: cubic-bezier(0.4, 0, 0.2, 1);
     }
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    html { background: #FFF9F6; -webkit-text-size-adjust: 100%; }
+    html {
+      background: #FFF9F6;
+      -webkit-text-size-adjust: 100%;
+      scrollbar-width: none; /* Firefox */
+      -ms-overflow-style: none; /* IE, Edge */
+    }
+    html::-webkit-scrollbar { display: none; } /* Chrome, Safari */
     body {
       margin: 0; padding: 0;
       background: #FFF9F6;
@@ -39,7 +45,10 @@
       overflow-x: hidden;
       overflow-y: auto;
       -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
     }
+    body::-webkit-scrollbar { display: none; }
     #app {
       min-height: 100vh;
       display: flex;
