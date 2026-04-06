@@ -934,11 +934,14 @@
   function startAnalysis() {
     if (!navigator.onLine) { showToast('📡 인터넷 연결이 없어요. 연결 후 다시 시도해 주세요.', 5000); return; }
     if (!imageBase64) { showToast('사진을 먼저 선택해 주세요.'); return; }
+    var btn = document.getElementById('analyzeBtn');
+    if (btn) { btn.disabled = true; btn.style.opacity = '0.6'; }
     document.getElementById('scanImg').src = 'data:' + imageMimeType + ';base64,' + imageBase64;
     goToScreen('screen-analyzing');
     startStepMessages();
     analysisTimer = setTimeout(function() {
       stopStepMessages();
+      if (btn) { btn.disabled = false; btn.style.opacity = '1'; }
       showErrorScreen('RATE_LIMIT');
     }, 30000);
     GAS.run('analyzeImage', [imageBase64, imageMimeType], onAnalysisSuccess, onAnalysisError);
@@ -947,6 +950,8 @@
   function onAnalysisSuccess(response) {
     clearTimeout(analysisTimer);
     stopStepMessages();
+    var btn = document.getElementById('analyzeBtn');
+    if (btn) { btn.disabled = false; btn.style.opacity = '1'; }
     if (!response || !response.success) { onAnalysisError(response || { code: 'UNKNOWN' }); return; }
     analysisResult = response.data;
 
@@ -984,6 +989,8 @@
 
   function onAnalysisError(err) {
     clearTimeout(analysisTimer);
+    var btn = document.getElementById('analyzeBtn');
+    if (btn) { btn.disabled = false; btn.style.opacity = '1'; }
     console.error('Analysis error:', err);
     stopStepMessages();
     var code = (typeof err === 'object' && err && err.code) ? err.code : (typeof err === 'string' ? err : 'UNKNOWN');
