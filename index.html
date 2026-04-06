@@ -338,9 +338,8 @@
 
     .progress-wrap { margin: 12px 0 6px; }
     .progress-track { background: rgba(0,0,0,0.07); border-radius: 100px; height: 5px; overflow: hidden; margin-bottom: 6px; }
-    .progress-fill { height: 100%; border-radius: 100px; background: linear-gradient(90deg, var(--flame), var(--ember)); animation: progressAnim 3s ease-in-out infinite; }
-    @keyframes progressAnim { 0%{width:5%} 60%{width:82%} 100%{width:96%} }
-    .progress-step { font-size: 12px; font-weight: 700; color: var(--flame); }
+    .progress-fill { height: 5%; border-radius: 100px; background: linear-gradient(90deg, var(--flame), var(--ember)); transition: width 0.6s ease; }
+    .progress-step { font-size: 12px; font-weight: 700; color: var(--flame); transition: opacity 0.3s; }
   </style>
 </head>
 <body>
@@ -462,7 +461,7 @@
         꼭 전문가와 상의해 주세요 💛
       </div>
       <div class="progress-wrap">
-        <div class="progress-track"><div class="progress-fill"></div></div>
+        <div class="progress-track"><div class="progress-fill" id="progressFill" style="width:5%;"></div></div>
         <div class="progress-step" id="progressStep">🔍 소방시설 확인 중...</div>
       </div>
       <div class="dot-loader">
@@ -983,23 +982,52 @@
         splash.classList.add('hide');
         setTimeout(function() { splash.style.display = 'none'; }, 650);
       }
-    }, 1800);
+    }, 1500);
   });
 
-  // 로딩 스텝 메시지 순환
-  var stepMessages = ['🔍 소방시설 확인 중...','📋 소방법령 DB 대조 중...','⚠️ 위험 요소 분석 중...','✅ 결과 정리 중...'];
-  var stepIdx = 0, stepTimer = null;
-  function startStepMessages() {
-    stepIdx = 0;
+  // 로딩 진행바 — 단계별 완료 방식
+  var stepPhases = [
+    { pct: 20,  doing: '🔍 소방시설 확인 중...',    done: '✅ 소방시설 확인 완료!' },
+    { pct: 50,  doing: '📋 법령 DB 대조 중...',      done: '✅ 법령 DB 대조 완료!' },
+    { pct: 78,  doing: '⚠️ 위험 요소 분석 중...',   done: '✅ 위험 요소 분석 완료!' },
+    { pct: 95,  doing: '📝 결과 정리 중...',         done: '✅ 결과 정리 완료!' },
+  ];
+  var stepTimer = null, phaseIdx = 0;
+
+  function setProgress(pct) {
+    var fill = document.getElementById('progressFill');
+    if (fill) fill.style.width = pct + '%';
+  }
+  function setStep(text) {
     var el = document.getElementById('progressStep');
-    if (el) el.textContent = stepMessages[0];
+    if (el) { el.style.opacity = '0'; setTimeout(function(){ el.textContent = text; el.style.opacity = '1'; }, 200); }
+  }
+
+  function startStepMessages() {
+    phaseIdx = 0;
+    setProgress(5);
+    setStep(stepPhases[0].doing);
+
     stepTimer = setInterval(function() {
-      stepIdx = (stepIdx + 1) % stepMessages.length;
-      var el = document.getElementById('progressStep');
-      if (el) el.textContent = stepMessages[stepIdx];
+      if (phaseIdx >= stepPhases.length) return;
+      var phase = stepPhases[phaseIdx];
+      // 현재 단계 완료 표시
+      setStep(phase.done);
+      setProgress(phase.pct);
+      phaseIdx++;
+      // 다음 단계 시작
+      if (phaseIdx < stepPhases.length) {
+        setTimeout(function() {
+          if (phaseIdx < stepPhases.length) setStep(stepPhases[phaseIdx].doing);
+        }, 700);
+      }
     }, 1800);
   }
-  function stopStepMessages() { if (stepTimer) { clearInterval(stepTimer); stepTimer = null; } }
+  function stopStepMessages() {
+    if (stepTimer) { clearInterval(stepTimer); stepTimer = null; }
+    setProgress(100);
+    setStep('✅ 분석 완료!');
+  }
   window.addEventListener('orientationchange',function(){setTimeout(fillBackground,300);});
 </script>
 </body>
