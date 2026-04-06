@@ -1201,6 +1201,7 @@
   }
 
   function sendMessage(text) {
+    if (!navigator.onLine) { showToast('📡 인터넷 연결이 없어요. 연결 후 다시 시도해 주세요.', 5000); return; }
     addUserMessage(text); showTyping();
     var context = analysisResult ? {
       summary: analysisResult.summary,
