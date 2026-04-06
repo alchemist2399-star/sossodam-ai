@@ -637,6 +637,7 @@
       </div>
       <div class="chat-input-row">
         <textarea id="chatInput" placeholder="궁금한 점을 물어보세요 😊" rows="1"
+                  maxlength="200"
                   onkeydown="handleChatKey(event)" oninput="autoResize(this)"></textarea>
         <button class="btn-send" onclick="sendChat()">➤</button>
       </div>
@@ -1193,6 +1194,7 @@
   function sendChat() {
     var input = document.getElementById('chatInput'), text = input.value.trim();
     if (!text) return;
+    if (text.length > 200) { showToast('메시지는 200자 이내로 입력해 주세요. 😊', 3000); return; }
     input.value = ''; input.style.height = 'auto'; sendMessage(text);
   }
 
