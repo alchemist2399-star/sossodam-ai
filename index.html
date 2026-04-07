@@ -1259,11 +1259,24 @@
 
   function hideTyping() { var t = document.getElementById('typingMsg'); if(t) t.remove(); }
 
+  var isSending = false;
+
   function sendChat() {
+    if (isSending) return;
     var input = document.getElementById('chatInput'), text = input.value.trim();
     if (!text) return;
     if (text.length > 200) { showToast('메시지는 200자 이내로 입력해 주세요. 😊', 3000); return; }
-    input.value = ''; input.style.height = 'auto'; sendMessage(text);
+    input.value = ''; input.style.height = 'auto';
+    setSendingUI(true);
+    sendMessage(text);
+  }
+
+  function setSendingUI(sending) {
+    isSending = sending;
+    var btn = document.querySelector('.btn-send');
+    var input = document.getElementById('chatInput');
+    if (btn) { btn.disabled = sending; btn.style.opacity = sending ? '0.5' : '1'; }
+    if (input) input.disabled = sending;
   }
 
   function sendChip(text) { if(currentScreen !== 'screen-chat') goToScreen('screen-chat'); sendMessage(text); }
@@ -1283,8 +1296,8 @@
       categories: analysisResult.categories || []
     } : null;
     GAS.run('chatFollowUp', [text, context],
-      function(res) { hideTyping(); addAiMessage(res && res.success ? res.message : '잠시 연결이 불안정해요 😥 다시 시도해 주세요!'); },
-      function()    { hideTyping(); addAiMessage('연결에 문제가 생겼어요. 잠시 후 다시 시도해 주세요 😊'); }
+      function(res) { hideTyping(); setSendingUI(false); addAiMessage(res && res.success ? res.message : '잠시 연결이 불안정해요 😥 다시 시도해 주세요!'); },
+      function()    { hideTyping(); setSendingUI(false); addAiMessage('연결에 문제가 생겼어요. 잠시 후 다시 시도해 주세요 😊'); }
     );
   }
 
