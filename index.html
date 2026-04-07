@@ -342,9 +342,9 @@
     @keyframes msgIn { from{opacity:0;transform:translateY(8px)} to{opacity:1;transform:translateY(0)} }
     .msg-ai { flex-direction: row; }
     .msg-user { flex-direction: row-reverse; }
-    .msg-av { width: 40px; height: 40px; border-radius: 11px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 14px; margin-top: 2px; overflow: hidden; }
-    .msg-ai .msg-av   { background: linear-gradient(135deg, #FF5A36, #FFB347); }
-    .msg-user .msg-av { background: linear-gradient(135deg, #E3EEFF, #D0E4FF); }
+    .msg-av { width: 40px; height: 40px; border-radius: 0; flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 14px; margin-top: 2px; overflow: visible; background: none !important; }
+    .msg-ai .msg-av   { background: none; }
+    .msg-user .msg-av { background: linear-gradient(135deg, #E3EEFF, #D0E4FF); border-radius: 9px; }
     .msg-bubble { max-width: 80%; padding: 11px 14px; font-size: 14px; line-height: 1.65; word-break: break-word; }
     .msg-ai .msg-bubble { background: white; color: var(--ink-soft); border: 1px solid rgba(0,0,0,0.06); border-radius: 4px 16px 16px 16px; box-shadow: var(--shadow-sm); }
     .msg-user .msg-bubble { background: linear-gradient(135deg, var(--flame), var(--ember)); color: white; border-radius: 16px 4px 16px 16px; box-shadow: 0 3px 12px rgba(255,90,54,0.25); }
@@ -655,11 +655,9 @@
     <!-- ════════════════ SCREEN 5: CHAT ════════════════ -->
     <div class="screen" id="screen-chat">
       <div class="chat-header">
-        <div class="chat-avatar" style="overflow:hidden; padding:0; background:linear-gradient(135deg,#FF5A36,#FFB347);">
-          <img src="https://raw.githubusercontent.com/alchemist2399-star/sossodam-ai/main/hero%20icon.png"
-            style="width:100%; height:100%; object-fit:contain;"
-            onerror="this.parentElement.innerHTML='🔥'" />
-        </div>
+        <img src="https://raw.githubusercontent.com/alchemist2399-star/sossodam-ai/main/hero%20icon.png"
+          style="width:48px; height:48px; object-fit:contain; filter:drop-shadow(0 2px 8px rgba(0,0,0,0.15)); flex-shrink:0;"
+          onerror="this.outerHTML='<span style=font-size:32px;>🧯</span>'" />
         <div>
           <div class="chat-name">소화기 AI</div>
           <div class="chat-status">● 온라인</div>
@@ -1239,7 +1237,7 @@
     var msgs = document.getElementById('chatMessages');
     var row = document.createElement('div'); row.className = 'msg msg-ai';
     var av = document.createElement('div'); av.className = 'msg-av';
-    av.innerHTML = '<img src="https://raw.githubusercontent.com/alchemist2399-star/sossodam-ai/main/hero%20icon.png" style="width:100%;height:100%;object-fit:contain;" onerror="this.outerHTML=\'🔥\'" />';
+    av.innerHTML = '<img src="https://raw.githubusercontent.com/alchemist2399-star/sossodam-ai/main/hero%20icon.png" style="width:40px;height:40px;object-fit:contain;" onerror="this.outerHTML=\'🔥\'" />';
     var bubble = document.createElement('div'); bubble.className = 'msg-bubble';
     parts.forEach(function(p){ bubble.appendChild(typeof p === 'string' ? document.createTextNode(p) : p); });
     row.appendChild(av); row.appendChild(bubble); msgs.appendChild(row); msgs.scrollTop = msgs.scrollHeight;
@@ -1249,7 +1247,7 @@
     var msgs = document.getElementById('chatMessages');
     var row = document.createElement('div'); row.className = 'msg msg-ai';
     var av = document.createElement('div'); av.className = 'msg-av';
-    av.innerHTML = '<img src="https://raw.githubusercontent.com/alchemist2399-star/sossodam-ai/main/hero%20icon.png" style="width:100%;height:100%;object-fit:contain;" onerror="this.outerHTML=\'🔥\'" />';
+    av.innerHTML = '<img src="https://raw.githubusercontent.com/alchemist2399-star/sossodam-ai/main/hero%20icon.png" style="width:40px;height:40px;object-fit:contain;" onerror="this.outerHTML=\'🔥\'" />';
     var bubble = document.createElement('div'); bubble.className = 'msg-bubble';
     text.split('\n').forEach(function(line, i, arr) {
       bubble.appendChild(document.createTextNode(line));
