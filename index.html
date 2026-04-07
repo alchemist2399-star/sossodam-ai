@@ -461,7 +461,7 @@
         <div class="hero-img-card">
           <!-- ★ 히어로 동영상으로 교체 -->
           <video class="hero-video" id="heroVideo"
-            autoplay muted loop playsinline
+            autoplay muted playsinline
             onerror="this.style.display='none'; document.getElementById('heroFallback').style.display='flex';">
             <source src="https://raw.githubusercontent.com/alchemist2399-star/sossodam-ai/main/Hero.mp4" type="video/mp4">
           </video>
@@ -1395,14 +1395,6 @@
         setTimeout(function() {
           if (title) title.classList.add('visible');
         }, 300);
-      }
-      /* 루프 재생 시 다시 숨겼다가 재등장 */
-      if (heroVideo.currentTime < 1.0 && heroTextShown) {
-        heroTextShown = false;
-        var greeting = document.getElementById('heroGreeting');
-        var title    = document.getElementById('heroTitle');
-        if (greeting) greeting.classList.remove('visible');
-        if (title)    title.classList.remove('visible');
       }
     });
     /* 동영상 로드 실패 시 바로 텍스트 표시 */
