@@ -193,6 +193,22 @@
     }
     .hero-overlay-greeting em,
     .hero-overlay-title em { color: var(--ember); font-style: normal; }
+
+    /* ── 히어로 텍스트 등장 애니메이션 ── */
+    .hero-overlay-greeting,
+    .hero-overlay-title {
+      opacity: 0;
+      transform: translateY(8px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .hero-overlay-greeting.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .hero-overlay-title.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
     .feature-list { display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px; }
     .feature-item { display: flex; align-items: center; gap: 14px; background: white; border-radius: var(--radius-md); padding: 14px 16px; border: 1px solid rgba(0,0,0,0.05); box-shadow: var(--shadow-sm); }
     .feature-icon { width: 42px; height: 42px; border-radius: 13px; display: flex; align-items: center; justify-content: center; font-size: 20px; flex-shrink: 0; }
@@ -444,15 +460,15 @@
       <div class="hero-section">
         <div class="hero-img-card">
           <!-- ★ 히어로 동영상으로 교체 -->
-          <video class="hero-video"
+          <video class="hero-video" id="heroVideo"
             autoplay muted loop playsinline
             onerror="this.style.display='none'; document.getElementById('heroFallback').style.display='flex';">
             <source src="https://raw.githubusercontent.com/alchemist2399-star/sossodam-ai/main/Hero.mp4" type="video/mp4">
           </video>
           <div id="heroFallback" style="display:none; width:100%; height:210px; align-items:center; justify-content:center; background:linear-gradient(135deg,#FF5A36,#FFB347); font-size:64px;">🧯</div>
           <div class="hero-img-overlay">
-            <div class="hero-overlay-greeting"><em>소화기 AI</em>가 고민 끝에 찾아낸 방법,</div>
-            <div class="hero-overlay-title">사진 한 장으로 모두가 안전해져요</div>
+            <div class="hero-overlay-greeting" id="heroGreeting"><em>소화기 AI</em>가 고민 끝에 찾아낸 방법,</div>
+            <div class="hero-overlay-title" id="heroTitle">사진 한 장으로 모두가 안전해져요</div>
           </div>
         </div>
       </div>
@@ -1366,7 +1382,39 @@
   window.addEventListener('resize', fillBackground);
   window.addEventListener('orientationchange', function(){ setTimeout(fillBackground, 300); });
 
-  /* ─── 오프라인 감지 ─── */
+  /* ─── 히어로 텍스트 등장 (동영상 3초 시점) ─── */
+  var heroTextShown = false;
+  var heroVideo = document.getElementById('heroVideo');
+  if (heroVideo) {
+    heroVideo.addEventListener('timeupdate', function() {
+      if (!heroTextShown && heroVideo.currentTime >= 3.0) {
+        heroTextShown = true;
+        var greeting = document.getElementById('heroGreeting');
+        var title    = document.getElementById('heroTitle');
+        if (greeting) greeting.classList.add('visible');
+        setTimeout(function() {
+          if (title) title.classList.add('visible');
+        }, 300);
+      }
+      /* 루프 재생 시 다시 숨겼다가 재등장 */
+      if (heroVideo.currentTime < 1.0 && heroTextShown) {
+        heroTextShown = false;
+        var greeting = document.getElementById('heroGreeting');
+        var title    = document.getElementById('heroTitle');
+        if (greeting) greeting.classList.remove('visible');
+        if (title)    title.classList.remove('visible');
+      }
+    });
+    /* 동영상 로드 실패 시 바로 텍스트 표시 */
+    heroVideo.addEventListener('error', function() {
+      var greeting = document.getElementById('heroGreeting');
+      var title    = document.getElementById('heroTitle');
+      if (greeting) greeting.classList.add('visible');
+      if (title)    title.classList.add('visible');
+    });
+  }
+
+
   window.addEventListener('offline', function() {
     showToast('📡 인터넷 연결이 끊겼어요. 연결을 확인해 주세요.', 5000);
   });
