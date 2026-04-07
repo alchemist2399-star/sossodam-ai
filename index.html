@@ -164,7 +164,6 @@
       overflow: hidden; margin-bottom: 16px;
       box-shadow: 0 12px 32px rgba(255,90,54,0.22);
     }
-    /* ── 히어로 비디오 ── */
     .hero-video {
       width: 100%; height: 210px;
       object-fit: cover; object-position: center right;
@@ -173,12 +172,7 @@
     .hero-img-overlay {
       position: absolute; bottom: 0; left: 0; right: 0;
       padding: 18px 20px 22px;
-      background: linear-gradient(
-        to top,
-        rgba(8,3,0,0.60) 0%,
-        rgba(8,3,0,0.20) 45%,
-        transparent 70%
-      );
+      background: linear-gradient(to top, rgba(8,3,0,0.60) 0%, rgba(8,3,0,0.20) 45%, transparent 70%);
       text-align: left;
     }
     .hero-overlay-greeting {
@@ -193,22 +187,14 @@
     }
     .hero-overlay-greeting em,
     .hero-overlay-title em { color: var(--ember); font-style: normal; }
-
-    /* ── 히어로 텍스트 등장 애니메이션 ── */
     .hero-overlay-greeting,
     .hero-overlay-title {
-      opacity: 0;
-      transform: translateY(8px);
+      opacity: 0; transform: translateY(8px);
       transition: opacity 0.7s ease, transform 0.7s ease;
     }
-    .hero-overlay-greeting.visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
-    .hero-overlay-title.visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
+    .hero-overlay-greeting.visible,
+    .hero-overlay-title.visible { opacity: 1; transform: translateY(0); }
+
     .feature-list { display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px; }
     .feature-item { display: flex; align-items: center; gap: 14px; background: white; border-radius: var(--radius-md); padding: 14px 16px; border: 1px solid rgba(0,0,0,0.05); box-shadow: var(--shadow-sm); }
     .feature-icon { width: 42px; height: 42px; border-radius: 13px; display: flex; align-items: center; justify-content: center; font-size: 20px; flex-shrink: 0; }
@@ -343,8 +329,8 @@
     .msg-ai { flex-direction: row; }
     .msg-user { flex-direction: row-reverse; }
     .msg-av { width: 40px; height: 40px; border-radius: 0; flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 14px; margin-top: 2px; overflow: visible; background: none !important; }
-    .msg-ai .msg-av   { background: none; }
-    .msg-user .msg-av { background: linear-gradient(135deg, #E3EEFF, #D0E4FF); border-radius: 9px; }
+    .msg-ai .msg-av   { background: none; width: 52px; height: 52px; }
+    .msg-user .msg-av { background: linear-gradient(135deg, #E3EEFF, #D0E4FF) !important; border-radius: 9px; width: 40px; height: 40px; }
     .msg-bubble { max-width: 80%; padding: 11px 14px; font-size: 14px; line-height: 1.65; word-break: break-word; }
     .msg-ai .msg-bubble { background: white; color: var(--ink-soft); border: 1px solid rgba(0,0,0,0.06); border-radius: 4px 16px 16px 16px; box-shadow: var(--shadow-sm); }
     .msg-user .msg-bubble { background: linear-gradient(135deg, var(--flame), var(--ember)); color: white; border-radius: 16px 4px 16px 16px; box-shadow: 0 3px 12px rgba(255,90,54,0.25); }
@@ -459,7 +445,6 @@
     <div class="screen active" id="screen-welcome">
       <div class="hero-section">
         <div class="hero-img-card">
-          <!-- ★ 히어로 동영상으로 교체 -->
           <video class="hero-video" id="heroVideo"
             autoplay muted playsinline
             onerror="this.style.display='none'; document.getElementById('heroFallback').style.display='flex';">
@@ -541,7 +526,6 @@
 
     <!-- ════════════════ SCREEN 3: ANALYZING ════════════════ -->
     <div class="screen" id="screen-analyzing">
-      <!-- 캐릭터 말풍선 영역 -->
       <div class="scan-wrap">
         <img id="scanImg" class="scan-img-el" alt="분석중" />
         <div class="scan-corner"></div>
@@ -565,6 +549,9 @@
         <div class="dot"></div>
         <div class="dot"></div>
       </div>
+      <button class="btn btn-ghost" onclick="cancelAnalysis()" style="margin-top:24px; width:auto; padding:11px 28px; font-size:14px; margin-left:auto; margin-right:auto; display:flex;">
+        ✕ 분석 취소
+      </button>
     </div>
 
     <!-- ════════════════ SCREEN 4: RESULT ════════════════ -->
@@ -705,7 +692,6 @@
 </div><!-- /app -->
 
 <script>
-  /* ─── 전역 상태 ─── */
   var currentScreen   = 'screen-welcome';
   var imageBase64     = '';
   var imageMimeType   = 'image/jpeg';
@@ -737,7 +723,7 @@
     }
   };
 
-  /* ─── 스플래시 전환 ─── */
+  /* ─── 스플래시 ─── */
   var SPLASH_STEPS = ['AI 엔진 준비 중...', '소방 데이터 로딩...', '준비 완료!'];
   var splashStep = 0;
 
@@ -745,8 +731,7 @@
     var fill  = document.getElementById('splashProgressFill');
     var label = document.getElementById('splashProgressLabel');
     var dots  = [document.getElementById('sdot1'), document.getElementById('sdot2'), document.getElementById('sdot3')];
-    var pcts = [30, 70, 100];
-
+    var pcts  = [30, 70, 100];
     function advance() {
       if (splashStep >= SPLASH_STEPS.length) {
         setTimeout(function() {
@@ -758,20 +743,16 @@
       }
       fill.style.width  = pcts[splashStep] + '%';
       label.textContent = SPLASH_STEPS[splashStep];
-      dots.forEach(function(d, i) {
-        d.classList.toggle('active', i === splashStep);
-      });
+      dots.forEach(function(d, i) { d.classList.toggle('active', i === splashStep); });
       splashStep++;
       setTimeout(advance, splashStep === SPLASH_STEPS.length ? 500 : 700);
     }
-
     if (document.fonts && document.fonts.ready) {
       document.fonts.ready.then(function() { setTimeout(advance, 200); });
     } else {
       setTimeout(advance, 300);
     }
   }
-
   window.addEventListener('load', runSplash);
 
   /* ─── 에러 화면 ─── */
@@ -795,12 +776,8 @@
     document.getElementById('errorTitle').textContent    = info.title;
     document.getElementById('errorDesc').innerHTML       = info.desc;
     document.getElementById('errorActionBtn').textContent = info.action;
-
     var cur = document.getElementById(currentScreen);
-    if (cur) {
-      cur.classList.remove('active');
-      if (cur.classList.contains('error-screen-wrap')) cur.classList.remove('active');
-    }
+    if (cur) { cur.classList.remove('active'); }
     var wrap = document.getElementById('screen-error');
     wrap.classList.add('active');
     currentScreen = 'screen-error';
@@ -822,7 +799,6 @@
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
-  /* ─── 토스트 ─── */
   function showToast(msg, duration) {
     duration = duration || 3200;
     var t = document.getElementById('toast');
@@ -831,7 +807,6 @@
     toastTimer = setTimeout(function() { t.classList.remove('show'); }, duration);
   }
 
-  /* ─── 화면 전환 ─── */
   function goToScreen(id) {
     if (currentScreen === id) return;
     var cur = document.getElementById(currentScreen);
@@ -861,11 +836,7 @@
   }
 
   function goToUpload() { goToScreen('screen-upload'); }
-
-  function retakePhoto() {
-    removeImage();
-    goToScreen('screen-upload');
-  }
+  function retakePhoto() { removeImage(); goToScreen('screen-upload'); }
 
   function triggerCamera() {
     var fi = document.getElementById('fileInput');
@@ -873,7 +844,6 @@
     fi.click();
   }
 
-  /* ─── 파일 처리 ─── */
   function handleFile(event) {
     try {
       var file = event.target.files[0];
@@ -918,7 +888,6 @@
     document.getElementById('fileInput').value = '';
   }
 
-  /* 드래그 앤 드롭 */
   var uz = document.getElementById('uploadZone');
   uz.addEventListener('dragover',  function(e) { e.preventDefault(); uz.classList.add('drag-over'); });
   uz.addEventListener('dragleave', function()  { uz.classList.remove('drag-over'); });
@@ -930,7 +899,6 @@
     handleFile({ target: { files: [file] } });
   });
 
-  /* ─── 분석 ─── */
   var STEP_MESSAGES = [
     { pct: 15, text: '🔍 소방시설 확인 중...' },
     { pct: 35, text: '🧯 소화기 상태 분석 중...' },
@@ -940,11 +908,7 @@
   ];
   var stepIdx = 0;
 
-  function startStepMessages() {
-    stepIdx = 0;
-    updateStep();
-  }
-
+  function startStepMessages() { stepIdx = 0; updateStep(); }
   function updateStep() {
     if (stepIdx >= STEP_MESSAGES.length) return;
     var s = STEP_MESSAGES[stepIdx];
@@ -953,7 +917,6 @@
     stepIdx++;
     stepTimer = setTimeout(updateStep, 1800);
   }
-
   function stopStepMessages() {
     clearTimeout(stepTimer);
     document.getElementById('progressFill').style.width = '100%';
@@ -983,7 +946,6 @@
     if (btn) { btn.disabled = false; btn.style.opacity = '1'; }
     if (!response || !response.success) { onAnalysisError(response || { code: 'UNKNOWN' }); return; }
     analysisResult = response.data;
-
     if (analysisResult.isFireSafetyRelated === false) {
       goToScreen('screen-result');
       document.getElementById('unrelatedCard').style.display  = 'block';
@@ -996,7 +958,6 @@
       if (names.length > 0) setText('unrelatedDetected', '감지된 항목: ' + names.join(', ') + ' 입니다.');
       return;
     }
-
     document.getElementById('unrelatedCard').style.display  = 'none';
     document.getElementById('normalResult').style.display   = 'block';
     document.getElementById('unrelatedBtn').style.display   = 'none';
@@ -1008,9 +969,10 @@
   }
 
   function cancelAnalysis() {
-    clearTimeout(analysisTimer);
-    clearTimeout(stepTimer);
+    clearTimeout(analysisTimer); clearTimeout(stepTimer);
     stopStepMessages();
+    var btn = document.getElementById('analyzeBtn');
+    if (btn) { btn.disabled = false; btn.style.opacity = '1'; }
     showToast('분석을 취소했어요.', 2500);
     removeImage();
     goToScreen('screen-upload');
@@ -1026,7 +988,6 @@
     showErrorScreen(code);
   }
 
-  /* ─── 마커 ─── */
   var RISK_COLOR = { high:'#E24B4A', medium:'#EF9F27', low:'#2EC4A1' };
   var RISK_LABEL = { high:'즉시 조치', medium:'주의 필요', low:'확인 권장' };
 
@@ -1034,7 +995,6 @@
     var ox = xPct > 75 ? -7 : 7, oy = yPct > 75 ? -7 : 7;
     return { px: Math.min(97, Math.max(3, xPct + ox)), py: Math.min(97, Math.max(3, yPct + oy)) };
   }
-
   function calcLabelPos(px, py) { return { lx: px, ly: py > 20 ? py - 15 : py + 18 }; }
 
   function spreadSamePositions(positions) {
@@ -1145,11 +1105,9 @@
     list.style.display = items.length > 0 ? 'block' : 'none';
   }
 
-  /* ─── 결과 렌더링 ─── */
   function renderResult(data) {
     setText('resultSummary', data.summary || '소방안전 분석 결과');
     var riskLevel = data.riskLevel || 'low';
-
     var riskMap = {
       low:    ['🟢 안전 양호', 'risk-low'],
       medium: ['🟡 주의 필요', 'risk-medium'],
@@ -1180,16 +1138,13 @@
     renderMarkers(data.detectedItems || []);
   }
 
-  /* ─── 음성 ─── */
   var cachedKoVoice = null;
-
   function getKoreanVoice(callback) {
     if (cachedKoVoice) { callback(cachedKoVoice); return; }
     var voices = window.speechSynthesis.getVoices();
     if (voices.length > 0) {
       cachedKoVoice = voices.find(function(v) { return v.lang.startsWith('ko'); }) || null;
-      callback(cachedKoVoice);
-      return;
+      callback(cachedKoVoice); return;
     }
     window.speechSynthesis.addEventListener('voiceschanged', function handler() {
       window.speechSynthesis.removeEventListener('voiceschanged', handler);
@@ -1233,27 +1188,29 @@
     addAiMessageParts(['안녕하세요! ', strong, '에 대해 살펴봤어요. 더 궁금한 점 편하게 물어보세요 😊']);
   }
 
+  function makeAiAv() {
+    var av = document.createElement('div'); av.className = 'msg-av';
+    av.innerHTML = '<img src="https://raw.githubusercontent.com/alchemist2399-star/sossodam-ai/main/hero%20icon.png" style="width:52px;height:52px;object-fit:contain;" onerror="this.outerHTML=\'🔥\'" />';
+    return av;
+  }
+
   function addAiMessageParts(parts) {
     var msgs = document.getElementById('chatMessages');
     var row = document.createElement('div'); row.className = 'msg msg-ai';
-    var av = document.createElement('div'); av.className = 'msg-av';
-    av.innerHTML = '<img src="https://raw.githubusercontent.com/alchemist2399-star/sossodam-ai/main/hero%20icon.png" style="width:40px;height:40px;object-fit:contain;" onerror="this.outerHTML=\'🔥\'" />';
     var bubble = document.createElement('div'); bubble.className = 'msg-bubble';
     parts.forEach(function(p){ bubble.appendChild(typeof p === 'string' ? document.createTextNode(p) : p); });
-    row.appendChild(av); row.appendChild(bubble); msgs.appendChild(row); msgs.scrollTop = msgs.scrollHeight;
+    row.appendChild(makeAiAv()); row.appendChild(bubble); msgs.appendChild(row); msgs.scrollTop = msgs.scrollHeight;
   }
 
   function addAiMessage(text) {
     var msgs = document.getElementById('chatMessages');
     var row = document.createElement('div'); row.className = 'msg msg-ai';
-    var av = document.createElement('div'); av.className = 'msg-av';
-    av.innerHTML = '<img src="https://raw.githubusercontent.com/alchemist2399-star/sossodam-ai/main/hero%20icon.png" style="width:40px;height:40px;object-fit:contain;" onerror="this.outerHTML=\'🔥\'" />';
     var bubble = document.createElement('div'); bubble.className = 'msg-bubble';
     text.split('\n').forEach(function(line, i, arr) {
       bubble.appendChild(document.createTextNode(line));
       if (i < arr.length - 1) bubble.appendChild(document.createElement('br'));
     });
-    row.appendChild(av); row.appendChild(bubble); msgs.appendChild(row); msgs.scrollTop = msgs.scrollHeight;
+    row.appendChild(makeAiAv()); row.appendChild(bubble); msgs.appendChild(row); msgs.scrollTop = msgs.scrollHeight;
   }
 
   function addUserMessage(text) {
@@ -1267,14 +1224,15 @@
   function showTyping() {
     var msgs = document.getElementById('chatMessages');
     var row = document.createElement('div'); row.className = 'msg msg-ai'; row.id = 'typingMsg';
-    row.innerHTML = '<div class="msg-av">🔥</div><div class="typing-ind"><div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div></div>';
+    var ind = document.createElement('div'); ind.className = 'typing-ind';
+    ind.innerHTML = '<div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div>';
+    row.appendChild(makeAiAv()); row.appendChild(ind);
     msgs.appendChild(row); msgs.scrollTop = msgs.scrollHeight;
   }
 
   function hideTyping() { var t = document.getElementById('typingMsg'); if(t) t.remove(); }
 
   var isSending = false;
-
   function sendChat() {
     if (isSending) return;
     var input = document.getElementById('chatInput'), text = input.value.trim();
@@ -1301,7 +1259,7 @@
   }
 
   function sendMessage(text) {
-    if (!navigator.onLine) { showToast('📡 인터넷 연결이 없어요. 연결 후 다시 시도해 주세요.', 5000); return; }
+    if (!navigator.onLine) { showToast('📡 인터넷 연결이 없어요. 연결 후 다시 시도해 주세요.', 5000); setSendingUI(false); return; }
     addUserMessage(text); showTyping();
     var context = analysisResult ? {
       summary: analysisResult.summary,
@@ -1325,29 +1283,25 @@
     counter.style.color = count >= 180 ? '#E24B4A' : count >= 150 ? '#EF9F27' : 'var(--ink-muted)';
   }
 
-  /* ─── 키보드 올라올 때 입력창 자동 스크롤 ─── */
-  var chatInput = document.getElementById('chatInput');
-  if (chatInput) {
-    chatInput.addEventListener('focus', function() {
-      setTimeout(function() {
-        chatInput.scrollIntoView({ behavior: 'smooth', block: 'end' });
-      }, 350);
+  var chatInputEl = document.getElementById('chatInput');
+  if (chatInputEl) {
+    chatInputEl.addEventListener('focus', function() {
+      setTimeout(function() { chatInputEl.scrollIntoView({ behavior: 'smooth', block: 'end' }); }, 350);
     });
   }
   if (window.visualViewport) {
     window.visualViewport.addEventListener('resize', function() {
       if (currentScreen === 'screen-chat') {
         setTimeout(function() {
-          var chatInput = document.getElementById('chatInput');
-          if (chatInput && document.activeElement === chatInput) {
-            chatInput.scrollIntoView({ behavior: 'smooth', block: 'end' });
+          var ci = document.getElementById('chatInput');
+          if (ci && document.activeElement === ci) {
+            ci.scrollIntoView({ behavior: 'smooth', block: 'end' });
           }
         }, 100);
       }
     });
   }
 
-  /* ─── 완료 ─── */
   function goToComplete() {
     if (voicePlaying) { window.speechSynthesis && window.speechSynthesis.cancel(); setVoiceUI(false); }
     goToScreen('screen-complete');
@@ -1357,7 +1311,6 @@
     );
   }
 
-  /* ─── 재시작 ─── */
   function restartApp() {
     imageBase64 = ''; imageMimeType = 'image/jpeg'; analysisResult = null; activeMarkerIdx = -1;
     if (voicePlaying) { window.speechSynthesis && window.speechSynthesis.cancel(); setVoiceUI(false); }
@@ -1373,12 +1326,9 @@
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
-  /* ─── 유틸 ─── */
   function setText(id, val) { var el = document.getElementById(id); if(el) el.textContent = val; }
   function escapeHtml(t) {
-    return String(t)
-      .replace(/&/g,'&amp;').replace(/</g,'&lt;')
-      .replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+    return String(t).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
   }
 
   function fillBackground() { document.getElementById('app').style.minHeight = window.innerHeight+'px'; }
@@ -1386,7 +1336,7 @@
   window.addEventListener('resize', fillBackground);
   window.addEventListener('orientationchange', function(){ setTimeout(fillBackground, 300); });
 
-  /* ─── 히어로 텍스트 등장 (동영상 3초 시점) ─── */
+  /* ─── 히어로 동영상 텍스트 애니메이션 ─── */
   var heroTextShown = false;
   var heroVideo = document.getElementById('heroVideo');
   if (heroVideo) {
@@ -1396,12 +1346,9 @@
         var greeting = document.getElementById('heroGreeting');
         var title    = document.getElementById('heroTitle');
         if (greeting) greeting.classList.add('visible');
-        setTimeout(function() {
-          if (title) title.classList.add('visible');
-        }, 300);
+        setTimeout(function() { if (title) title.classList.add('visible'); }, 300);
       }
     });
-    /* 동영상 로드 실패 시 바로 텍스트 표시 */
     heroVideo.addEventListener('error', function() {
       var greeting = document.getElementById('heroGreeting');
       var title    = document.getElementById('heroTitle');
@@ -1410,16 +1357,10 @@
     });
   }
 
-
-  window.addEventListener('offline', function() {
-    showToast('📡 인터넷 연결이 끊겼어요. 연결을 확인해 주세요.', 5000);
-  });
-  window.addEventListener('online', function() {
-    showToast('✅ 인터넷에 다시 연결됐어요!', 3000);
-  });
-  if (!navigator.onLine) {
-    showToast('📡 인터넷 연결이 없어요. 연결 후 이용해 주세요.', 5000);
-  }
+  /* ─── 오프라인 감지 ─── */
+  window.addEventListener('offline', function() { showToast('📡 인터넷 연결이 끊겼어요. 연결을 확인해 주세요.', 5000); });
+  window.addEventListener('online',  function() { showToast('✅ 인터넷에 다시 연결됐어요!', 3000); });
+  if (!navigator.onLine) { showToast('📡 인터넷 연결이 없어요. 연결 후 이용해 주세요.', 5000); }
 </script>
 </body>
 </html>
