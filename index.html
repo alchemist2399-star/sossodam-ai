@@ -662,8 +662,8 @@
       <div class="chat-header">
         <div class="chat-avatar" style="overflow:hidden; padding:0; background:linear-gradient(135deg,#FF5A36,#FFB347);">
           <img src="https://raw.githubusercontent.com/alchemist2399-star/sossodam-ai/main/hero%20icon.png"
-            style="width:42px; height:42px; object-fit:contain;"
-            onerror="this.outerHTML='<div class=chat-avatar>🧯</div>'" />
+            style="width:100%; height:100%; object-fit:contain;"
+            onerror="this.parentElement.innerHTML='🔥'" />
         </div>
         <div>
           <div class="chat-name">소화기 AI</div>
@@ -1244,7 +1244,7 @@
     var msgs = document.getElementById('chatMessages');
     var row = document.createElement('div'); row.className = 'msg msg-ai';
     var av = document.createElement('div'); av.className = 'msg-av';
-    av.innerHTML = '<img src="https://raw.githubusercontent.com/alchemist2399-star/sossodam-ai/main/hero%20icon.png" style="width:28px;height:28px;object-fit:contain;border-radius:9px;" onerror="this.outerHTML=\'🔥\'" />';
+    av.innerHTML = '<img src="https://raw.githubusercontent.com/alchemist2399-star/sossodam-ai/main/hero%20icon.png" style="width:28px;height:28px;object-fit:contain;border-radius:9px;background:linear-gradient(135deg,#FF5A36,#FFB347);" onerror="this.outerHTML=\'🔥\'" />';
     var bubble = document.createElement('div'); bubble.className = 'msg-bubble';
     parts.forEach(function(p){ bubble.appendChild(typeof p === 'string' ? document.createTextNode(p) : p); });
     row.appendChild(av); row.appendChild(bubble); msgs.appendChild(row); msgs.scrollTop = msgs.scrollHeight;
@@ -1254,7 +1254,7 @@
     var msgs = document.getElementById('chatMessages');
     var row = document.createElement('div'); row.className = 'msg msg-ai';
     var av = document.createElement('div'); av.className = 'msg-av';
-    av.innerHTML = '<img src="https://raw.githubusercontent.com/alchemist2399-star/sossodam-ai/main/hero%20icon.png" style="width:28px;height:28px;object-fit:contain;border-radius:9px;" onerror="this.outerHTML=\'🔥\'" />';
+    av.innerHTML = '<img src="https://raw.githubusercontent.com/alchemist2399-star/sossodam-ai/main/hero%20icon.png" style="width:28px;height:28px;object-fit:contain;border-radius:9px;background:linear-gradient(135deg,#FF5A36,#FFB347);" onerror="this.outerHTML=\'🔥\'" />';
     var bubble = document.createElement('div'); bubble.className = 'msg-bubble';
     text.split('\n').forEach(function(line, i, arr) {
       bubble.appendChild(document.createTextNode(line));
