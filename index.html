@@ -412,7 +412,7 @@
       <div class="splash-halo-outer"></div>
       <div class="splash-halo"></div>
       <img class="splash-char-img"
-        src="https://raw.githubusercontent.com/alchemist2399-star/sossodam-ai/main/splash.png"
+        src="https://raw.githubusercontent.com/alchemist2399-star/sossodam-ai/main/hero%20face%201.png"
         alt="소화기 캐릭터"
         onerror="this.style.display='none'; document.getElementById('splashCharFallback').style.display='flex';" />
       <div id="splashCharFallback" style="display:none; width:200px; height:200px; align-items:center; justify-content:center; font-size:110px; position:relative; z-index:1; animation: charFloat 2.8s ease-in-out infinite;">🧯</div>
@@ -541,6 +541,17 @@
 
     <!-- ════════════════ SCREEN 3: ANALYZING ════════════════ -->
     <div class="screen" id="screen-analyzing">
+      <!-- 캐릭터 말풍선 영역 -->
+      <div style="display:flex; align-items:flex-end; justify-content:center; gap:12px; margin-bottom:20px;">
+        <div style="background:white; border-radius:16px 16px 16px 4px; padding:12px 16px; box-shadow:var(--shadow-sm); border:1px solid rgba(0,0,0,0.05); max-width:200px; position:relative;">
+          <p style="font-size:13px; color:var(--ink-soft); line-height:1.6; margin:0;" id="analyzingCharMsg">꼼꼼하게 살펴볼게요! 잠깐만요 🔍</p>
+          <div style="position:absolute; bottom:-8px; left:16px; width:0; height:0; border-left:8px solid transparent; border-right:8px solid transparent; border-top:8px solid white;"></div>
+        </div>
+        <img src="https://raw.githubusercontent.com/alchemist2399-star/sossodam-ai/main/hero%20face%202.png"
+          alt="분석중 캐릭터"
+          style="width:80px; height:auto; object-fit:contain; filter:drop-shadow(0 4px 8px rgba(0,0,0,0.15)); animation:charFloat 2.8s ease-in-out infinite;"
+          onerror="this.style.display='none';" />
+      </div>
       <div class="scan-wrap">
         <img id="scanImg" class="scan-img-el" alt="분석중" />
         <div class="scan-corner"></div>
@@ -579,6 +590,8 @@
       </div>
       <div class="result-title" id="resultSummary">소방안전 분석 결과</div>
       <div id="riskIndicator"></div>
+      <!-- 캐릭터 말풍선 -->
+      <div id="resultCharWrap"></div>
       <div id="unrelatedCard" class="unrelated-card" style="display:none;">
         <span class="unrelated-icon">📷</span>
         <div class="unrelated-detected" id="unrelatedDetected"></div>
@@ -659,7 +672,10 @@
     <!-- ════════════════ SCREEN 5: CHAT ════════════════ -->
     <div class="screen" id="screen-chat">
       <div class="chat-header">
-        <div class="chat-avatar">🔥</div>
+        <div class="chat-avatar" style="overflow:hidden; padding:0;">
+          <img src="https://raw.githubusercontent.com/alchemist2399-star/sossodam-ai/main/hero%20face%201.png"
+            style="width:100%; height:100%; object-fit:cover;" alt="소화기AI" onerror="this.outerHTML='<div class=\'chat-avatar\'>🔥</div>'"/>
+        </div>
         <div>
           <div class="chat-name">소화기 AI</div>
           <div class="chat-status">● 온라인</div>
@@ -686,7 +702,12 @@
 
     <!-- ════════════════ SCREEN 6: COMPLETE ════════════════ -->
     <div class="screen" id="screen-complete">
-      <div class="complete-icon">🛡️</div>
+      <div style="display:flex; justify-content:center; margin-bottom:8px;">
+        <img src="https://raw.githubusercontent.com/alchemist2399-star/sossodam-ai/main/hero%20face%203.png"
+          alt="완료 캐릭터"
+          style="width:140px; height:auto; object-fit:contain; filter:drop-shadow(0 8px 16px rgba(255,90,54,0.25)); animation:charFloat 2.8s ease-in-out infinite;"
+          onerror="this.style.display='none';" />
+      </div>
       <div class="complete-title">오늘도 <span>안전</span>하게!<br/>잘 하셨어요 🎉</div>
       <div class="complete-msg">
         <p id="completeMsg">
@@ -1148,17 +1169,42 @@
   }
 
   /* ─── 결과 렌더링 ─── */
+  var CHAR_BASE = 'https://raw.githubusercontent.com/alchemist2399-star/sossodam-ai/main/hero%20face%20';
+  var CHAR_MSG = {
+    low:    '안전 상태가 양호해요! 잘 관리되고 있네요 😊',
+    medium: '몇 가지 주의할 점이 있어요. 같이 확인해봐요!',
+    high:   '즉시 조치가 필요한 부분이 있어요! 꼭 확인해주세요 😰'
+  };
+  var CHAR_IMG = { low: '3', medium: '1', high: '4' };
+
   function renderResult(data) {
     setText('resultSummary', data.summary || '소방안전 분석 결과');
+    var riskLevel = data.riskLevel || 'low';
+
+    /* 결과 캐릭터 말풍선 */
+    var charWrap = document.getElementById('resultCharWrap');
+    if (charWrap) {
+      var imgNum = CHAR_IMG[riskLevel] || '1';
+      var msg    = CHAR_MSG[riskLevel] || CHAR_MSG.low;
+      charWrap.innerHTML =
+        '<div style="display:flex;align-items:flex-end;gap:12px;margin-bottom:16px;">' +
+          '<img src="'+CHAR_BASE+imgNum+'.png" alt="캐릭터" style="width:72px;height:auto;object-fit:contain;filter:drop-shadow(0 4px 8px rgba(0,0,0,0.15));animation:charFloat 2.8s ease-in-out infinite;" onerror="this.style.display=\'none\'"/>' +
+          '<div style="background:white;border-radius:16px 16px 16px 4px;padding:10px 14px;box-shadow:var(--shadow-sm);border:1px solid rgba(0,0,0,0.05);max-width:220px;position:relative;">' +
+            '<p style="font-size:13px;color:var(--ink-soft);line-height:1.6;margin:0;">'+escapeHtml(msg)+'</p>' +
+            '<div style="position:absolute;bottom:-8px;left:16px;width:0;height:0;border-left:8px solid transparent;border-right:8px solid transparent;border-top:8px solid white;"></div>' +
+          '</div>' +
+        '</div>';
+    }
+
     var riskMap = {
       low:    ['🟢 안전 양호', 'risk-low'],
       medium: ['🟡 주의 필요', 'risk-medium'],
       high:   ['🔴 즉시 조치 권고', 'risk-high']
     };
-    var riskArr = riskMap[data.riskLevel] || riskMap.low;
+    var riskArr = riskMap[riskLevel] || riskMap.low;
     var indicatorHtml = '<span class="risk-pill '+riskArr[1]+'">'+escapeHtml(riskArr[0])+'</span>';
     var items = data.detectedItems || [], shownRisks = {};
-    shownRisks[data.riskLevel] = true;
+    shownRisks[riskLevel] = true;
     items.forEach(function(item) {
       var r = item.risk || 'low';
       if (!shownRisks[r] && riskMap[r]) {
