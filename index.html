@@ -440,7 +440,11 @@
 
   <!-- ════════════════ HEADER ════════════════ -->
   <header class="app-header" id="appHeader">
-    <div class="app-logo-icon">🔥</div>
+    <div class="app-logo-icon" style="overflow:hidden; padding:0;">
+      <img src="https://raw.githubusercontent.com/alchemist2399-star/sossodam-ai/main/hero%20face%201.png"
+        style="width:36px; height:36px; object-fit:contain;"
+        onerror="this.outerHTML='🔥'" />
+    </div>
     <div class="app-logo-text">소화기 AI</div>
     <div class="app-tagline"><b>소</b>방·<b>화</b>재예방·하<b>기</b></div>
   </header>
@@ -660,7 +664,11 @@
     <!-- ════════════════ SCREEN 5: CHAT ════════════════ -->
     <div class="screen" id="screen-chat">
       <div class="chat-header">
-        <div class="chat-avatar">🔥</div>
+        <div class="chat-avatar" style="overflow:hidden; padding:0;">
+          <img src="https://raw.githubusercontent.com/alchemist2399-star/sossodam-ai/main/hero%20face%201.png"
+            style="width:42px; height:42px; object-fit:contain;"
+            onerror="this.outerHTML='<div class=\'chat-avatar\'>🔥</div>'" />
+        </div>
         <div>
           <div class="chat-name">소화기 AI</div>
           <div class="chat-status">● 온라인</div>
@@ -1239,7 +1247,8 @@
   function addAiMessageParts(parts) {
     var msgs = document.getElementById('chatMessages');
     var row = document.createElement('div'); row.className = 'msg msg-ai';
-    var av = document.createElement('div'); av.className = 'msg-av'; av.textContent = '🔥';
+    var av = document.createElement('div'); av.className = 'msg-av';
+    av.innerHTML = '<img src="https://raw.githubusercontent.com/alchemist2399-star/sossodam-ai/main/hero%20face%201.png" style="width:28px;height:28px;object-fit:contain;border-radius:9px;" onerror="this.outerHTML=\'🔥\'" />';
     var bubble = document.createElement('div'); bubble.className = 'msg-bubble';
     parts.forEach(function(p){ bubble.appendChild(typeof p === 'string' ? document.createTextNode(p) : p); });
     row.appendChild(av); row.appendChild(bubble); msgs.appendChild(row); msgs.scrollTop = msgs.scrollHeight;
@@ -1248,7 +1257,8 @@
   function addAiMessage(text) {
     var msgs = document.getElementById('chatMessages');
     var row = document.createElement('div'); row.className = 'msg msg-ai';
-    var av = document.createElement('div'); av.className = 'msg-av'; av.textContent = '🔥';
+    var av = document.createElement('div'); av.className = 'msg-av';
+    av.innerHTML = '<img src="https://raw.githubusercontent.com/alchemist2399-star/sossodam-ai/main/hero%20face%201.png" style="width:28px;height:28px;object-fit:contain;border-radius:9px;" onerror="this.outerHTML=\'🔥\'" />';
     var bubble = document.createElement('div'); bubble.className = 'msg-bubble';
     text.split('\n').forEach(function(line, i, arr) {
       bubble.appendChild(document.createTextNode(line));
