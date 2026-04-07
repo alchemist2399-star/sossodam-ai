@@ -1167,16 +1167,40 @@
   }
 
   /* ─── 음성 ─── */
+  // iOS Safari: 페이지 로드 직후 음성 목록이 비어있으므로
+  // voiceschanged 이벤트를 기다렸다가 한국어 음성을 찾아요
+  var cachedKoVoice = null;
+
+  function getKoreanVoice(callback) {
+    if (cachedKoVoice) { callback(cachedKoVoice); return; }
+    var voices = window.speechSynthesis.getVoices();
+    if (voices.length > 0) {
+      cachedKoVoice = voices.find(function(v) { return v.lang.startsWith('ko'); }) || null;
+      callback(cachedKoVoice);
+      return;
+    }
+    window.speechSynthesis.addEventListener('voiceschanged', function handler() {
+      window.speechSynthesis.removeEventListener('voiceschanged', handler);
+      var vs = window.speechSynthesis.getVoices();
+      cachedKoVoice = vs.find(function(v) { return v.lang.startsWith('ko'); }) || null;
+      callback(cachedKoVoice);
+    });
+  }
+
   function toggleVoice() {
     if (!analysisResult) return;
     if (!('speechSynthesis' in window)) { showToast('이 브라우저는 음성을 지원하지 않아요.'); return; }
     if (voicePlaying) { window.speechSynthesis.cancel(); setVoiceUI(false); return; }
     var text = [analysisResult.greeting, analysisResult.analysis, analysisResult.solution,
                 '팁: '+(analysisResult.expertNote ? analysisResult.expertNote.tip||'' : '')].filter(Boolean).join(' ');
-    speechUtterance = new SpeechSynthesisUtterance(text);
-    speechUtterance.lang = 'ko-KR'; speechUtterance.rate = 0.95; speechUtterance.pitch = 1.05;
-    speechUtterance.onend = speechUtterance.onerror = function(){ setVoiceUI(false); };
-    window.speechSynthesis.speak(speechUtterance); setVoiceUI(true);
+    getKoreanVoice(function(koVoice) {
+      speechUtterance = new SpeechSynthesisUtterance(text);
+      speechUtterance.lang = 'ko-KR';
+      if (koVoice) speechUtterance.voice = koVoice;
+      speechUtterance.rate = 0.95; speechUtterance.pitch = 1.05;
+      speechUtterance.onend = speechUtterance.onerror = function(){ setVoiceUI(false); };
+      window.speechSynthesis.speak(speechUtterance); setVoiceUI(true);
+    });
   }
 
   function setVoiceUI(playing) {
