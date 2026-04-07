@@ -59,11 +59,12 @@
       box-shadow: -9999px 0 0 9999px #FFF9F6, 9999px 0 0 9999px #FFF9F6;
     }
     .app-header {
-      padding: 14px 20px 12px;
+      padding: 8px 20px 8px 82px;
       background: linear-gradient(135deg, var(--flame) 0%, #FF7A50 100%);
       display: flex; align-items: center; gap: 10px;
       flex-shrink: 0; z-index: 100;
       box-shadow: 0 2px 20px rgba(255,90,54,0.35);
+      position: relative; overflow: visible;
     }
     .app-logo-icon {
       width: 36px; height: 36px; border-radius: 10px;
@@ -81,7 +82,7 @@
       margin-left: auto; letter-spacing: 0.2px;
     }
     .app-tagline b { color: white; font-weight: 900; }
-    .progress-bar { display: flex; padding: 10px 20px; gap: 4px; background: #FFF9F6; }
+    .progress-bar { display: flex; padding: 10px 20px 10px 82px; gap: 4px; background: #FFF9F6; }
     .prog-step { flex: 1; height: 3px; border-radius: 2px; background: rgba(0,0,0,0.07); transition: all 0.4s var(--ease-smooth); }
     .prog-step.done   { background: var(--flame); }
     .prog-step.active { background: linear-gradient(90deg, var(--flame), var(--ember)); }
@@ -441,9 +442,9 @@
   <!-- ════════════════ HEADER ════════════════ -->
   <header class="app-header" id="appHeader">
     <img src="https://raw.githubusercontent.com/alchemist2399-star/sossodam-ai/main/hero%20icon.png"
-      style="width:52px; height:52px; object-fit:contain; filter:drop-shadow(0 2px 8px rgba(0,0,0,0.25)); margin-right:2px;"
+      style="position:absolute; left:6px; bottom:0; width:72px; height:auto; object-fit:contain; z-index:101; filter:drop-shadow(0 4px 10px rgba(0,0,0,0.25));"
       alt="소화기 AI"
-      onerror="this.outerHTML='<span style=font-size:32px;>🧯</span>'" />
+      onerror="this.style.display='none'" />
     <div class="app-logo-text">소화기 AI</div>
     <div class="app-tagline"><b>소</b>방·<b>화</b>재예방·하<b>기</b></div>
   </header>
