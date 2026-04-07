@@ -850,6 +850,11 @@
 
   function goToUpload() { goToScreen('screen-upload'); }
 
+  function retakePhoto() {
+    removeImage();
+    goToScreen('screen-upload');
+  }
+
   function triggerCamera() {
     var fi = document.getElementById('fileInput');
     fi.setAttribute('capture', 'environment');
