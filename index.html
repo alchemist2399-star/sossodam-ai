@@ -59,8 +59,25 @@
     .toast { position: fixed; bottom: 32px; left: 50%; transform: translateX(-50%) translateY(80px); background: #1C1C2E; color: white; padding: 13px 22px; border-radius: 100px; font-size: 14px; font-weight: 500; box-shadow: 0 8px 28px rgba(0,0,0,0.22); z-index: 9999; max-width: 88vw; text-align: center; transition: transform 0.35s var(--ease-spring), opacity 0.25s; opacity: 0; pointer-events: none; }
     .toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
 
-    /* ══ 뒤로가기 버튼 ══ */
-    .btn-back { display: inline-flex; align-items: center; gap: 5px; background: linear-gradient(135deg, var(--flame), var(--ember)); color: white; padding: 7px 14px; border-radius: 100px; font-size: 13px; font-weight: 700; border: none; cursor: pointer; font-family: var(--font-main); box-shadow: 0 3px 10px rgba(255,90,54,0.3); transition: all 0.18s var(--ease-smooth); -webkit-tap-highlight-color: transparent; user-select: none; }
+    /* ══ [변경] 뒤로가기 버튼 — result-tag와 완전히 동일한 크기 ══ */
+    .btn-back {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      background: linear-gradient(135deg, var(--flame), var(--ember));
+      color: white;
+      padding: 5px 12px;       /* result-tag와 동일 */
+      border-radius: 100px;
+      font-size: 11px;          /* result-tag와 동일 */
+      font-weight: 700;
+      border: none;
+      cursor: pointer;
+      font-family: var(--font-main);
+      box-shadow: 0 3px 10px rgba(255,90,54,0.3);
+      transition: all 0.18s var(--ease-smooth);
+      -webkit-tap-highlight-color: transparent;
+      user-select: none;
+    }
     .btn-back:active { transform: scale(0.96); opacity: 0.9; }
 
     /* ── SPLASH ── */
@@ -85,7 +102,6 @@
     .splash-progress-track { background: rgba(255,255,255,0.22); border-radius: 100px; height: 4px; overflow: hidden; }
     .splash-progress-fill { height: 100%; border-radius: 100px; background: white; transition: width 0.6s ease; width: 5%; }
     .splash-progress-label { font-size: 11px; color: rgba(255,255,255,0.75); text-align: center; margin-top: 8px; }
-
     /* ── WELCOME ── */
     #screen-welcome { padding-top: 8px; }
     .hero-section { padding: 12px 0 16px; }
@@ -106,7 +122,6 @@
     .feature-text strong { display: block; font-size: 14px; font-weight: 700; color: var(--ink); }
     .feature-text span   { font-size: 12px; color: var(--ink-muted); margin-top: 2px; display: block; }
     .disclaimer { font-size: 11px; color: var(--ink-muted); text-align: center; line-height: 1.7; margin-top: 16px; padding: 0 4px; }
-
     /* ── UPLOAD ── */
     #screen-upload { padding-top: 16px; }
     .section-title { font-size: 20px; font-weight: 800; color: var(--ink); margin-bottom: 4px; letter-spacing: -0.3px; }
@@ -120,7 +135,6 @@
     .preview-wrap { position: relative; margin-bottom: 14px; border-radius: var(--radius-lg); overflow: hidden; }
     #previewImg { width: 100%; max-height: 260px; object-fit: cover; display: none; border-radius: var(--radius-lg); }
     .preview-remove { position: absolute; top: 10px; right: 10px; width: 32px; height: 32px; border-radius: 50%; background: rgba(0,0,0,0.55); color: white; border: none; cursor: pointer; font-size: 15px; display: none; align-items: center; justify-content: center; }
-
     /* ── ANALYZING ── */
     #screen-analyzing { padding-top: 40px; text-align: center; }
     .scan-wrap { position: relative; width: 220px; height: 220px; margin: 0 auto 28px; }
@@ -146,7 +160,6 @@
     .progress-track { background: rgba(0,0,0,0.07); border-radius: 100px; height: 5px; overflow: hidden; margin-bottom: 6px; }
     .progress-fill { height: 100%; border-radius: 100px; background: linear-gradient(90deg, var(--flame), var(--ember)); transition: width 0.8s ease; }
     .progress-step { font-size: 12px; font-weight: 700; color: var(--flame); transition: opacity 0.3s; }
-
     /* ── RESULT ── */
     #screen-result { padding-top: 16px; }
     .result-tag { display: inline-flex; align-items: center; gap: 5px; background: linear-gradient(135deg, var(--flame), var(--ember)); color: white; padding: 5px 12px; border-radius: 100px; font-size: 11px; font-weight: 700; margin-bottom: 10px; box-shadow: 0 3px 10px rgba(255,90,54,0.3); }
@@ -215,7 +228,6 @@
     .unrelated-detected { font-size: 13px; color: var(--ink-muted); background: white; border-radius: var(--radius-md); padding: 10px 14px; margin-bottom: 14px; border: 1px solid rgba(0,0,0,0.05); }
     .unrelated-msg  { font-size: 15px; font-weight: 700; color: var(--ink-soft); line-height: 1.7; margin-bottom: 6px; }
     .unrelated-hint { font-size: 13px; color: var(--ink-muted); line-height: 1.6; }
-
     /* ── CHAT ── */
     #screen-chat { padding-top: 16px; padding-bottom: 0; }
     .chat-header { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; }
@@ -249,7 +261,6 @@
     #chatInput::placeholder { color: var(--ink-muted); }
     .btn-send { width: 46px; height: 46px; border-radius: 50%; flex-shrink: 0; background: linear-gradient(135deg, var(--flame), var(--ember)); color: white; border: none; cursor: pointer; font-size: 18px; box-shadow: 0 3px 14px rgba(255,90,54,0.35); display: flex; align-items: center; justify-content: center; -webkit-tap-highlight-color: transparent; }
     .btn-send:active { transform: scale(0.93); }
-
     /* ── COMPLETE ── */
     #screen-complete { padding-top: 56px; text-align: center; }
     .complete-icon { width: 110px; height: 110px; margin: 0 auto 24px; border-radius: 50%; background: linear-gradient(135deg, #E8FFF5, #D0F5E8); display: flex; align-items: center; justify-content: center; font-size: 58px; box-shadow: 0 0 0 8px rgba(46,196,161,0.1); animation: completePop 0.6s var(--ease-spring) both; }
@@ -259,7 +270,6 @@
     .complete-msg { background: white; border-radius: var(--radius-md); padding: 18px 20px; margin: 18px 0 24px; text-align: left; border: 1px solid rgba(0,0,0,0.05); }
     .complete-msg p { font-size: 15px; color: var(--ink-soft); line-height: 1.8; }
     .complete-chip { display: inline-flex; align-items: center; gap: 6px; background: rgba(46,196,161,0.08); border: 1px solid rgba(46,196,161,0.18); border-radius: 100px; padding: 7px 16px; margin-bottom: 24px; font-size: 13px; color: var(--mint-dark); font-weight: 700; }
-
     /* ── ERROR ── */
     .error-screen-wrap { display: none; padding: 20px 18px; }
     .error-screen-wrap.active { display: block; }
@@ -289,31 +299,21 @@
 <body>
 <div class="toast" id="toast"></div>
 <div id="app">
-
   <!-- ════════════════ SPLASH ════════════════ -->
   <div id="screen-splash">
     <div class="splash-top"></div>
     <div class="splash-char-wrap">
       <div class="splash-halo-outer"></div>
       <div class="splash-halo"></div>
-      <img class="splash-char-img"
-        src="https://raw.githubusercontent.com/alchemist2399-star/sossodam-ai/main/splash.png"
-        alt="소화기 캐릭터"
-        onerror="this.style.display='none'; document.getElementById('splashCharFallback').style.display='flex';" />
+      <img class="splash-char-img" src="https://raw.githubusercontent.com/alchemist2399-star/sossodam-ai/main/splash.png" alt="소화기 캐릭터" onerror="this.style.display='none'; document.getElementById('splashCharFallback').style.display='flex';" />
       <div id="splashCharFallback" style="display:none; width:200px; height:200px; align-items:center; justify-content:center; font-size:110px; position:relative; z-index:1; animation: charFloat 2.8s ease-in-out infinite;">🧯</div>
     </div>
     <div class="splash-text">
       <div class="splash-title">소화기 <em>AI</em></div>
-      <div class="splash-sub">
-        <span style="color:white;font-weight:900;font-size:14px;">소</span>방 ·
-        <span style="color:white;font-weight:900;font-size:14px;">화</span>재예방 ·
-        하<span style="color:white;font-weight:900;font-size:14px;">기</span>
-      </div>
+      <div class="splash-sub"><span style="color:white;font-weight:900;font-size:14px;">소</span>방 · <span style="color:white;font-weight:900;font-size:14px;">화</span>재예방 · 하<span style="color:white;font-weight:900;font-size:14px;">기</span></div>
     </div>
     <div class="splash-progress-wrap">
-      <div class="splash-progress-track">
-        <div class="splash-progress-fill" id="splashProgressFill"></div>
-      </div>
+      <div class="splash-progress-track"><div class="splash-progress-fill" id="splashProgressFill"></div></div>
       <div class="splash-progress-label" id="splashProgressLabel">준비 중...</div>
     </div>
     <div class="splash-dots">
@@ -322,30 +322,23 @@
       <div class="splash-dot" id="sdot3"></div>
     </div>
   </div>
-
   <!-- ════════════════ HEADER ════════════════ -->
   <header class="app-header" id="appHeader">
     <div class="app-logo-icon">🔥</div>
     <div class="app-logo-text">소화기 AI</div>
     <div class="app-tagline"><b>소</b>방·<b>화</b>재예방·하<b>기</b></div>
   </header>
-
   <div class="progress-bar" id="progressBar" style="display:none;">
-    <div class="prog-step" id="ps1"></div>
-    <div class="prog-step" id="ps2"></div>
-    <div class="prog-step" id="ps3"></div>
-    <div class="prog-step" id="ps4"></div>
+    <div class="prog-step" id="ps1"></div><div class="prog-step" id="ps2"></div>
+    <div class="prog-step" id="ps3"></div><div class="prog-step" id="ps4"></div>
     <div class="prog-step" id="ps5"></div>
   </div>
-
   <div class="screen-wrap" id="screenWrap">
-
-    <!-- ════════════════ SCREEN 1: WELCOME ════════════════ -->
+    <!-- SCREEN 1: WELCOME -->
     <div class="screen active" id="screen-welcome">
       <div class="hero-section">
         <div class="hero-img-card">
-          <video class="hero-video" id="heroVideo" autoplay muted playsinline
-            onerror="this.style.display='none'; document.getElementById('heroFallback').style.display='flex';">
+          <video class="hero-video" id="heroVideo" autoplay muted playsinline onerror="this.style.display='none'; document.getElementById('heroFallback').style.display='flex';">
             <source src="https://raw.githubusercontent.com/alchemist2399-star/sossodam-ai/main/Hero.mp4" type="video/mp4">
           </video>
           <div id="heroFallback" style="display:none; width:100%; height:210px; align-items:center; justify-content:center; background:linear-gradient(135deg,#FF5A36,#FFB347); font-size:64px;">🧯</div>
@@ -356,37 +349,22 @@
         </div>
       </div>
       <div class="feature-list">
-        <div class="feature-item">
-          <div class="feature-icon fi-red">📸</div>
-          <div class="feature-text"><strong>사진 한 장으로 AI 분석</strong><span>Gemini AI가 소방안전 요소를 꼼꼼히 확인해요</span></div>
-        </div>
-        <div class="feature-item">
-          <div class="feature-icon fi-blue">💬</div>
-          <div class="feature-text"><strong>친절하고 쉬운 해설</strong><span>쉽고 따뜻하게 설명해 드려요</span></div>
-        </div>
-        <div class="feature-item">
-          <div class="feature-icon fi-green">🔒</div>
-          <div class="feature-text"><strong>개인정보 완전 보호</strong><span>사진과 개인정보는 저장하지 않아요</span></div>
-        </div>
+        <div class="feature-item"><div class="feature-icon fi-red">📸</div><div class="feature-text"><strong>사진 한 장으로 AI 분석</strong><span>Gemini AI가 소방안전 요소를 꼼꼼히 확인해요</span></div></div>
+        <div class="feature-item"><div class="feature-icon fi-blue">💬</div><div class="feature-text"><strong>친절하고 쉬운 해설</strong><span>쉽고 따뜻하게 설명해 드려요</span></div></div>
+        <div class="feature-item"><div class="feature-icon fi-green">🔒</div><div class="feature-text"><strong>개인정보 완전 보호</strong><span>사진과 개인정보는 저장하지 않아요</span></div></div>
       </div>
       <button class="btn btn-primary" onclick="goToUpload()">📷 사진으로 시작하기</button>
       <p class="disclaimer">소화기 AI의 답변은 참고용 가이드예요.<br/>중요한 결정은 꼭 전문가와 상의해 주세요.</p>
     </div>
-
-    <!-- ════════════════ SCREEN 2: UPLOAD ════════════════ -->
+    <!-- SCREEN 2: UPLOAD -->
     <div class="screen" id="screen-upload">
       <div class="section-title">📍 어디를 살펴볼까요?</div>
       <div class="section-sub">소화기, 유도등, 복도, 피난구 어디든 괜찮아요</div>
       <input type="file" id="fileInput" accept="image/*" onchange="handleFile(event)" />
       <div class="upload-zone" id="uploadZone" onclick="document.getElementById('fileInput').click()" role="button" tabindex="0">
-        <span class="upload-zone-icon">📁</span>
-        <h3>사진을 선택해 주세요</h3>
-        <p>갤러리에서 선택하거나 카메라로 찍어요</p>
+        <span class="upload-zone-icon">📁</span><h3>사진을 선택해 주세요</h3><p>갤러리에서 선택하거나 카메라로 찍어요</p>
       </div>
-      <div class="preview-wrap">
-        <img id="previewImg" alt="미리보기" />
-        <button class="preview-remove" id="removeBtn" onclick="removeImage()">✕</button>
-      </div>
+      <div class="preview-wrap"><img id="previewImg" alt="미리보기" /><button class="preview-remove" id="removeBtn" onclick="removeImage()">✕</button></div>
       <div style="display:flex; flex-direction:column; gap:10px;">
         <button class="btn btn-primary" id="analyzeBtn" onclick="startAnalysis()" style="display:none">🔥 AI 분석 시작하기</button>
         <div class="btn-row">
@@ -395,8 +373,7 @@
         </div>
       </div>
     </div>
-
-    <!-- ════════════════ SCREEN ERROR ════════════════ -->
+    <!-- SCREEN ERROR -->
     <div class="error-screen-wrap" id="screen-error">
       <div class="error-card-box" id="errorCardBox">
         <div class="error-icon-circle" id="errorIcon"></div>
@@ -405,31 +382,21 @@
         <button class="error-action-btn" id="errorActionBtn" onclick="handleErrorAction()"></button>
       </div>
     </div>
-
-    <!-- ════════════════ SCREEN 3: ANALYZING ════════════════ -->
+    <!-- SCREEN 3: ANALYZING -->
     <div class="screen" id="screen-analyzing">
       <div class="scan-wrap">
         <img id="scanImg" class="scan-img-el" alt="분석중" />
-        <div class="scan-corner"></div>
-        <div class="scan-corner-b"></div>
-        <div class="scan-beam"></div>
+        <div class="scan-corner"></div><div class="scan-corner-b"></div><div class="scan-beam"></div>
       </div>
       <h2 class="analyzing-title">소화기 AI가 점검 중이에요 🔍</h2>
-      <div class="analyzing-desc">
-        <strong>사진을 꼼꼼히 분석하고 있어요.</strong><br/>
-        AI 점검 결과는<br/><strong>'안전을 위한 첫걸음'</strong>으로 활용해 주시고,<br/>
-        중요한 결정은<br/>꼭 전문가와 상의해 주세요 💛
-      </div>
+      <div class="analyzing-desc"><strong>사진을 꼼꼼히 분석하고 있어요.</strong><br/>AI 점검 결과는<br/><strong>'안전을 위한 첫걸음'</strong>으로 활용해 주시고,<br/>중요한 결정은<br/>꼭 전문가와 상의해 주세요 💛</div>
       <div class="progress-wrap">
         <div class="progress-track"><div class="progress-fill" id="progressFill" style="width:5%;"></div></div>
         <div class="progress-step" id="progressStep">🔍 소방시설 확인 중...</div>
       </div>
-      <div class="dot-loader">
-        <div class="dot"></div><div class="dot"></div><div class="dot"></div>
-      </div>
+      <div class="dot-loader"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
     </div>
-
-    <!-- ════════════════ SCREEN 4: RESULT ════════════════ -->
+    <!-- SCREEN 4: RESULT -->
     <div class="screen" id="screen-result">
       <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:10px;">
         <div class="result-tag" style="margin-bottom:0;">✨ 분석 완료</div>
@@ -444,33 +411,17 @@
         <div class="unrelated-hint">소화기, 복도, 전선, 비상구 등<br/>소방안전 관련 사진을 찍어주세요 😊</div>
       </div>
       <div id="normalResult">
-        <div class="marker-img-wrap" id="markerImgWrap" style="display:none;">
-          <img id="markerImg" alt="분석 사진" />
-          <div class="marker-img-hint">마커를 눌러보세요</div>
-        </div>
-        <div class="detected-list" id="detectedList" style="display:none;">
-          <div class="detected-list-label">감지된 항목 — 눌러서 마커 확인</div>
-        </div>
+        <div class="marker-img-wrap" id="markerImgWrap" style="display:none;"><img id="markerImg" alt="분석 사진" /><div class="marker-img-hint">마커를 눌러보세요</div></div>
+        <div class="detected-list" id="detectedList" style="display:none;"><div class="detected-list-label">감지된 항목 — 눌러서 마커 확인</div></div>
         <div class="docent-card">
-          <div class="docent-step">
-            <div><div class="step-badge sb1">1</div></div>
-            <div><div class="step-label">들어가기 전에</div><div class="step-text" id="resultGreeting"></div></div>
-          </div>
+          <div class="docent-step"><div><div class="step-badge sb1">1</div></div><div><div class="step-label">들어가기 전에</div><div class="step-text" id="resultGreeting"></div></div></div>
           <div class="step-sep"></div>
-          <div class="docent-step" style="margin-top:12px">
-            <div><div class="step-badge sb2">2</div></div>
-            <div><div class="step-label">쉬운 설명</div><div class="step-text" id="resultAnalysis"></div></div>
-          </div>
+          <div class="docent-step" style="margin-top:12px"><div><div class="step-badge sb2">2</div></div><div><div class="step-label">쉬운 설명</div><div class="step-text" id="resultAnalysis"></div></div></div>
           <div class="step-sep"></div>
-          <div class="docent-step" style="margin-top:12px">
-            <div><div class="step-badge sb3">3</div></div>
-            <div><div class="step-label">해결책</div><div class="step-text" id="resultSolution"></div></div>
-          </div>
+          <div class="docent-step" style="margin-top:12px"><div><div class="step-badge sb3">3</div></div><div><div class="step-label">해결책</div><div class="step-text" id="resultSolution"></div></div></div>
         </div>
         <div class="voice-bar" onclick="toggleVoice()" role="button" tabindex="0">
-          <span id="voiceIcon" style="font-size:20px">🔊</span>
-          <span class="voice-label" id="voiceLabel">음성으로 들어보기</span>
-          <span class="voice-chip">TTS</span>
+          <span id="voiceIcon" style="font-size:20px">🔊</span><span class="voice-label" id="voiceLabel">음성으로 들어보기</span><span class="voice-chip">TTS</span>
         </div>
         <div class="expert-card">
           <div class="expert-title">📋 전문가 안심 노트</div>
@@ -480,29 +431,20 @@
           <div class="expert-row"><div class="expert-icon">🗓️</div><div><div class="expert-label">권장 점검 주기</div><div class="expert-val" id="expertInspection"></div></div></div>
         </div>
         <div class="curiosity-card" onclick="sendCuriosity()" role="button" tabindex="0">
-          <div class="curiosity-label">💡 더 궁금하신가요?</div>
-          <div class="curiosity-q" id="resultCuriosity"></div>
+          <div class="curiosity-label">💡 더 궁금하신가요?</div><div class="curiosity-q" id="resultCuriosity"></div>
         </div>
         <div class="btn-row mt8">
           <button class="btn btn-ghost" onclick="goToScreen('screen-chat')">💬 더 물어보기</button>
           <button class="btn btn-mint" onclick="goToComplete()">✅ 안심 완료!</button>
         </div>
       </div>
-      <div id="unrelatedBtn" style="display:none; margin-top:16px;">
-        <button class="btn btn-primary" onclick="retakePhoto()">📷 다시 찍어볼게요</button>
-      </div>
+      <div id="unrelatedBtn" style="display:none; margin-top:16px;"><button class="btn btn-primary" onclick="retakePhoto()">📷 다시 찍어볼게요</button></div>
     </div>
-
-    <!-- ════════════════ SCREEN 5: CHAT ════════════════ -->
+    <!-- SCREEN 5: CHAT -->
     <div class="screen" id="screen-chat">
       <div class="chat-header">
-        <img src="https://raw.githubusercontent.com/alchemist2399-star/sossodam-ai/main/hero%20icon.png"
-          style="width:48px; height:48px; object-fit:contain; filter:drop-shadow(0 2px 8px rgba(0,0,0,0.15)); flex-shrink:0;"
-          onerror="this.outerHTML='<span style=font-size:32px;>🧯</span>'" />
-        <div>
-          <div class="chat-name">소화기 AI</div>
-          <div class="chat-status">● 온라인</div>
-        </div>
+        <img src="https://raw.githubusercontent.com/alchemist2399-star/sossodam-ai/main/hero%20icon.png" style="width:48px; height:48px; object-fit:contain; filter:drop-shadow(0 2px 8px rgba(0,0,0,0.15)); flex-shrink:0;" onerror="this.outerHTML='<span style=font-size:32px;>🧯</span>'" />
+        <div><div class="chat-name">소화기 AI</div><div class="chat-status">● 온라인</div></div>
         <button class="btn-back" onclick="goToScreen('screen-result')" style="margin-left:auto;">← 뒤로가기</button>
       </div>
       <div class="chat-messages" id="chatMessages"></div>
@@ -512,18 +454,13 @@
         <button class="chip-btn" onclick="sendChip('전문가 점검은 어떻게 받나요?')">🔧 전문가 점검</button>
       </div>
       <div class="chat-input-row">
-        <textarea id="chatInput" placeholder="궁금한 점을 물어보세요 😊" rows="1"
-                  maxlength="200"
-                  onkeydown="handleChatKey(event)" oninput="autoResize(this); updateCharCount(this)"></textarea>
+        <textarea id="chatInput" placeholder="궁금한 점을 물어보세요 😊" rows="1" maxlength="200" onkeydown="handleChatKey(event)" oninput="autoResize(this); updateCharCount(this)"></textarea>
         <button class="btn-send" onclick="sendChat()">➤</button>
       </div>
-      <div style="text-align:right; font-size:11px; color:var(--ink-muted); margin-top:-6px; margin-bottom:4px; padding-right:4px;">
-        <span id="charCount">0</span>/200
-      </div>
+      <div style="text-align:right; font-size:11px; color:var(--ink-muted); margin-top:-6px; margin-bottom:4px; padding-right:4px;"><span id="charCount">0</span>/200</div>
       <button class="btn btn-mint mt12 mb12" onclick="goToComplete()">✅ 안심 완료!</button>
     </div>
-
-    <!-- ════════════════ SCREEN 6: COMPLETE ════════════════ -->
+    <!-- SCREEN 6: COMPLETE -->
     <div class="screen" id="screen-complete">
       <div class="complete-icon">🛡️</div>
       <div class="complete-title">오늘도 <span>안전</span>하게!<br/>잘 하셨어요 🎉</div>
@@ -534,9 +471,8 @@
         <button class="btn btn-primary" onclick="restartApp()">📷 새로 점검하기</button>
       </div>
     </div>
-
-  </div><!-- /screen-wrap -->
-</div><!-- /app -->
+  </div>
+</div>
 
 <script>
   var currentScreen   = 'screen-welcome';
@@ -549,7 +485,7 @@
   var activeMarkerIdx = -1;
   var stepTimer       = null;
   var analysisTimer   = null;
-  var heroTextShown   = false;  // 히어로 텍스트 표시 여부
+  var heroTextShown   = false;
 
   var GAS_URL = 'https://sossodam-api.99kuki.workers.dev';
   var GAS = {
@@ -564,7 +500,6 @@
     }
   };
 
-  /* ─── 스플래시 ─── */
   var SPLASH_STEPS = ['AI 엔진 준비 중...', '소방 데이터 로딩...', '준비 완료!'];
   var splashStep = 0;
   function runSplash() {
@@ -574,11 +509,7 @@
     var pcts = [30, 70, 100];
     function advance() {
       if (splashStep >= SPLASH_STEPS.length) {
-        setTimeout(function() {
-          var splash = document.getElementById('screen-splash');
-          splash.classList.add('hide');
-          setTimeout(function() { splash.style.display = 'none'; }, 650);
-        }, 300);
+        setTimeout(function() { var s = document.getElementById('screen-splash'); s.classList.add('hide'); setTimeout(function() { s.style.display = 'none'; }, 650); }, 300);
         return;
       }
       fill.style.width = pcts[splashStep] + '%';
@@ -592,7 +523,6 @@
   }
   window.addEventListener('load', runSplash);
 
-  /* ─── 에러 화면 ─── */
   var ERROR_INFO = {
     QUOTA_EXCEEDED: { cls:'err-quota', icon:'📊', title:'오늘 분석 한도에\n도달했어요', desc:'Gemini AI 무료 일일 한도를 모두 사용했어요.<br/><strong>내일 자정 이후</strong>에 다시 시도해 주세요.', action:'📅 내일 다시 시도할게요', next:'welcome' },
     RATE_LIMIT:     { cls:'err-rate',  icon:'⏳', title:'AI가 잠시 바빠요', desc:'요청이 너무 많이 몰렸어요.<br/><strong>10~30초 후</strong>에 다시 시도해 주세요.', action:'🔄 다시 시도하기', next:'upload' },
@@ -623,16 +553,9 @@
 
   function handleErrorAction() {
     document.getElementById('screen-error').classList.remove('active');
-    if (errorNextAction === 'welcome') {
-      currentScreen = 'screen-welcome';
-      document.getElementById('screen-welcome').classList.add('active');
-    } else {
-      currentScreen = 'screen-upload';
-      removeImage();
-      document.getElementById('screen-upload').classList.add('active');
-    }
-    updateProgress();
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    if (errorNextAction === 'welcome') { currentScreen = 'screen-welcome'; document.getElementById('screen-welcome').classList.add('active'); }
+    else { currentScreen = 'screen-upload'; removeImage(); document.getElementById('screen-upload').classList.add('active'); }
+    updateProgress(); window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
   function showToast(msg, duration) {
@@ -652,9 +575,7 @@
     var next = document.getElementById(id);
     void next.offsetWidth;
     next.classList.add('active');
-    currentScreen = id;
-    updateProgress();
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    currentScreen = id; updateProgress(); window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
   function updateProgress() {
@@ -755,8 +676,7 @@
     var btn = document.getElementById('analyzeBtn');
     if (btn) { btn.disabled = true; btn.style.opacity = '0.6'; }
     document.getElementById('scanImg').src = 'data:' + imageMimeType + ';base64,' + imageBase64;
-    goToScreen('screen-analyzing');
-    startStepMessages();
+    goToScreen('screen-analyzing'); startStepMessages();
     analysisTimer = setTimeout(function() {
       stopStepMessages();
       if (btn) { btn.disabled = false; btn.style.opacity = '1'; }
@@ -766,8 +686,7 @@
   }
 
   function onAnalysisSuccess(response) {
-    clearTimeout(analysisTimer);
-    stopStepMessages();
+    clearTimeout(analysisTimer); stopStepMessages();
     var btn = document.getElementById('analyzeBtn');
     if (btn) { btn.disabled = false; btn.style.opacity = '1'; }
     if (!response || !response.success) { onAnalysisError(response || { code: 'UNKNOWN' }); return; }
@@ -789,17 +708,14 @@
     document.getElementById('unrelatedBtn').style.display = 'none';
     document.getElementById('resultSummary').style.display = 'block';
     document.getElementById('riskIndicator').style.display = 'block';
-    renderResult(analysisResult);
-    goToScreen('screen-result');
-    initChat();
+    renderResult(analysisResult); goToScreen('screen-result'); initChat();
   }
 
   function onAnalysisError(err) {
     clearTimeout(analysisTimer);
     var btn = document.getElementById('analyzeBtn');
     if (btn) { btn.disabled = false; btn.style.opacity = '1'; }
-    console.error('Analysis error:', err);
-    stopStepMessages();
+    console.error('Analysis error:', err); stopStepMessages();
     var code = (typeof err === 'object' && err && err.code) ? err.code : (typeof err === 'string' ? err : 'UNKNOWN');
     showErrorScreen(code);
   }
@@ -859,10 +775,7 @@
     wrap.style.display = 'block';
     wrap.querySelectorAll('.marker-pin,.marker-pulse-ring,.marker-label').forEach(function(el){el.remove();});
     activeMarkerIdx = -1;
-    var positions = items.map(function(item) {
-      var xPct = item.x != null ? item.x : 50, yPct = item.y != null ? item.y : 50;
-      return calcPinOffset(xPct, yPct);
-    });
+    var positions = items.map(function(item) { return calcPinOffset(item.x != null ? item.x : 50, item.y != null ? item.y : 50); });
     positions = isClustered(positions) ? gridPositions(items.length) : spreadSamePositions(positions);
     items.forEach(function(item, idx) {
       var risk = item.risk || 'low', color = RISK_COLOR[risk] || RISK_COLOR.low;
@@ -893,9 +806,7 @@
       var tp = document.querySelector('.marker-pin[data-idx="'+idx+'"]');
       var tl = document.querySelector('.marker-label[data-label="'+idx+'"]');
       var tli = document.querySelector('.detected-list-item[data-idx="'+idx+'"]');
-      if(tp) tp.classList.add('active');
-      if(tl) tl.classList.add('visible');
-      if(tli) tli.classList.add('active');
+      if(tp) tp.classList.add('active'); if(tl) tl.classList.add('visible'); if(tli) tli.classList.add('active');
       activeMarkerIdx = idx;
     }
   }
@@ -925,14 +836,9 @@
       if (!shownRisks[r] && riskMap[r]) { shownRisks[r] = true; var ra = riskMap[r]; indicatorHtml += '<span class="risk-pill '+ra[1]+'" style="margin-left:6px;">'+escapeHtml(ra[0])+'</span>'; }
     });
     document.getElementById('riskIndicator').innerHTML = indicatorHtml;
-    setText('resultGreeting', data.greeting || '');
-    setText('resultAnalysis', data.analysis || '');
-    setText('resultSolution', data.solution || '');
+    setText('resultGreeting', data.greeting || ''); setText('resultAnalysis', data.analysis || ''); setText('resultSolution', data.solution || '');
     var note = data.expertNote || {};
-    setText('expertBasis', note.basis || '');
-    setText('expertImportance', note.importance || '');
-    setText('expertTip', note.tip || '');
-    setText('expertInspection', note.inspection || '');
+    setText('expertBasis', note.basis || ''); setText('expertImportance', note.importance || ''); setText('expertTip', note.tip || ''); setText('expertInspection', note.inspection || '');
     setText('resultCuriosity', data.curiosityQuestion || '');
     renderMarkers(data.detectedItems || []);
   }
@@ -944,8 +850,7 @@
     if (voices.length > 0) { cachedKoVoice = voices.find(function(v) { return v.lang.startsWith('ko'); }) || null; callback(cachedKoVoice); return; }
     window.speechSynthesis.addEventListener('voiceschanged', function handler() {
       window.speechSynthesis.removeEventListener('voiceschanged', handler);
-      var vs = window.speechSynthesis.getVoices();
-      cachedKoVoice = vs.find(function(v) { return v.lang.startsWith('ko'); }) || null;
+      cachedKoVoice = window.speechSynthesis.getVoices().find(function(v) { return v.lang.startsWith('ko'); }) || null;
       callback(cachedKoVoice);
     });
   }
@@ -975,7 +880,6 @@
     if (document.hidden && voicePlaying) { window.speechSynthesis && window.speechSynthesis.cancel(); setVoiceUI(false); }
   });
 
-  /* ─── 채팅 ─── */
   function initChat() {
     document.getElementById('chatMessages').textContent = '';
     var strong = document.createElement('strong');
@@ -1032,15 +936,12 @@
     var input = document.getElementById('chatInput'), text = input.value.trim();
     if (!text) return;
     if (text.length > 200) { showToast('메시지는 200자 이내로 입력해 주세요. 😊', 3000); return; }
-    input.value = ''; input.style.height = 'auto';
-    setSendingUI(true);
-    sendMessage(text);
+    input.value = ''; input.style.height = 'auto'; setSendingUI(true); sendMessage(text);
   }
 
   function setSendingUI(sending) {
     isSending = sending;
-    var btn = document.querySelector('.btn-send');
-    var input = document.getElementById('chatInput');
+    var btn = document.querySelector('.btn-send'), input = document.getElementById('chatInput');
     if (btn) { btn.disabled = sending; btn.style.opacity = sending ? '0.5' : '1'; }
     if (input) input.disabled = sending;
   }
@@ -1065,8 +966,7 @@
   function handleChatKey(e) { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendChat(); } }
   function autoResize(el) { el.style.height = 'auto'; el.style.height = Math.min(el.scrollHeight, 110)+'px'; }
   function updateCharCount(el) {
-    var count = el.value.length;
-    var counter = document.getElementById('charCount');
+    var count = el.value.length, counter = document.getElementById('charCount');
     if (!counter) return;
     counter.textContent = count;
     counter.style.color = count >= 180 ? '#E24B4A' : count >= 150 ? '#EF9F27' : 'var(--ink-muted)';
@@ -1074,9 +974,7 @@
 
   var chatInputEl = document.getElementById('chatInput');
   if (chatInputEl) {
-    chatInputEl.addEventListener('focus', function() {
-      setTimeout(function() { chatInputEl.scrollIntoView({ behavior: 'smooth', block: 'end' }); }, 350);
-    });
+    chatInputEl.addEventListener('focus', function() { setTimeout(function() { chatInputEl.scrollIntoView({ behavior: 'smooth', block: 'end' }); }, 350); });
   }
   if (window.visualViewport) {
     window.visualViewport.addEventListener('resize', function() {
@@ -1092,25 +990,19 @@
     GAS.run('recordUsage', [], function(res) { if (res && res.success) setText('statsText', res.message); }, function() {});
   }
 
-  /* ─── [변경] 새로 점검하기 — 동영상·텍스트 리셋 추가 ─── */
   function restartApp() {
     imageBase64 = ''; imageMimeType = 'image/jpeg'; analysisResult = null; activeMarkerIdx = -1;
     if (voicePlaying) { window.speechSynthesis && window.speechSynthesis.cancel(); setVoiceUI(false); }
     removeImage();
     document.getElementById('chatMessages').textContent = '';
     document.getElementById('fileInput').removeAttribute('capture');
-
-    // [변경] 히어로 텍스트 숨기고 리셋
     heroTextShown = false;
     var greeting = document.getElementById('heroGreeting');
     var title    = document.getElementById('heroTitle');
     if (greeting) greeting.classList.remove('visible');
     if (title)    title.classList.remove('visible');
-
-    // [변경] 동영상 처음부터 재생
     var hv = document.getElementById('heroVideo');
     if (hv) { hv.currentTime = 0; hv.play().catch(function(){}); }
-
     var cur = document.getElementById(currentScreen);
     if (cur) cur.classList.remove('active');
     currentScreen = 'screen-welcome';
@@ -1128,30 +1020,26 @@
   window.addEventListener('resize', fillBackground);
   window.addEventListener('orientationchange', function(){ setTimeout(fillBackground, 300); });
 
-  /* ─── 히어로 동영상 텍스트 애니메이션 ─── */
   var heroVideo = document.getElementById('heroVideo');
   if (heroVideo) {
     heroVideo.addEventListener('timeupdate', function() {
       if (!heroTextShown && heroVideo.currentTime >= 3.0) {
         heroTextShown = true;
-        var greeting = document.getElementById('heroGreeting');
-        var title    = document.getElementById('heroTitle');
-        if (greeting) greeting.classList.add('visible');
-        setTimeout(function() { if (title) title.classList.add('visible'); }, 300);
+        var g = document.getElementById('heroGreeting'), t = document.getElementById('heroTitle');
+        if (g) g.classList.add('visible');
+        setTimeout(function() { if (t) t.classList.add('visible'); }, 300);
       }
     });
     heroVideo.addEventListener('error', function() {
       if (!heroTextShown) {
         heroTextShown = true;
-        var greeting = document.getElementById('heroGreeting');
-        var title    = document.getElementById('heroTitle');
-        if (greeting) greeting.classList.add('visible');
-        if (title)    title.classList.add('visible');
+        var g = document.getElementById('heroGreeting'), t = document.getElementById('heroTitle');
+        if (g) g.classList.add('visible');
+        if (t) t.classList.add('visible');
       }
     });
   }
 
-  /* ─── 오프라인 감지 ─── */
   window.addEventListener('offline', function() { showToast('📡 인터넷 연결이 끊겼어요. 연결을 확인해 주세요.', 5000); });
   window.addEventListener('online',  function() { showToast('✅ 인터넷에 다시 연결됐어요!', 3000); });
   if (!navigator.onLine) { showToast('📡 인터넷 연결이 없어요. 연결 후 이용해 주세요.', 5000); }
