@@ -29,57 +29,15 @@
       --ease-smooth: cubic-bezier(0.4, 0, 0.2, 1);
     }
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    html {
-      background: #FFF9F6;
-      -webkit-text-size-adjust: 100%;
-      scrollbar-width: none;
-      -ms-overflow-style: none;
-    }
+    html { background: #FFF9F6; -webkit-text-size-adjust: 100%; scrollbar-width: none; -ms-overflow-style: none; }
     html::-webkit-scrollbar { display: none; }
-    body {
-      margin: 0; padding: 0;
-      background: #FFF9F6;
-      font-family: var(--font-main);
-      color: var(--ink);
-      -webkit-font-smoothing: antialiased;
-      overflow-x: hidden;
-      overflow-y: auto;
-      -webkit-overflow-scrolling: touch;
-      scrollbar-width: none;
-      -ms-overflow-style: none;
-    }
+    body { margin: 0; padding: 0; background: #FFF9F6; font-family: var(--font-main); color: var(--ink); -webkit-font-smoothing: antialiased; overflow-x: hidden; overflow-y: auto; -webkit-overflow-scrolling: touch; scrollbar-width: none; -ms-overflow-style: none; }
     body::-webkit-scrollbar { display: none; }
-    #app {
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      background: #FFF9F6;
-      max-width: 480px;
-      margin: 0 auto;
-      box-shadow: -9999px 0 0 9999px #FFF9F6, 9999px 0 0 9999px #FFF9F6;
-    }
-    .app-header {
-      padding: 14px 20px 12px;
-      background: linear-gradient(135deg, var(--flame) 0%, #FF7A50 100%);
-      display: flex; align-items: center; gap: 10px;
-      flex-shrink: 0; z-index: 100;
-      box-shadow: 0 2px 20px rgba(255,90,54,0.35);
-    }
-    .app-logo-icon {
-      width: 36px; height: 36px; border-radius: 10px;
-      background: rgba(255,255,255,0.22);
-      box-shadow: 0 2px 8px rgba(0,0,0,0.15);
-      display: flex; align-items: center; justify-content: center;
-      font-size: 18px; flex-shrink: 0;
-    }
-    .app-logo-text {
-      font-family: var(--font-deco); font-size: 20px; font-style: italic;
-      color: white;
-    }
-    .app-tagline {
-      font-size: 11px; color: rgba(255,255,255,0.6);
-      margin-left: auto; letter-spacing: 0.2px;
-    }
+    #app { min-height: 100vh; display: flex; flex-direction: column; background: #FFF9F6; max-width: 480px; margin: 0 auto; box-shadow: -9999px 0 0 9999px #FFF9F6, 9999px 0 0 9999px #FFF9F6; }
+    .app-header { padding: 14px 20px 12px; background: linear-gradient(135deg, var(--flame) 0%, #FF7A50 100%); display: flex; align-items: center; gap: 10px; flex-shrink: 0; z-index: 100; box-shadow: 0 2px 20px rgba(255,90,54,0.35); }
+    .app-logo-icon { width: 36px; height: 36px; border-radius: 10px; background: rgba(255,255,255,0.22); box-shadow: 0 2px 8px rgba(0,0,0,0.15); display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; }
+    .app-logo-text { font-family: var(--font-deco); font-size: 20px; font-style: italic; color: white; }
+    .app-tagline { font-size: 11px; color: rgba(255,255,255,0.6); margin-left: auto; letter-spacing: 0.2px; }
     .app-tagline b { color: white; font-weight: 900; }
     .progress-bar { display: flex; padding: 10px 20px; gap: 4px; background: #FFF9F6; }
     .prog-step { flex: 1; height: 3px; border-radius: 2px; background: rgba(0,0,0,0.07); transition: all 0.4s var(--ease-smooth); }
@@ -101,51 +59,40 @@
     .toast { position: fixed; bottom: 32px; left: 50%; transform: translateX(-50%) translateY(80px); background: #1C1C2E; color: white; padding: 13px 22px; border-radius: 100px; font-size: 14px; font-weight: 500; box-shadow: 0 8px 28px rgba(0,0,0,0.22); z-index: 9999; max-width: 88vw; text-align: center; transition: transform 0.35s var(--ease-spring), opacity 0.25s; opacity: 0; pointer-events: none; }
     .toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
 
+    /* ══ [변경] 뒤로가기 버튼 — 분석완료 배지와 동일한 스타일 ══ */
+    .btn-back {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      background: linear-gradient(135deg, var(--flame), var(--ember));
+      color: white;
+      padding: 7px 14px;
+      border-radius: 100px;
+      font-size: 13px;
+      font-weight: 700;
+      border: none;
+      cursor: pointer;
+      font-family: var(--font-main);
+      box-shadow: 0 3px 10px rgba(255,90,54,0.3);
+      transition: all 0.18s var(--ease-smooth);
+      -webkit-tap-highlight-color: transparent;
+      user-select: none;
+    }
+    .btn-back:active { transform: scale(0.96); opacity: 0.9; }
+
     /* ── SPLASH ── */
-    #screen-splash {
-      position: fixed; inset: 0; z-index: 9999;
-      background: linear-gradient(160deg, #FF5A36 0%, #FF7A42 45%, #FFB347 100%);
-      display: flex; flex-direction: column; align-items: center; justify-content: center;
-      padding-bottom: 20px;
-      transition: opacity 0.6s ease, transform 0.6s ease;
-      overflow: hidden;
-    }
-    #screen-splash::before {
-      content: '';
-      position: absolute; inset: 0;
-      background: radial-gradient(ellipse at 60% 30%, rgba(255,255,255,0.12) 0%, transparent 65%);
-      pointer-events: none;
-    }
+    #screen-splash { position: fixed; inset: 0; z-index: 9999; background: linear-gradient(160deg, #FF5A36 0%, #FF7A42 45%, #FFB347 100%); display: flex; flex-direction: column; align-items: center; justify-content: center; padding-bottom: 20px; transition: opacity 0.6s ease, transform 0.6s ease; overflow: hidden; }
+    #screen-splash::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse at 60% 30%, rgba(255,255,255,0.12) 0%, transparent 65%); pointer-events: none; }
     #screen-splash.hide { opacity: 0; transform: scale(1.04); pointer-events: none; }
     .splash-top { height: 16px; flex-shrink: 0; }
-    .splash-char-wrap {
-      position: relative; display: flex; align-items: center;
-      justify-content: center; flex-shrink: 0;
-      width: 300px; height: 300px;
-    }
-    .splash-halo {
-      position: absolute; width: 180px; height: 180px; border-radius: 50%;
-      background: radial-gradient(circle, rgba(255,255,255,0.75) 0%, rgba(255,255,255,0.50) 35%, rgba(255,255,255,0.15) 60%, transparent 80%);
-      animation: haloPulse 2.8s ease-in-out infinite;
-    }
-    .splash-halo-outer {
-      position: absolute; width: 230px; height: 230px; border-radius: 50%;
-      background: radial-gradient(circle, rgba(255,255,255,0.20) 0%, rgba(255,255,255,0.08) 45%, transparent 70%);
-      animation: haloPulse 2.8s ease-in-out infinite reverse;
-    }
+    .splash-char-wrap { position: relative; display: flex; align-items: center; justify-content: center; flex-shrink: 0; width: 300px; height: 300px; }
+    .splash-halo { position: absolute; width: 180px; height: 180px; border-radius: 50%; background: radial-gradient(circle, rgba(255,255,255,0.75) 0%, rgba(255,255,255,0.50) 35%, rgba(255,255,255,0.15) 60%, transparent 80%); animation: haloPulse 2.8s ease-in-out infinite; }
+    .splash-halo-outer { position: absolute; width: 230px; height: 230px; border-radius: 50%; background: radial-gradient(circle, rgba(255,255,255,0.20) 0%, rgba(255,255,255,0.08) 45%, transparent 70%); animation: haloPulse 2.8s ease-in-out infinite reverse; }
     @keyframes haloPulse { 0%,100%{transform:scale(1);opacity:0.85} 50%{transform:scale(1.08);opacity:1} }
-    .splash-char-img {
-      width: 270px; height: 270px; object-fit: contain; position: relative; z-index: 1;
-      animation: charFloat 2.8s ease-in-out infinite;
-      filter: drop-shadow(0 16px 28px rgba(100,20,0,0.32));
-    }
+    .splash-char-img { width: 270px; height: 270px; object-fit: contain; position: relative; z-index: 1; animation: charFloat 2.8s ease-in-out infinite; filter: drop-shadow(0 16px 28px rgba(100,20,0,0.32)); }
     @keyframes charFloat { 0%,100%{transform:translateY(0px)} 50%{transform:translateY(-14px)} }
     .splash-text { display: flex; flex-direction: column; align-items: center; margin-top: 10px; flex-shrink: 0; }
-    .splash-title {
-      font-size: 30px; font-weight: 900; color: white; margin-bottom: 6px;
-      text-shadow: 0 2px 16px rgba(0,0,0,0.18); letter-spacing: -0.5px;
-      font-family: var(--font-main);
-    }
+    .splash-title { font-size: 30px; font-weight: 900; color: white; margin-bottom: 6px; text-shadow: 0 2px 16px rgba(0,0,0,0.18); letter-spacing: -0.5px; font-family: var(--font-main); }
     .splash-title em { font-family: var(--font-deco); font-style: italic; color: #FFE8B0; }
     .splash-sub { font-size: 12px; color: rgba(255,255,255,0.75); letter-spacing: 0.8px; }
     .splash-dots { display: flex; gap: 7px; margin-top: 40px; }
@@ -159,42 +106,14 @@
     /* ── WELCOME ── */
     #screen-welcome { padding-top: 8px; }
     .hero-section { padding: 12px 0 16px; }
-    .hero-img-card {
-      position: relative; width: 100%; border-radius: 24px;
-      overflow: hidden; margin-bottom: 16px;
-      box-shadow: 0 12px 32px rgba(255,90,54,0.22);
-    }
-    .hero-video {
-      width: 100%; height: 210px;
-      object-fit: cover; object-position: center right;
-      display: block;
-    }
-    .hero-img-overlay {
-      position: absolute; bottom: 0; left: 0; right: 0;
-      padding: 18px 20px 22px;
-      background: linear-gradient(to top, rgba(8,3,0,0.60) 0%, rgba(8,3,0,0.20) 45%, transparent 70%);
-      text-align: left;
-    }
-    .hero-overlay-greeting {
-      font-size: 13px; color: rgba(255,255,255,0.85);
-      font-weight: 700; margin-bottom: 4px;
-      text-shadow: 0 1px 8px rgba(0,0,0,0.9), 0 2px 4px rgba(0,0,0,0.7);
-    }
-    .hero-overlay-title {
-      font-size: 15px; font-weight: 900; color: white;
-      line-height: 1.6; letter-spacing: -0.2px;
-      text-shadow: 0 1px 8px rgba(0,0,0,0.9), 0 2px 4px rgba(0,0,0,0.7);
-    }
-    .hero-overlay-greeting em,
-    .hero-overlay-title em { color: var(--ember); font-style: normal; }
-    .hero-overlay-greeting,
-    .hero-overlay-title {
-      opacity: 0; transform: translateY(8px);
-      transition: opacity 0.7s ease, transform 0.7s ease;
-    }
-    .hero-overlay-greeting.visible,
-    .hero-overlay-title.visible { opacity: 1; transform: translateY(0); }
-
+    .hero-img-card { position: relative; width: 100%; border-radius: 24px; overflow: hidden; margin-bottom: 16px; box-shadow: 0 12px 32px rgba(255,90,54,0.22); }
+    .hero-video { width: 100%; height: 210px; object-fit: cover; object-position: center right; display: block; }
+    .hero-img-overlay { position: absolute; bottom: 0; left: 0; right: 0; padding: 18px 20px 22px; background: linear-gradient(to top, rgba(8,3,0,0.60) 0%, rgba(8,3,0,0.20) 45%, transparent 70%); text-align: left; }
+    .hero-overlay-greeting { font-size: 13px; color: rgba(255,255,255,0.85); font-weight: 700; margin-bottom: 4px; text-shadow: 0 1px 8px rgba(0,0,0,0.9), 0 2px 4px rgba(0,0,0,0.7); }
+    .hero-overlay-title { font-size: 15px; font-weight: 900; color: white; line-height: 1.6; letter-spacing: -0.2px; text-shadow: 0 1px 8px rgba(0,0,0,0.9), 0 2px 4px rgba(0,0,0,0.7); }
+    .hero-overlay-greeting em, .hero-overlay-title em { color: var(--ember); font-style: normal; }
+    .hero-overlay-greeting, .hero-overlay-title { opacity: 0; transform: translateY(8px); transition: opacity 0.7s ease, transform 0.7s ease; }
+    .hero-overlay-greeting.visible, .hero-overlay-title.visible { opacity: 1; transform: translateY(0); }
     .feature-list { display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px; }
     .feature-item { display: flex; align-items: center; gap: 14px; background: white; border-radius: var(--radius-md); padding: 14px 16px; border: 1px solid rgba(0,0,0,0.05); box-shadow: var(--shadow-sm); }
     .feature-icon { width: 42px; height: 42px; border-radius: 13px; display: flex; align-items: center; justify-content: center; font-size: 20px; flex-shrink: 0; }
@@ -317,10 +236,8 @@
     /* ── CHAT ── */
     #screen-chat { padding-top: 16px; padding-bottom: 0; }
     .chat-header { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; }
-    .chat-avatar { width: 42px; height: 42px; border-radius: 13px; background: linear-gradient(135deg, var(--flame), var(--ember)); display: flex; align-items: center; justify-content: center; font-size: 20px; flex-shrink: 0; box-shadow: 0 3px 12px rgba(255,90,54,0.3); }
     .chat-name { font-size: 15px; font-weight: 800; color: var(--ink); }
     .chat-status { font-size: 11px; color: var(--mint-dark); font-weight: 600; }
-    .chat-back { width: 36px; height: 36px; border-radius: 50%; background: white; border: 1.5px solid rgba(0,0,0,0.08); display: flex; align-items: center; justify-content: center; font-size: 16px; cursor: pointer; -webkit-tap-highlight-color: transparent; }
     .chat-messages { background: white; border: 1px solid rgba(0,0,0,0.05); border-radius: var(--radius-lg); padding: 14px; height: 260px; overflow-y: auto; margin-bottom: 12px; scroll-behavior: smooth; }
     .chat-messages::-webkit-scrollbar { display: none; }
     .msg { display: flex; gap: 8px; margin-bottom: 12px; animation: msgIn 0.3s var(--ease-spring); }
@@ -380,7 +297,6 @@
     .err-safety .error-action-btn  { background: #F0F0F0; color: #444; }
     .err-api    .error-icon-circle { background: #FFE8E3; }
     .err-api    .error-action-btn  { background: #FFE8E3; color: #993C1D; }
-
     .mt8  { margin-top: 8px; }
     .mt12 { margin-top: 12px; }
     .mt16 { margin-top: 16px; }
@@ -445,8 +361,7 @@
     <div class="screen active" id="screen-welcome">
       <div class="hero-section">
         <div class="hero-img-card">
-          <video class="hero-video" id="heroVideo"
-            autoplay muted playsinline
+          <video class="hero-video" id="heroVideo" autoplay muted playsinline
             onerror="this.style.display='none'; document.getElementById('heroFallback').style.display='flex';">
             <source src="https://raw.githubusercontent.com/alchemist2399-star/sossodam-ai/main/Hero.mp4" type="video/mp4">
           </video>
@@ -460,31 +375,19 @@
       <div class="feature-list">
         <div class="feature-item">
           <div class="feature-icon fi-red">📸</div>
-          <div class="feature-text">
-            <strong>사진 한 장으로 AI 분석</strong>
-            <span>Gemini AI가 소방안전 요소를 꼼꼼히 확인해요</span>
-          </div>
+          <div class="feature-text"><strong>사진 한 장으로 AI 분석</strong><span>Gemini AI가 소방안전 요소를 꼼꼼히 확인해요</span></div>
         </div>
         <div class="feature-item">
           <div class="feature-icon fi-blue">💬</div>
-          <div class="feature-text">
-            <strong>친절하고 쉬운 해설</strong>
-            <span>쉽고 따뜻하게 설명해 드려요</span>
-          </div>
+          <div class="feature-text"><strong>친절하고 쉬운 해설</strong><span>쉽고 따뜻하게 설명해 드려요</span></div>
         </div>
         <div class="feature-item">
           <div class="feature-icon fi-green">🔒</div>
-          <div class="feature-text">
-            <strong>개인정보 완전 보호</strong>
-            <span>사진과 개인정보는 저장하지 않아요</span>
-          </div>
+          <div class="feature-text"><strong>개인정보 완전 보호</strong><span>사진과 개인정보는 저장하지 않아요</span></div>
         </div>
       </div>
       <button class="btn btn-primary" onclick="goToUpload()">📷 사진으로 시작하기</button>
-      <p class="disclaimer">
-        소화기 AI의 답변은 참고용 가이드예요.<br/>
-        중요한 결정은 꼭 전문가와 상의해 주세요.
-      </p>
+      <p class="disclaimer">소화기 AI의 답변은 참고용 가이드예요.<br/>중요한 결정은 꼭 전문가와 상의해 주세요.</p>
     </div>
 
     <!-- ════════════════ SCREEN 2: UPLOAD ════════════════ -->
@@ -492,9 +395,7 @@
       <div class="section-title">📍 어디를 살펴볼까요?</div>
       <div class="section-sub">소화기, 유도등, 복도, 피난구 어디든 괜찮아요</div>
       <input type="file" id="fileInput" accept="image/*" onchange="handleFile(event)" />
-      <div class="upload-zone" id="uploadZone"
-           onclick="document.getElementById('fileInput').click()"
-           role="button" tabindex="0">
+      <div class="upload-zone" id="uploadZone" onclick="document.getElementById('fileInput').click()" role="button" tabindex="0">
         <span class="upload-zone-icon">📁</span>
         <h3>사진을 선택해 주세요</h3>
         <p>갤러리에서 선택하거나 카메라로 찍어요</p>
@@ -504,9 +405,7 @@
         <button class="preview-remove" id="removeBtn" onclick="removeImage()">✕</button>
       </div>
       <div style="display:flex; flex-direction:column; gap:10px;">
-        <button class="btn btn-primary" id="analyzeBtn" onclick="startAnalysis()" style="display:none">
-          🔥 AI 분석 시작하기
-        </button>
+        <button class="btn btn-primary" id="analyzeBtn" onclick="startAnalysis()" style="display:none">🔥 AI 분석 시작하기</button>
         <div class="btn-row">
           <button class="btn btn-ghost" onclick="goToScreen('screen-welcome')">← 처음으로</button>
           <button class="btn btn-ghost" onclick="triggerCamera()">📷 카메라</button>
@@ -535,27 +434,24 @@
       <h2 class="analyzing-title">소화기 AI가 점검 중이에요 🔍</h2>
       <div class="analyzing-desc">
         <strong>사진을 꼼꼼히 분석하고 있어요.</strong><br/>
-        AI 점검 결과는<br/>
-        <strong>'안전을 위한 첫걸음'</strong>으로 활용해 주시고,<br/>
-        중요한 결정은<br/>
-        꼭 전문가와 상의해 주세요 💛
+        AI 점검 결과는<br/><strong>'안전을 위한 첫걸음'</strong>으로 활용해 주시고,<br/>
+        중요한 결정은<br/>꼭 전문가와 상의해 주세요 💛
       </div>
       <div class="progress-wrap">
         <div class="progress-track"><div class="progress-fill" id="progressFill" style="width:5%;"></div></div>
         <div class="progress-step" id="progressStep">🔍 소방시설 확인 중...</div>
       </div>
       <div class="dot-loader">
-        <div class="dot"></div>
-        <div class="dot"></div>
-        <div class="dot"></div>
+        <div class="dot"></div><div class="dot"></div><div class="dot"></div>
       </div>
     </div>
 
     <!-- ════════════════ SCREEN 4: RESULT ════════════════ -->
     <div class="screen" id="screen-result">
+      <!-- [변경] 결과화면 뒤로가기 — 분석완료 배지와 동일 스타일 -->
       <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:10px;">
         <div class="result-tag" style="margin-bottom:0;">✨ 분석 완료</div>
-        <div class="chat-back" onclick="retakePhoto()" style="cursor:pointer; margin-left:0;">←</div>
+        <button class="btn-back" onclick="retakePhoto()">← 뒤로가기</button>
       </div>
       <div class="result-title" id="resultSummary">소방안전 분석 결과</div>
       <div id="riskIndicator"></div>
@@ -576,26 +472,17 @@
         <div class="docent-card">
           <div class="docent-step">
             <div><div class="step-badge sb1">1</div></div>
-            <div>
-              <div class="step-label">들어가기 전에</div>
-              <div class="step-text" id="resultGreeting"></div>
-            </div>
+            <div><div class="step-label">들어가기 전에</div><div class="step-text" id="resultGreeting"></div></div>
           </div>
           <div class="step-sep"></div>
           <div class="docent-step" style="margin-top:12px">
             <div><div class="step-badge sb2">2</div></div>
-            <div>
-              <div class="step-label">쉬운 설명</div>
-              <div class="step-text" id="resultAnalysis"></div>
-            </div>
+            <div><div class="step-label">쉬운 설명</div><div class="step-text" id="resultAnalysis"></div></div>
           </div>
           <div class="step-sep"></div>
           <div class="docent-step" style="margin-top:12px">
             <div><div class="step-badge sb3">3</div></div>
-            <div>
-              <div class="step-label">해결책</div>
-              <div class="step-text" id="resultSolution"></div>
-            </div>
+            <div><div class="step-label">해결책</div><div class="step-text" id="resultSolution"></div></div>
           </div>
         </div>
         <div class="voice-bar" onclick="toggleVoice()" role="button" tabindex="0">
@@ -605,22 +492,10 @@
         </div>
         <div class="expert-card">
           <div class="expert-title">📋 전문가 안심 노트</div>
-          <div class="expert-row">
-            <div class="expert-icon">📖</div>
-            <div><div class="expert-label">법적 근거</div><div class="expert-val" id="expertBasis"></div></div>
-          </div>
-          <div class="expert-row">
-            <div class="expert-icon">❗</div>
-            <div><div class="expert-label">왜 중요할까요</div><div class="expert-val" id="expertImportance"></div></div>
-          </div>
-          <div class="expert-row">
-            <div class="expert-icon">✅</div>
-            <div><div class="expert-label">조치 팁</div><div class="expert-val" id="expertTip"></div></div>
-          </div>
-          <div class="expert-row">
-            <div class="expert-icon">🗓️</div>
-            <div><div class="expert-label">권장 점검 주기</div><div class="expert-val" id="expertInspection"></div></div>
-          </div>
+          <div class="expert-row"><div class="expert-icon">📖</div><div><div class="expert-label">법적 근거</div><div class="expert-val" id="expertBasis"></div></div></div>
+          <div class="expert-row"><div class="expert-icon">❗</div><div><div class="expert-label">왜 중요할까요</div><div class="expert-val" id="expertImportance"></div></div></div>
+          <div class="expert-row"><div class="expert-icon">✅</div><div><div class="expert-label">조치 팁</div><div class="expert-val" id="expertTip"></div></div></div>
+          <div class="expert-row"><div class="expert-icon">🗓️</div><div><div class="expert-label">권장 점검 주기</div><div class="expert-val" id="expertInspection"></div></div></div>
         </div>
         <div class="curiosity-card" onclick="sendCuriosity()" role="button" tabindex="0">
           <div class="curiosity-label">💡 더 궁금하신가요?</div>
@@ -638,6 +513,7 @@
 
     <!-- ════════════════ SCREEN 5: CHAT ════════════════ -->
     <div class="screen" id="screen-chat">
+      <!-- [변경] 채팅화면 뒤로가기 — 분석완료 배지와 동일 스타일 -->
       <div class="chat-header">
         <img src="https://raw.githubusercontent.com/alchemist2399-star/sossodam-ai/main/hero%20icon.png"
           style="width:48px; height:48px; object-fit:contain; filter:drop-shadow(0 2px 8px rgba(0,0,0,0.15)); flex-shrink:0;"
@@ -646,7 +522,7 @@
           <div class="chat-name">소화기 AI</div>
           <div class="chat-status">● 온라인</div>
         </div>
-        <div class="chat-back" onclick="goToScreen('screen-result')" style="margin-left:auto;">←</div>
+        <button class="btn-back" onclick="goToScreen('screen-result')" style="margin-left:auto;">← 뒤로가기</button>
       </div>
       <div class="chat-messages" id="chatMessages"></div>
       <div class="chip-row">
@@ -670,15 +546,8 @@
     <div class="screen" id="screen-complete">
       <div class="complete-icon">🛡️</div>
       <div class="complete-title">오늘도 <span>안전</span>하게!<br/>잘 하셨어요 🎉</div>
-      <div class="complete-msg">
-        <p id="completeMsg">
-          오늘 덕분에 이 공간이 훨씬 더 따뜻하고 안전해졌어요.<br/><br/>
-          작은 관심 하나가 소중한 생명을 지키는 큰 힘이 된답니다. 💛
-        </p>
-      </div>
-      <div class="complete-chip">
-        <span id="statsText">오늘도 안심을 챙겼어요! 🛡️</span>
-      </div>
+      <div class="complete-msg"><p id="completeMsg">오늘 덕분에 이 공간이 훨씬 더 따뜻하고 안전해졌어요.<br/><br/>작은 관심 하나가 소중한 생명을 지키는 큰 힘이 된답니다. 💛</p></div>
+      <div class="complete-chip"><span id="statsText">오늘도 안심을 챙겼어요! 🛡️</span></div>
       <div class="btn-row" style="margin-bottom:12px;">
         <button class="btn btn-ghost" onclick="goToScreen('screen-result')">📋 결과 다시 보기</button>
         <button class="btn btn-primary" onclick="restartApp()">📷 새로 점검하기</button>
@@ -706,61 +575,44 @@
       var body = { action: method };
       if (method === 'analyzeImage')  { body.base64Data = args[0]; body.mimeType = args[1]; }
       else if (method === 'chatFollowUp') { body.userMessage = args[0]; body.context = args[1]; }
-      fetch(GAS_URL, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(body)
-      })
+      fetch(GAS_URL, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) })
       .then(function(res) { return res.json(); })
       .then(function(data) { onSuccess(data); })
-      .catch(function(err) {
-        console.error('[GAS fetch 오류]', err);
-        if (onFailure) onFailure(err);
-      });
+      .catch(function(err) { console.error('[GAS fetch 오류]', err); if (onFailure) onFailure(err); });
     }
   };
 
-  /* ─── 스플래시 ─── */
   var SPLASH_STEPS = ['AI 엔진 준비 중...', '소방 데이터 로딩...', '준비 완료!'];
   var splashStep = 0;
-
   function runSplash() {
-    var fill  = document.getElementById('splashProgressFill');
+    var fill = document.getElementById('splashProgressFill');
     var label = document.getElementById('splashProgressLabel');
-    var dots  = [document.getElementById('sdot1'), document.getElementById('sdot2'), document.getElementById('sdot3')];
-    var pcts  = [30, 70, 100];
+    var dots = [document.getElementById('sdot1'), document.getElementById('sdot2'), document.getElementById('sdot3')];
+    var pcts = [30, 70, 100];
     function advance() {
       if (splashStep >= SPLASH_STEPS.length) {
-        setTimeout(function() {
-          var splash = document.getElementById('screen-splash');
-          splash.classList.add('hide');
-          setTimeout(function() { splash.style.display = 'none'; }, 650);
-        }, 300);
+        setTimeout(function() { var splash = document.getElementById('screen-splash'); splash.classList.add('hide'); setTimeout(function() { splash.style.display = 'none'; }, 650); }, 300);
         return;
       }
-      fill.style.width  = pcts[splashStep] + '%';
+      fill.style.width = pcts[splashStep] + '%';
       label.textContent = SPLASH_STEPS[splashStep];
       dots.forEach(function(d, i) { d.classList.toggle('active', i === splashStep); });
       splashStep++;
       setTimeout(advance, splashStep === SPLASH_STEPS.length ? 500 : 700);
     }
-    if (document.fonts && document.fonts.ready) {
-      document.fonts.ready.then(function() { setTimeout(advance, 200); });
-    } else {
-      setTimeout(advance, 300);
-    }
+    if (document.fonts && document.fonts.ready) { document.fonts.ready.then(function() { setTimeout(advance, 200); }); }
+    else { setTimeout(advance, 300); }
   }
   window.addEventListener('load', runSplash);
 
-  /* ─── 에러 화면 ─── */
   var ERROR_INFO = {
-    QUOTA_EXCEEDED: { cls:'err-quota', icon:'📊', title:'오늘 분석 한도에\n도달했어요',    desc:'Gemini AI 무료 일일 한도를 모두 사용했어요.<br/><strong>내일 자정 이후</strong>에 다시 시도해 주세요.', action:'📅 내일 다시 시도할게요', next:'welcome' },
-    RATE_LIMIT:     { cls:'err-rate',  icon:'⏳', title:'AI가 잠시 바빠요',             desc:'요청이 너무 많이 몰렸어요.<br/><strong>10~30초 후</strong>에 다시 시도해 주세요.',                       action:'🔄 다시 시도하기',        next:'upload'  },
-    IMAGE_TOO_BIG:  { cls:'err-image', icon:'📷', title:'이미지가 너무 커요',            desc:'사진 용량이 5MB를 초과해요.<br/>더 작은 사진으로 <strong>다시 선택</strong>해 주세요.',                    action:'📁 다른 사진 선택하기',    next:'upload'  },
-    INVALID_IMAGE:  { cls:'err-image', icon:'📷', title:'지원하지 않는 파일이에요',       desc:'JPG, PNG, WEBP, GIF 형식만 가능해요.<br/><strong>다른 사진</strong>을 선택해 주세요.',                   action:'📁 다른 사진 선택하기',    next:'upload'  },
-    SAFETY_BLOCK:   { cls:'err-safety',icon:'🚫', title:'이 사진은 분석할 수 없어요',    desc:'AI 안전 필터에 의해 처리가 제한됐어요.<br/><strong>다른 사진</strong>으로 시도해 주세요.',                  action:'📷 다른 사진으로 시도하기', next:'upload'  },
-    API_ERROR:      { cls:'err-api',   icon:'🔧', title:'AI 서비스에\n일시적 문제가 생겼어요', desc:'서버가 잠깐 바빠요.<br/><strong>잠시 후</strong> 다시 시도해 주세요.',                              action:'🔄 다시 시도하기',        next:'upload'  },
-    UNKNOWN:        { cls:'err-api',   icon:'❓', title:'알 수 없는 오류가 발생했어요',   desc:'일시적인 문제일 수 있어요.<br/><strong>잠시 후</strong> 다시 시도해 주세요.',                              action:'🔄 다시 시도하기',        next:'upload'  }
+    QUOTA_EXCEEDED: { cls:'err-quota', icon:'📊', title:'오늘 분석 한도에\n도달했어요', desc:'Gemini AI 무료 일일 한도를 모두 사용했어요.<br/><strong>내일 자정 이후</strong>에 다시 시도해 주세요.', action:'📅 내일 다시 시도할게요', next:'welcome' },
+    RATE_LIMIT:     { cls:'err-rate',  icon:'⏳', title:'AI가 잠시 바빠요', desc:'요청이 너무 많이 몰렸어요.<br/><strong>10~30초 후</strong>에 다시 시도해 주세요.', action:'🔄 다시 시도하기', next:'upload' },
+    IMAGE_TOO_BIG:  { cls:'err-image', icon:'📷', title:'이미지가 너무 커요', desc:'사진 용량이 5MB를 초과해요.<br/>더 작은 사진으로 <strong>다시 선택</strong>해 주세요.', action:'📁 다른 사진 선택하기', next:'upload' },
+    INVALID_IMAGE:  { cls:'err-image', icon:'📷', title:'지원하지 않는 파일이에요', desc:'JPG, PNG, WEBP, GIF 형식만 가능해요.<br/><strong>다른 사진</strong>을 선택해 주세요.', action:'📁 다른 사진 선택하기', next:'upload' },
+    SAFETY_BLOCK:   { cls:'err-safety',icon:'🚫', title:'이 사진은 분석할 수 없어요', desc:'AI 안전 필터에 의해 처리가 제한됐어요.<br/><strong>다른 사진</strong>으로 시도해 주세요.', action:'📷 다른 사진으로 시도하기', next:'upload' },
+    API_ERROR:      { cls:'err-api',   icon:'🔧', title:'AI 서비스에\n일시적 문제가 생겼어요', desc:'서버가 잠깐 바빠요.<br/><strong>잠시 후</strong> 다시 시도해 주세요.', action:'🔄 다시 시도하기', next:'upload' },
+    UNKNOWN:        { cls:'err-api',   icon:'❓', title:'알 수 없는 오류가 발생했어요', desc:'일시적인 문제일 수 있어요.<br/><strong>잠시 후</strong> 다시 시도해 주세요.', action:'🔄 다시 시도하기', next:'upload' }
   };
   var errorNextAction = 'upload';
 
@@ -769,14 +621,13 @@
     errorNextAction = info.next;
     var box = document.getElementById('errorCardBox');
     box.className = 'error-card-box ' + info.cls;
-    document.getElementById('errorIcon').textContent     = info.icon;
-    document.getElementById('errorTitle').textContent    = info.title;
-    document.getElementById('errorDesc').innerHTML       = info.desc;
+    document.getElementById('errorIcon').textContent = info.icon;
+    document.getElementById('errorTitle').textContent = info.title;
+    document.getElementById('errorDesc').innerHTML = info.desc;
     document.getElementById('errorActionBtn').textContent = info.action;
     var cur = document.getElementById(currentScreen);
-    if (cur) { cur.classList.remove('active'); }
-    var wrap = document.getElementById('screen-error');
-    wrap.classList.add('active');
+    if (cur) cur.classList.remove('active');
+    document.getElementById('screen-error').classList.add('active');
     currentScreen = 'screen-error';
     updateProgress();
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -834,12 +685,7 @@
 
   function goToUpload() { goToScreen('screen-upload'); }
   function retakePhoto() { removeImage(); goToScreen('screen-upload'); }
-
-  function triggerCamera() {
-    var fi = document.getElementById('fileInput');
-    fi.setAttribute('capture', 'environment');
-    fi.click();
-  }
+  function triggerCamera() { var fi = document.getElementById('fileInput'); fi.setAttribute('capture', 'environment'); fi.click(); }
 
   function handleFile(event) {
     try {
@@ -853,13 +699,9 @@
         img.onload = function() {
           var canvas = document.createElement('canvas');
           var w = img.width, h = img.height, MAX = 1920;
-          if (w > MAX || h > MAX) {
-            if (w > h) { h = Math.round(h * MAX / w); w = MAX; }
-            else { w = Math.round(w * MAX / h); h = MAX; }
-          }
+          if (w > MAX || h > MAX) { if (w > h) { h = Math.round(h * MAX / w); w = MAX; } else { w = Math.round(w * MAX / h); h = MAX; } }
           canvas.width = w; canvas.height = h;
-          var ctx = canvas.getContext('2d');
-          ctx.drawImage(img, 0, 0, w, h);
+          canvas.getContext('2d').drawImage(img, 0, 0, w, h);
           var compressed = canvas.toDataURL('image/jpeg', 0.85);
           imageBase64 = compressed.split(',')[1];
           var preview = document.getElementById('previewImg');
@@ -886,8 +728,8 @@
   }
 
   var uz = document.getElementById('uploadZone');
-  uz.addEventListener('dragover',  function(e) { e.preventDefault(); uz.classList.add('drag-over'); });
-  uz.addEventListener('dragleave', function()  { uz.classList.remove('drag-over'); });
+  uz.addEventListener('dragover', function(e) { e.preventDefault(); uz.classList.add('drag-over'); });
+  uz.addEventListener('dragleave', function() { uz.classList.remove('drag-over'); });
   uz.addEventListener('drop', function(e) {
     e.preventDefault(); uz.classList.remove('drag-over');
     var file = e.dataTransfer.files[0];
@@ -904,7 +746,6 @@
     { pct: 88, text: '✨ 마지막 확인 중...' }
   ];
   var stepIdx = 0;
-
   function startStepMessages() { stepIdx = 0; updateStep(); }
   function updateStep() {
     if (stepIdx >= STEP_MESSAGES.length) return;
@@ -945,34 +786,24 @@
     analysisResult = response.data;
     if (analysisResult.isFireSafetyRelated === false) {
       goToScreen('screen-result');
-      document.getElementById('unrelatedCard').style.display  = 'block';
-      document.getElementById('normalResult').style.display   = 'none';
-      document.getElementById('unrelatedBtn').style.display   = 'block';
-      document.getElementById('resultSummary').style.display  = 'none';
-      document.getElementById('riskIndicator').style.display  = 'none';
+      document.getElementById('unrelatedCard').style.display = 'block';
+      document.getElementById('normalResult').style.display = 'none';
+      document.getElementById('unrelatedBtn').style.display = 'block';
+      document.getElementById('resultSummary').style.display = 'none';
+      document.getElementById('riskIndicator').style.display = 'none';
       var items = analysisResult.detectedItems || [];
       var names = items.map(function(it) { return typeof it === 'string' ? it : (it.name || ''); }).filter(Boolean);
       if (names.length > 0) setText('unrelatedDetected', '감지된 항목: ' + names.join(', ') + ' 입니다.');
       return;
     }
-    document.getElementById('unrelatedCard').style.display  = 'none';
-    document.getElementById('normalResult').style.display   = 'block';
-    document.getElementById('unrelatedBtn').style.display   = 'none';
-    document.getElementById('resultSummary').style.display  = 'block';
-    document.getElementById('riskIndicator').style.display  = 'block';
+    document.getElementById('unrelatedCard').style.display = 'none';
+    document.getElementById('normalResult').style.display = 'block';
+    document.getElementById('unrelatedBtn').style.display = 'none';
+    document.getElementById('resultSummary').style.display = 'block';
+    document.getElementById('riskIndicator').style.display = 'block';
     renderResult(analysisResult);
     goToScreen('screen-result');
     initChat();
-  }
-
-  function cancelAnalysis() {
-    clearTimeout(analysisTimer); clearTimeout(stepTimer);
-    stopStepMessages();
-    var btn = document.getElementById('analyzeBtn');
-    if (btn) { btn.disabled = false; btn.style.opacity = '1'; }
-    showToast('분석을 취소했어요.', 2500);
-    removeImage();
-    goToScreen('screen-upload');
   }
 
   function onAnalysisError(err) {
@@ -1029,19 +860,13 @@
   function gridPositions(count) {
     var cols = Math.ceil(Math.sqrt(count)), rows = Math.ceil(count/cols), result = [];
     var xStep = 80/(cols+1), yStep = 80/(rows+1);
-    for (var i = 0; i < count; i++) {
-      result.push({ px: Math.round(10+xStep*(i%cols+1)), py: Math.round(10+yStep*(Math.floor(i/cols)+1)) });
-    }
+    for (var i = 0; i < count; i++) result.push({ px: Math.round(10+xStep*(i%cols+1)), py: Math.round(10+yStep*(Math.floor(i/cols)+1)) });
     return result;
   }
 
   function renderMarkers(items) {
     var wrap = document.getElementById('markerImgWrap');
-    if (!items || items.length === 0) {
-      wrap.style.display = 'none';
-      document.getElementById('detectedList').style.display = 'none';
-      return;
-    }
+    if (!items || items.length === 0) { wrap.style.display = 'none'; document.getElementById('detectedList').style.display = 'none'; return; }
     document.getElementById('markerImg').src = 'data:' + imageMimeType + ';base64,' + imageBase64;
     wrap.style.display = 'block';
     wrap.querySelectorAll('.marker-pin,.marker-pulse-ring,.marker-label').forEach(function(el){el.remove();});
@@ -1071,13 +896,10 @@
   }
 
   function toggleMarker(idx) {
-    var pins = document.querySelectorAll('.marker-pin');
-    var labels = document.querySelectorAll('.marker-label');
-    var listItems = document.querySelectorAll('.detected-list-item');
     var wasActive = (activeMarkerIdx === idx);
-    pins.forEach(function(p){p.classList.remove('active');});
-    labels.forEach(function(l){l.classList.remove('visible');});
-    listItems.forEach(function(li){li.classList.remove('active');});
+    document.querySelectorAll('.marker-pin').forEach(function(p){p.classList.remove('active');});
+    document.querySelectorAll('.marker-label').forEach(function(l){l.classList.remove('visible');});
+    document.querySelectorAll('.detected-list-item').forEach(function(li){li.classList.remove('active');});
     activeMarkerIdx = -1;
     if (!wasActive) {
       var tp = document.querySelector('.marker-pin[data-idx="'+idx+'"]');
@@ -1105,31 +927,23 @@
   function renderResult(data) {
     setText('resultSummary', data.summary || '소방안전 분석 결과');
     var riskLevel = data.riskLevel || 'low';
-    var riskMap = {
-      low:    ['🟢 안전 양호', 'risk-low'],
-      medium: ['🟡 주의 필요', 'risk-medium'],
-      high:   ['🔴 즉시 조치 권고', 'risk-high']
-    };
+    var riskMap = { low:['🟢 안전 양호','risk-low'], medium:['🟡 주의 필요','risk-medium'], high:['🔴 즉시 조치 권고','risk-high'] };
     var riskArr = riskMap[riskLevel] || riskMap.low;
     var indicatorHtml = '<span class="risk-pill '+riskArr[1]+'">'+escapeHtml(riskArr[0])+'</span>';
     var items = data.detectedItems || [], shownRisks = {};
     shownRisks[riskLevel] = true;
     items.forEach(function(item) {
       var r = item.risk || 'low';
-      if (!shownRisks[r] && riskMap[r]) {
-        shownRisks[r] = true;
-        var ra = riskMap[r];
-        indicatorHtml += '<span class="risk-pill '+ra[1]+'" style="margin-left:6px;">'+escapeHtml(ra[0])+'</span>';
-      }
+      if (!shownRisks[r] && riskMap[r]) { shownRisks[r] = true; var ra = riskMap[r]; indicatorHtml += '<span class="risk-pill '+ra[1]+'" style="margin-left:6px;">'+escapeHtml(ra[0])+'</span>'; }
     });
     document.getElementById('riskIndicator').innerHTML = indicatorHtml;
-    setText('resultGreeting',  data.greeting  || '');
-    setText('resultAnalysis',  data.analysis  || '');
-    setText('resultSolution',  data.solution  || '');
+    setText('resultGreeting', data.greeting || '');
+    setText('resultAnalysis', data.analysis || '');
+    setText('resultSolution', data.solution || '');
     var note = data.expertNote || {};
-    setText('expertBasis',      note.basis      || '');
+    setText('expertBasis', note.basis || '');
     setText('expertImportance', note.importance || '');
-    setText('expertTip',        note.tip        || '');
+    setText('expertTip', note.tip || '');
     setText('expertInspection', note.inspection || '');
     setText('resultCuriosity', data.curiosityQuestion || '');
     renderMarkers(data.detectedItems || []);
@@ -1139,10 +953,7 @@
   function getKoreanVoice(callback) {
     if (cachedKoVoice) { callback(cachedKoVoice); return; }
     var voices = window.speechSynthesis.getVoices();
-    if (voices.length > 0) {
-      cachedKoVoice = voices.find(function(v) { return v.lang.startsWith('ko'); }) || null;
-      callback(cachedKoVoice); return;
-    }
+    if (voices.length > 0) { cachedKoVoice = voices.find(function(v) { return v.lang.startsWith('ko'); }) || null; callback(cachedKoVoice); return; }
     window.speechSynthesis.addEventListener('voiceschanged', function handler() {
       window.speechSynthesis.removeEventListener('voiceschanged', handler);
       var vs = window.speechSynthesis.getVoices();
@@ -1155,8 +966,7 @@
     if (!analysisResult) return;
     if (!('speechSynthesis' in window)) { showToast('이 브라우저는 음성을 지원하지 않아요.'); return; }
     if (voicePlaying) { window.speechSynthesis.cancel(); setVoiceUI(false); return; }
-    var text = [analysisResult.greeting, analysisResult.analysis, analysisResult.solution,
-                '팁: '+(analysisResult.expertNote ? analysisResult.expertNote.tip||'' : '')].filter(Boolean).join(' ');
+    var text = [analysisResult.greeting, analysisResult.analysis, analysisResult.solution, '팁: '+(analysisResult.expertNote ? analysisResult.expertNote.tip||'' : '')].filter(Boolean).join(' ');
     getKoreanVoice(function(koVoice) {
       speechUtterance = new SpeechSynthesisUtterance(text);
       speechUtterance.lang = 'ko-KR';
@@ -1177,7 +987,6 @@
     if (document.hidden && voicePlaying) { window.speechSynthesis && window.speechSynthesis.cancel(); setVoiceUI(false); }
   });
 
-  /* ─── 채팅 ─── */
   function initChat() {
     document.getElementById('chatMessages').textContent = '';
     var strong = document.createElement('strong');
@@ -1223,8 +1032,7 @@
     var row = document.createElement('div'); row.className = 'msg msg-ai'; row.id = 'typingMsg';
     var ind = document.createElement('div'); ind.className = 'typing-ind';
     ind.innerHTML = '<div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div>';
-    row.appendChild(makeAiAv()); row.appendChild(ind);
-    msgs.appendChild(row); msgs.scrollTop = msgs.scrollHeight;
+    row.appendChild(makeAiAv()); row.appendChild(ind); msgs.appendChild(row); msgs.scrollTop = msgs.scrollHeight;
   }
 
   function hideTyping() { var t = document.getElementById('typingMsg'); if(t) t.remove(); }
@@ -1258,12 +1066,7 @@
   function sendMessage(text) {
     if (!navigator.onLine) { showToast('📡 인터넷 연결이 없어요. 연결 후 다시 시도해 주세요.', 5000); setSendingUI(false); return; }
     addUserMessage(text); showTyping();
-    var context = analysisResult ? {
-      summary: analysisResult.summary,
-      riskLevel: analysisResult.riskLevel,
-      solution: analysisResult.solution,
-      categories: analysisResult.categories || []
-    } : null;
+    var context = analysisResult ? { summary: analysisResult.summary, riskLevel: analysisResult.riskLevel, solution: analysisResult.solution, categories: analysisResult.categories || [] } : null;
     GAS.run('chatFollowUp', [text, context],
       function(res) { hideTyping(); setSendingUI(false); addAiMessage(res && res.success ? res.message : '잠시 연결이 불안정해요 😥 다시 시도해 주세요!'); },
       function()    { hideTyping(); setSendingUI(false); addAiMessage('연결에 문제가 생겼어요. 잠시 후 다시 시도해 주세요 😊'); }
@@ -1289,12 +1092,7 @@
   if (window.visualViewport) {
     window.visualViewport.addEventListener('resize', function() {
       if (currentScreen === 'screen-chat') {
-        setTimeout(function() {
-          var ci = document.getElementById('chatInput');
-          if (ci && document.activeElement === ci) {
-            ci.scrollIntoView({ behavior: 'smooth', block: 'end' });
-          }
-        }, 100);
+        setTimeout(function() { var ci = document.getElementById('chatInput'); if (ci && document.activeElement === ci) ci.scrollIntoView({ behavior: 'smooth', block: 'end' }); }, 100);
       }
     });
   }
@@ -1302,10 +1100,7 @@
   function goToComplete() {
     if (voicePlaying) { window.speechSynthesis && window.speechSynthesis.cancel(); setVoiceUI(false); }
     goToScreen('screen-complete');
-    GAS.run('recordUsage', [],
-      function(res) { if (res && res.success) setText('statsText', res.message); },
-      function() {}
-    );
+    GAS.run('recordUsage', [], function(res) { if (res && res.success) setText('statsText', res.message); }, function() {});
   }
 
   function restartApp() {
@@ -1324,16 +1119,13 @@
   }
 
   function setText(id, val) { var el = document.getElementById(id); if(el) el.textContent = val; }
-  function escapeHtml(t) {
-    return String(t).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
-  }
+  function escapeHtml(t) { return String(t).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
 
   function fillBackground() { document.getElementById('app').style.minHeight = window.innerHeight+'px'; }
   fillBackground();
   window.addEventListener('resize', fillBackground);
   window.addEventListener('orientationchange', function(){ setTimeout(fillBackground, 300); });
 
-  /* ─── 히어로 동영상 텍스트 애니메이션 ─── */
   var heroTextShown = false;
   var heroVideo = document.getElementById('heroVideo');
   if (heroVideo) {
@@ -1341,20 +1133,19 @@
       if (!heroTextShown && heroVideo.currentTime >= 3.0) {
         heroTextShown = true;
         var greeting = document.getElementById('heroGreeting');
-        var title    = document.getElementById('heroTitle');
+        var title = document.getElementById('heroTitle');
         if (greeting) greeting.classList.add('visible');
         setTimeout(function() { if (title) title.classList.add('visible'); }, 300);
       }
     });
     heroVideo.addEventListener('error', function() {
       var greeting = document.getElementById('heroGreeting');
-      var title    = document.getElementById('heroTitle');
+      var title = document.getElementById('heroTitle');
       if (greeting) greeting.classList.add('visible');
-      if (title)    title.classList.add('visible');
+      if (title) title.classList.add('visible');
     });
   }
 
-  /* ─── 오프라인 감지 ─── */
   window.addEventListener('offline', function() { showToast('📡 인터넷 연결이 끊겼어요. 연결을 확인해 주세요.', 5000); });
   window.addEventListener('online',  function() { showToast('✅ 인터넷에 다시 연결됐어요!', 3000); });
   if (!navigator.onLine) { showToast('📡 인터넷 연결이 없어요. 연결 후 이용해 주세요.', 5000); }
