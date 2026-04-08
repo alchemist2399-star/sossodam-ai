@@ -59,25 +59,8 @@
     .toast { position: fixed; bottom: 32px; left: 50%; transform: translateX(-50%) translateY(80px); background: #1C1C2E; color: white; padding: 13px 22px; border-radius: 100px; font-size: 14px; font-weight: 500; box-shadow: 0 8px 28px rgba(0,0,0,0.22); z-index: 9999; max-width: 88vw; text-align: center; transition: transform 0.35s var(--ease-spring), opacity 0.25s; opacity: 0; pointer-events: none; }
     .toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
 
-    /* ══ [변경] 뒤로가기 버튼 — 분석완료 배지와 동일한 스타일 ══ */
-    .btn-back {
-      display: inline-flex;
-      align-items: center;
-      gap: 5px;
-      background: linear-gradient(135deg, var(--flame), var(--ember));
-      color: white;
-      padding: 7px 14px;
-      border-radius: 100px;
-      font-size: 13px;
-      font-weight: 700;
-      border: none;
-      cursor: pointer;
-      font-family: var(--font-main);
-      box-shadow: 0 3px 10px rgba(255,90,54,0.3);
-      transition: all 0.18s var(--ease-smooth);
-      -webkit-tap-highlight-color: transparent;
-      user-select: none;
-    }
+    /* ══ 뒤로가기 버튼 ══ */
+    .btn-back { display: inline-flex; align-items: center; gap: 5px; background: linear-gradient(135deg, var(--flame), var(--ember)); color: white; padding: 7px 14px; border-radius: 100px; font-size: 13px; font-weight: 700; border: none; cursor: pointer; font-family: var(--font-main); box-shadow: 0 3px 10px rgba(255,90,54,0.3); transition: all 0.18s var(--ease-smooth); -webkit-tap-highlight-color: transparent; user-select: none; }
     .btn-back:active { transform: scale(0.96); opacity: 0.9; }
 
     /* ── SPLASH ── */
@@ -448,7 +431,6 @@
 
     <!-- ════════════════ SCREEN 4: RESULT ════════════════ -->
     <div class="screen" id="screen-result">
-      <!-- [변경] 결과화면 뒤로가기 — 분석완료 배지와 동일 스타일 -->
       <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:10px;">
         <div class="result-tag" style="margin-bottom:0;">✨ 분석 완료</div>
         <button class="btn-back" onclick="retakePhoto()">← 뒤로가기</button>
@@ -513,7 +495,6 @@
 
     <!-- ════════════════ SCREEN 5: CHAT ════════════════ -->
     <div class="screen" id="screen-chat">
-      <!-- [변경] 채팅화면 뒤로가기 — 분석완료 배지와 동일 스타일 -->
       <div class="chat-header">
         <img src="https://raw.githubusercontent.com/alchemist2399-star/sossodam-ai/main/hero%20icon.png"
           style="width:48px; height:48px; object-fit:contain; filter:drop-shadow(0 2px 8px rgba(0,0,0,0.15)); flex-shrink:0;"
@@ -568,6 +549,7 @@
   var activeMarkerIdx = -1;
   var stepTimer       = null;
   var analysisTimer   = null;
+  var heroTextShown   = false;  // 히어로 텍스트 표시 여부
 
   var GAS_URL = 'https://sossodam-api.99kuki.workers.dev';
   var GAS = {
@@ -582,6 +564,7 @@
     }
   };
 
+  /* ─── 스플래시 ─── */
   var SPLASH_STEPS = ['AI 엔진 준비 중...', '소방 데이터 로딩...', '준비 완료!'];
   var splashStep = 0;
   function runSplash() {
@@ -591,7 +574,11 @@
     var pcts = [30, 70, 100];
     function advance() {
       if (splashStep >= SPLASH_STEPS.length) {
-        setTimeout(function() { var splash = document.getElementById('screen-splash'); splash.classList.add('hide'); setTimeout(function() { splash.style.display = 'none'; }, 650); }, 300);
+        setTimeout(function() {
+          var splash = document.getElementById('screen-splash');
+          splash.classList.add('hide');
+          setTimeout(function() { splash.style.display = 'none'; }, 650);
+        }, 300);
         return;
       }
       fill.style.width = pcts[splashStep] + '%';
@@ -605,6 +592,7 @@
   }
   window.addEventListener('load', runSplash);
 
+  /* ─── 에러 화면 ─── */
   var ERROR_INFO = {
     QUOTA_EXCEEDED: { cls:'err-quota', icon:'📊', title:'오늘 분석 한도에\n도달했어요', desc:'Gemini AI 무료 일일 한도를 모두 사용했어요.<br/><strong>내일 자정 이후</strong>에 다시 시도해 주세요.', action:'📅 내일 다시 시도할게요', next:'welcome' },
     RATE_LIMIT:     { cls:'err-rate',  icon:'⏳', title:'AI가 잠시 바빠요', desc:'요청이 너무 많이 몰렸어요.<br/><strong>10~30초 후</strong>에 다시 시도해 주세요.', action:'🔄 다시 시도하기', next:'upload' },
@@ -987,6 +975,7 @@
     if (document.hidden && voicePlaying) { window.speechSynthesis && window.speechSynthesis.cancel(); setVoiceUI(false); }
   });
 
+  /* ─── 채팅 ─── */
   function initChat() {
     document.getElementById('chatMessages').textContent = '';
     var strong = document.createElement('strong');
@@ -1103,12 +1092,25 @@
     GAS.run('recordUsage', [], function(res) { if (res && res.success) setText('statsText', res.message); }, function() {});
   }
 
+  /* ─── [변경] 새로 점검하기 — 동영상·텍스트 리셋 추가 ─── */
   function restartApp() {
     imageBase64 = ''; imageMimeType = 'image/jpeg'; analysisResult = null; activeMarkerIdx = -1;
     if (voicePlaying) { window.speechSynthesis && window.speechSynthesis.cancel(); setVoiceUI(false); }
     removeImage();
     document.getElementById('chatMessages').textContent = '';
     document.getElementById('fileInput').removeAttribute('capture');
+
+    // [변경] 히어로 텍스트 숨기고 리셋
+    heroTextShown = false;
+    var greeting = document.getElementById('heroGreeting');
+    var title    = document.getElementById('heroTitle');
+    if (greeting) greeting.classList.remove('visible');
+    if (title)    title.classList.remove('visible');
+
+    // [변경] 동영상 처음부터 재생
+    var hv = document.getElementById('heroVideo');
+    if (hv) { hv.currentTime = 0; hv.play().catch(function(){}); }
+
     var cur = document.getElementById(currentScreen);
     if (cur) cur.classList.remove('active');
     currentScreen = 'screen-welcome';
@@ -1126,26 +1128,30 @@
   window.addEventListener('resize', fillBackground);
   window.addEventListener('orientationchange', function(){ setTimeout(fillBackground, 300); });
 
-  var heroTextShown = false;
+  /* ─── 히어로 동영상 텍스트 애니메이션 ─── */
   var heroVideo = document.getElementById('heroVideo');
   if (heroVideo) {
     heroVideo.addEventListener('timeupdate', function() {
       if (!heroTextShown && heroVideo.currentTime >= 3.0) {
         heroTextShown = true;
         var greeting = document.getElementById('heroGreeting');
-        var title = document.getElementById('heroTitle');
+        var title    = document.getElementById('heroTitle');
         if (greeting) greeting.classList.add('visible');
         setTimeout(function() { if (title) title.classList.add('visible'); }, 300);
       }
     });
     heroVideo.addEventListener('error', function() {
-      var greeting = document.getElementById('heroGreeting');
-      var title = document.getElementById('heroTitle');
-      if (greeting) greeting.classList.add('visible');
-      if (title) title.classList.add('visible');
+      if (!heroTextShown) {
+        heroTextShown = true;
+        var greeting = document.getElementById('heroGreeting');
+        var title    = document.getElementById('heroTitle');
+        if (greeting) greeting.classList.add('visible');
+        if (title)    title.classList.add('visible');
+      }
     });
   }
 
+  /* ─── 오프라인 감지 ─── */
   window.addEventListener('offline', function() { showToast('📡 인터넷 연결이 끊겼어요. 연결을 확인해 주세요.', 5000); });
   window.addEventListener('online',  function() { showToast('✅ 인터넷에 다시 연결됐어요!', 3000); });
   if (!navigator.onLine) { showToast('📡 인터넷 연결이 없어요. 연결 후 이용해 주세요.', 5000); }
