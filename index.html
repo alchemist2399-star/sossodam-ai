@@ -60,24 +60,7 @@
     .btn-row .btn { flex: 1; }
     .toast { position: fixed; bottom: 32px; left: 50%; transform: translateX(-50%) translateY(80px); background: #1C1C2E; color: white; padding: 13px 22px; border-radius: 100px; font-size: 14px; font-weight: 500; box-shadow: 0 8px 28px rgba(0,0,0,0.22); z-index: 9999; max-width: 88vw; text-align: center; transition: transform 0.35s var(--ease-spring), opacity 0.25s; opacity: 0; pointer-events: none; }
     .toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
-    .btn-back {
-      display: inline-flex;
-      align-items: center;
-      gap: 5px;
-      background: linear-gradient(135deg, var(--flame), var(--ember));
-      color: white;
-      padding: 5px 12px;
-      border-radius: 100px;
-      font-size: 11px;
-      font-weight: 700;
-      border: none;
-      cursor: pointer;
-      font-family: var(--font-main);
-      box-shadow: 0 3px 10px rgba(255,90,54,0.3);
-      transition: all 0.18s var(--ease-smooth);
-      -webkit-tap-highlight-color: transparent;
-      user-select: none;
-    }
+    .btn-back { display: inline-flex; align-items: center; gap: 5px; background: linear-gradient(135deg, var(--flame), var(--ember)); color: white; padding: 5px 12px; border-radius: 100px; font-size: 11px; font-weight: 700; border: none; cursor: pointer; font-family: var(--font-main); box-shadow: 0 3px 10px rgba(255,90,54,0.3); transition: all 0.18s var(--ease-smooth); -webkit-tap-highlight-color: transparent; user-select: none; }
     .btn-back:active { transform: scale(0.96); opacity: 0.9; }
 
     /* ── SPLASH ── */
@@ -103,6 +86,7 @@
     .splash-progress-track { background: rgba(255,255,255,0.22); border-radius: 100px; height: 4px; overflow: hidden; }
     .splash-progress-fill { height: 100%; border-radius: 100px; background: white; transition: width 0.6s ease; width: 5%; }
     .splash-progress-label { font-size: 11px; color: rgba(255,255,255,0.75); text-align: center; margin-top: 8px; }
+
     /* ── WELCOME ── */
     #screen-welcome { padding-top: 8px; }
     .hero-section { padding: 12px 0 16px; }
@@ -123,6 +107,7 @@
     .feature-text strong { display: block; font-size: 14px; font-weight: 700; color: var(--ink); }
     .feature-text span   { font-size: 12px; color: var(--ink-muted); margin-top: 2px; display: block; }
     .disclaimer { font-size: 11px; color: var(--ink-muted); text-align: center; line-height: 1.7; margin-top: 16px; padding: 0 4px; }
+
     /* ── UPLOAD ── */
     #screen-upload { padding-top: 16px; }
     .section-title { font-size: 20px; font-weight: 800; color: var(--ink); margin-bottom: 4px; letter-spacing: -0.3px; }
@@ -136,6 +121,7 @@
     .preview-wrap { position: relative; margin-bottom: 14px; border-radius: var(--radius-lg); overflow: hidden; }
     #previewImg { width: 100%; max-height: 260px; object-fit: cover; display: none; border-radius: var(--radius-lg); }
     .preview-remove { position: absolute; top: 10px; right: 10px; width: 32px; height: 32px; border-radius: 50%; background: rgba(0,0,0,0.55); color: white; border: none; cursor: pointer; font-size: 15px; display: none; align-items: center; justify-content: center; }
+
     /* ── ANALYZING ── */
     #screen-analyzing { padding-top: 40px; text-align: center; }
     .scan-wrap { position: relative; width: 220px; height: 220px; margin: 0 auto 28px; }
@@ -161,6 +147,7 @@
     .progress-track { background: rgba(0,0,0,0.07); border-radius: 100px; height: 5px; overflow: hidden; margin-bottom: 6px; }
     .progress-fill { height: 100%; border-radius: 100px; background: linear-gradient(90deg, var(--flame), var(--ember)); transition: width 0.8s ease; }
     .progress-step { font-size: 12px; font-weight: 700; color: var(--flame); transition: opacity 0.3s; }
+
     /* ── RESULT ── */
     #screen-result { padding-top: 16px; }
     .result-tag { display: inline-flex; align-items: center; gap: 5px; background: linear-gradient(135deg, var(--flame), var(--ember)); color: white; padding: 5px 12px; border-radius: 100px; font-size: 11px; font-weight: 700; margin-bottom: 10px; box-shadow: 0 3px 10px rgba(255,90,54,0.3); }
@@ -220,7 +207,7 @@
     .expert-icon { font-size: 16px; flex-shrink: 0; margin-top: 1px; }
     .expert-label { font-size: 10px; font-weight: 700; color: var(--ink-muted); letter-spacing: 0.4px; text-transform: uppercase; margin-bottom: 2px; }
     .expert-val   { font-size: 13px; color: var(--ink-soft); line-height: 1.65; }
-    .curiosity-card { background: linear-gradient(135deg, #FFF8EE, #FFFDF5); border: 1.5px solid rgba(255,179,71,0.2); border-radius: var(--radius-md); padding: 16px 18px; margin-bottom: 18px; cursor: pointer; -webkit-tap-highlight-color: transparent; }
+    .curiosity-card { background: linear-gradient(135deg, #FFF8EE, #FFFDF5); border: 1.5px solid rgba(255,179,71,0.2); border-radius: var(--radius-md); padding: 16px 18px; margin-bottom: 12px; cursor: pointer; -webkit-tap-highlight-color: transparent; }
     .curiosity-card:active { opacity: 0.85; }
     .curiosity-label { font-size: 10px; font-weight: 800; color: var(--ember); letter-spacing: 0.5px; margin-bottom: 5px; }
     .curiosity-q { font-size: 14px; color: var(--ink-soft); line-height: 1.65; }
@@ -229,6 +216,49 @@
     .unrelated-detected { font-size: 13px; color: var(--ink-muted); background: white; border-radius: var(--radius-md); padding: 10px 14px; margin-bottom: 14px; border: 1px solid rgba(0,0,0,0.05); }
     .unrelated-msg  { font-size: 15px; font-weight: 700; color: var(--ink-soft); line-height: 1.7; margin-bottom: 6px; }
     .unrelated-hint { font-size: 13px; color: var(--ink-muted); line-height: 1.6; }
+
+    /* ── QUIZ CARD ── */
+    .quiz-section { margin-bottom: 12px; }
+    .quiz-invite { display: flex; align-items: center; gap: 12px; background: white; border: 1.5px solid rgba(255,90,54,0.12); border-radius: var(--radius-lg); padding: 14px 16px; margin-bottom: 10px; box-shadow: var(--shadow-sm); }
+    .quiz-invite-avatar { width: 44px; height: 44px; flex-shrink: 0; }
+    .quiz-invite-avatar img { width: 44px; height: 44px; object-fit: contain; animation: chatCharFloat 2.8s ease-in-out infinite; filter: drop-shadow(0 2px 6px rgba(255,90,54,0.25)); }
+    .quiz-invite-text { flex: 1; }
+    .quiz-invite-label { font-size: 10px; font-weight: 800; color: var(--flame); letter-spacing: 0.4px; margin-bottom: 3px; }
+    .quiz-invite-msg { font-size: 13px; color: var(--ink-soft); line-height: 1.5; font-weight: 500; }
+    .quiz-card { background: linear-gradient(135deg, #FFF3F0, #FFF9F6); border: 1.5px solid rgba(255,90,54,0.15); border-radius: var(--radius-lg); padding: 18px 16px; overflow: hidden; }
+    .quiz-loading { display: flex; align-items: center; gap: 10px; padding: 8px 0; }
+    .quiz-loading-text { font-size: 13px; color: var(--ink-muted); }
+    .quiz-q-label { font-size: 10px; font-weight: 800; color: var(--flame); letter-spacing: 0.5px; margin-bottom: 8px; display: flex; align-items: center; gap: 6px; }
+    .quiz-q-label span { background: linear-gradient(135deg, var(--flame), var(--ember)); color: white; padding: 2px 8px; border-radius: 100px; font-size: 9px; }
+    .quiz-question { font-size: 15px; font-weight: 700; color: var(--ink); line-height: 1.6; margin-bottom: 14px; word-break: keep-all; }
+    .quiz-options { display: flex; flex-direction: column; gap: 8px; }
+    .quiz-option { display: flex; align-items: center; gap: 10px; background: white; border: 1.5px solid rgba(0,0,0,0.07); border-radius: 14px; padding: 12px 14px; cursor: pointer; transition: all 0.18s var(--ease-smooth); -webkit-tap-highlight-color: transparent; font-family: var(--font-main); font-size: 13px; color: var(--ink-soft); font-weight: 500; text-align: left; width: 100%; }
+    .quiz-option:active { transform: scale(0.98); }
+    .quiz-option.correct { background: #E6FFF4; border-color: #2EC4A1; color: #0E7A5A; }
+    .quiz-option.wrong   { background: #FFE8E3; border-color: #FF5A36; color: #CC2200; }
+    .quiz-option.disabled { cursor: default; opacity: 0.6; }
+    .quiz-option.correct.disabled, .quiz-option.wrong.disabled { opacity: 1; }
+    .quiz-opt-num { width: 22px; height: 22px; border-radius: 50%; background: rgba(0,0,0,0.06); display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 800; flex-shrink: 0; transition: all 0.18s; }
+    .quiz-option.correct .quiz-opt-num { background: #2EC4A1; color: white; }
+    .quiz-option.wrong   .quiz-opt-num { background: #FF5A36; color: white; }
+    .quiz-result-box { margin-top: 14px; border-radius: 14px; padding: 14px 16px; animation: fadeUp 0.35s var(--ease-spring); display: none; }
+    .quiz-result-box.show { display: block; }
+    .quiz-result-box.correct-box { background: linear-gradient(135deg, #E6FFF4, #D0F5E8); border: 1px solid rgba(46,196,161,0.2); }
+    .quiz-result-box.wrong-box   { background: linear-gradient(135deg, #FFF0EE, #FFE8E3); border: 1px solid rgba(255,90,54,0.15); }
+    .quiz-result-emoji { font-size: 22px; margin-bottom: 6px; }
+    .quiz-result-title { font-size: 14px; font-weight: 800; margin-bottom: 4px; }
+    .quiz-result-box.correct-box .quiz-result-title { color: #0E7A5A; }
+    .quiz-result-box.wrong-box   .quiz-result-title { color: #CC2200; }
+    .quiz-result-desc { font-size: 12px; color: var(--ink-soft); line-height: 1.7; }
+    .quiz-next-btn { margin-top: 12px; width: 100%; padding: 12px; background: linear-gradient(135deg, var(--flame), var(--ember)); color: white; border: none; border-radius: 100px; font-family: var(--font-main); font-size: 13px; font-weight: 700; cursor: pointer; box-shadow: 0 4px 14px rgba(255,90,54,0.3); -webkit-tap-highlight-color: transparent; display: none; }
+    .quiz-next-btn.show { display: block; }
+    .quiz-next-btn:active { transform: scale(0.97); }
+    .quiz-score-bar { display: flex; align-items: center; gap: 10px; margin-top: 14px; padding-top: 12px; border-top: 1px solid rgba(0,0,0,0.06); }
+    .quiz-score-label { font-size: 11px; color: var(--ink-muted); font-weight: 600; }
+    .quiz-score-stars { display: flex; gap: 3px; }
+    .quiz-star { font-size: 14px; filter: grayscale(1) opacity(0.3); transition: all 0.3s var(--ease-spring); }
+    .quiz-star.lit { filter: none; transform: scale(1.15); }
+
     /* ── CHAT ── */
     #screen-chat { padding-top: 16px; padding-bottom: 0; }
     .chat-header { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; }
@@ -262,6 +292,7 @@
     #chatInput::placeholder { color: var(--ink-muted); }
     .btn-send { width: 46px; height: 46px; border-radius: 50%; flex-shrink: 0; background: linear-gradient(135deg, var(--flame), var(--ember)); color: white; border: none; cursor: pointer; font-size: 18px; box-shadow: 0 3px 14px rgba(255,90,54,0.35); display: flex; align-items: center; justify-content: center; -webkit-tap-highlight-color: transparent; }
     .btn-send:active { transform: scale(0.93); }
+
     /* ── COMPLETE ── */
     #screen-complete { padding-top: 56px; text-align: center; }
     .complete-icon { width: 110px; height: 110px; margin: 0 auto 24px; border-radius: 50%; background: linear-gradient(135deg, #E8FFF5, #D0F5E8); display: flex; align-items: center; justify-content: center; font-size: 58px; box-shadow: 0 0 0 8px rgba(46,196,161,0.1); animation: completePop 0.6s var(--ease-spring) both; }
@@ -271,6 +302,7 @@
     .complete-msg { background: white; border-radius: var(--radius-md); padding: 18px 20px; margin: 18px 0 24px; text-align: left; border: 1px solid rgba(0,0,0,0.05); }
     .complete-msg p { font-size: 15px; color: var(--ink-soft); line-height: 1.8; }
     .complete-chip { display: inline-flex; align-items: center; gap: 6px; background: rgba(46,196,161,0.08); border: 1px solid rgba(46,196,161,0.18); border-radius: 100px; padding: 7px 16px; margin-bottom: 24px; font-size: 13px; color: var(--mint-dark); font-weight: 700; }
+
     /* ── ERROR ── */
     .error-screen-wrap { display: none; padding: 20px 18px; }
     .error-screen-wrap.active { display: block; }
@@ -300,7 +332,7 @@
 <body>
 <div class="toast" id="toast"></div>
 <div id="app">
-  <!-- ════════════════ SPLASH ════════════════ -->
+  <!-- SPLASH -->
   <div id="screen-splash">
     <div class="splash-top"></div>
     <div class="splash-char-wrap">
@@ -323,7 +355,7 @@
       <div class="splash-dot" id="sdot3"></div>
     </div>
   </div>
-  <!-- ════════════════ HEADER ════════════════ -->
+  <!-- HEADER -->
   <header class="app-header" id="appHeader">
     <div class="app-logo-icon">🔥</div>
     <div class="app-logo-text">소화기 AI</div>
@@ -434,9 +466,51 @@
         <div class="curiosity-card" onclick="sendCuriosity()" role="button" tabindex="0">
           <div class="curiosity-label">💡 더 궁금하신가요?</div><div class="curiosity-q" id="resultCuriosity"></div>
         </div>
+
+        <!-- ── 퀴즈 섹션 ── -->
+        <div class="quiz-section" id="quizSection" style="display:none;">
+          <div class="quiz-invite">
+            <div class="quiz-invite-avatar">
+              <img src="https://raw.githubusercontent.com/alchemist2399-star/sossodam-ai/main/splash.png" alt="소화기AI" onerror="this.outerHTML='<span style=font-size:28px>🧯</span>'" />
+            </div>
+            <div class="quiz-invite-text">
+              <div class="quiz-invite-label">🎯 소화기 AI 퀴즈</div>
+              <div class="quiz-invite-msg" id="quizInviteMsg">오늘 점검하신 내용으로 한 가지만 더 알아볼까요? 🧯</div>
+            </div>
+          </div>
+          <div class="quiz-card">
+            <!-- 로딩 -->
+            <div class="quiz-loading" id="quizLoading">
+              <div class="dot-loader" style="margin-top:0;"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+              <span class="quiz-loading-text">퀴즈 준비 중...</span>
+            </div>
+            <!-- 퀴즈 본문 -->
+            <div id="quizBody" style="display:none;">
+              <div class="quiz-q-label">📝 소방안전 퀴즈 <span id="quizCategoryBadge">소화기</span></div>
+              <div class="quiz-question" id="quizQuestion"></div>
+              <div class="quiz-options" id="quizOptions"></div>
+              <div class="quiz-result-box" id="quizResultBox">
+                <div class="quiz-result-emoji" id="quizResultEmoji"></div>
+                <div class="quiz-result-title" id="quizResultTitle"></div>
+                <div class="quiz-result-desc" id="quizResultDesc"></div>
+              </div>
+              <button class="quiz-next-btn" id="quizNextBtn" onclick="goToComplete()">✅ 안심 완료!</button>
+              <div class="quiz-score-bar" id="quizScoreBar" style="display:none;">
+                <span class="quiz-score-label">오늘의 점수</span>
+                <div class="quiz-score-stars">
+                  <span class="quiz-star" id="qstar1">⭐</span>
+                  <span class="quiz-star" id="qstar2">⭐</span>
+                  <span class="quiz-star" id="qstar3">⭐</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- 퀴즈 섹션 끝 -->
+
         <div class="btn-row mt8">
           <button class="btn btn-ghost" onclick="goToScreen('screen-chat')">💬 더 물어보기</button>
-          <button class="btn btn-mint" onclick="goToComplete()">✅ 안심 완료!</button>
+          <button class="btn btn-mint" id="completeBtn" onclick="goToComplete()">✅ 안심 완료!</button>
         </div>
       </div>
       <div id="unrelatedBtn" style="display:none; margin-top:16px;"><button class="btn btn-primary" onclick="retakePhoto()">📷 다시 찍어볼게요</button></div>
@@ -490,12 +564,17 @@
   var analysisTimer   = null;
   var heroTextShown   = false;
 
+  // 퀴즈 상태
+  var quizData        = null;
+  var quizAnswered    = false;
+
   var GAS_URL = 'https://sossodam-api.99kuki.workers.dev';
   var GAS = {
     run: function(method, args, onSuccess, onFailure) {
       var body = { action: method };
       if (method === 'analyzeImage')  { body.base64Data = args[0]; body.mimeType = args[1]; }
       else if (method === 'chatFollowUp') { body.userMessage = args[0]; body.context = args[1]; }
+      else if (method === 'generateQuiz') { body.context = args[0]; }
       fetch(GAS_URL, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) })
       .then(function(res) { return res.json(); })
       .then(function(data) { onSuccess(data); })
@@ -711,7 +790,11 @@
     document.getElementById('unrelatedBtn').style.display = 'none';
     document.getElementById('resultSummary').style.display = 'block';
     document.getElementById('riskIndicator').style.display = 'block';
-    renderResult(analysisResult); goToScreen('screen-result'); initChat();
+    renderResult(analysisResult);
+    goToScreen('screen-result');
+    initChat();
+    // 분석 완료 후 퀴즈 자동 생성
+    showQuizSection(analysisResult);
   }
 
   function onAnalysisError(err) {
@@ -722,6 +805,108 @@
     var code = (typeof err === 'object' && err && err.code) ? err.code : (typeof err === 'string' ? err : 'UNKNOWN');
     showErrorScreen(code);
   }
+
+  // ── 퀴즈 관련 함수 ──
+
+  function showQuizSection(data) {
+    quizData = null;
+    quizAnswered = false;
+    var section = document.getElementById('quizSection');
+    section.style.display = 'block';
+    document.getElementById('quizLoading').style.display = 'flex';
+    document.getElementById('quizBody').style.display = 'none';
+
+    // 분석된 항목 기반 초대 메시지
+    var summary = data.summary || '소방시설';
+    document.getElementById('quizInviteMsg').textContent =
+      '오늘 점검하신 ' + summary + ' 관련 퀴즈예요. 한 번 풀어볼까요? 🧯';
+
+    // worker에 퀴즈 생성 요청
+    var context = {
+      summary:    data.summary    || '',
+      riskLevel:  data.riskLevel  || 'low',
+      categories: data.categories || [],
+      detectedItems: (data.detectedItems || []).map(function(i){ return i.name || ''; }).filter(Boolean)
+    };
+    GAS.run('generateQuiz', [context], onQuizSuccess, onQuizError);
+  }
+
+  function onQuizSuccess(res) {
+    document.getElementById('quizLoading').style.display = 'none';
+    if (!res || !res.success || !res.quiz) { hideQuizSection(); return; }
+    quizData = res.quiz;
+    renderQuiz(quizData);
+  }
+
+  function onQuizError() {
+    hideQuizSection();
+  }
+
+  function hideQuizSection() {
+    document.getElementById('quizSection').style.display = 'none';
+  }
+
+  function renderQuiz(q) {
+    document.getElementById('quizBody').style.display = 'block';
+    document.getElementById('quizCategoryBadge').textContent = q.category || '소방안전';
+    document.getElementById('quizQuestion').textContent = q.question || '';
+    document.getElementById('quizResultBox').classList.remove('show','correct-box','wrong-box');
+    document.getElementById('quizNextBtn').classList.remove('show');
+    document.getElementById('quizScoreBar').style.display = 'none';
+
+    var optWrap = document.getElementById('quizOptions');
+    optWrap.innerHTML = '';
+    var opts = q.options || [];
+    opts.forEach(function(opt, idx) {
+      var btn = document.createElement('button');
+      btn.className = 'quiz-option';
+      btn.setAttribute('data-idx', idx);
+      btn.innerHTML =
+        '<span class="quiz-opt-num">' + (idx + 1) + '</span>' +
+        '<span>' + escapeHtml(opt) + '</span>';
+      btn.addEventListener('click', function() { selectQuizOption(idx, q.answer); });
+      optWrap.appendChild(btn);
+    });
+  }
+
+  function selectQuizOption(selectedIdx, correctIdx) {
+    if (quizAnswered) return;
+    quizAnswered = true;
+    var isCorrect = (selectedIdx === correctIdx);
+
+    // 모든 버튼 비활성화 + 정답/오답 표시
+    var btns = document.querySelectorAll('.quiz-option');
+    btns.forEach(function(b, i) {
+      b.classList.add('disabled');
+      if (i === correctIdx) b.classList.add('correct');
+      else if (i === selectedIdx && !isCorrect) b.classList.add('wrong');
+    });
+
+    // 결과 박스
+    var box = document.getElementById('quizResultBox');
+    box.classList.remove('correct-box','wrong-box');
+    box.classList.add(isCorrect ? 'correct-box' : 'wrong-box', 'show');
+    document.getElementById('quizResultEmoji').textContent = isCorrect ? '🎉' : '💡';
+    document.getElementById('quizResultTitle').textContent = isCorrect ? '정답이에요!' : '아쉽지만 다음엔 맞출 수 있어요!';
+    document.getElementById('quizResultDesc').textContent = quizData.explanation || '';
+
+    // 다음 버튼 (안심 완료로 연결)
+    document.getElementById('quizNextBtn').classList.add('show');
+
+    // 별점
+    var scoreBar = document.getElementById('quizScoreBar');
+    scoreBar.style.display = 'flex';
+    var starCount = isCorrect ? 3 : 1;
+    ['qstar1','qstar2','qstar3'].forEach(function(id, i) {
+      var el = document.getElementById(id);
+      el.classList.remove('lit');
+      if (i < starCount) {
+        setTimeout(function() { el.classList.add('lit'); }, i * 180);
+      }
+    });
+  }
+
+  // ── 기존 함수들 ──
 
   var RISK_COLOR = { high:'#E24B4A', medium:'#EF9F27', low:'#2EC4A1' };
   var RISK_LABEL = { high:'즉시 조치', medium:'주의 필요', low:'확인 권장' };
@@ -995,10 +1180,12 @@
 
   function restartApp() {
     imageBase64 = ''; imageMimeType = 'image/jpeg'; analysisResult = null; activeMarkerIdx = -1;
+    quizData = null; quizAnswered = false;
     if (voicePlaying) { window.speechSynthesis && window.speechSynthesis.cancel(); setVoiceUI(false); }
     removeImage();
     document.getElementById('chatMessages').textContent = '';
     document.getElementById('fileInput').removeAttribute('capture');
+    document.getElementById('quizSection').style.display = 'none';
     heroTextShown = false;
     var greeting = document.getElementById('heroGreeting');
     var title    = document.getElementById('heroTitle');
