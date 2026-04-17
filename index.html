@@ -225,9 +225,9 @@
     .quiz-banner-avatar { width: 40px; height: 40px; flex-shrink: 0; }
     .quiz-banner-avatar img { width: 40px; height: 40px; object-fit: contain; animation: chatCharFloat 2.8s ease-in-out infinite; filter: drop-shadow(0 2px 6px rgba(255,90,54,0.25)); }
     .quiz-banner-text { flex: 1; }
-    .quiz-banner-label { font-size: 10px; font-weight: 800; color: var(--flame); letter-spacing: 0.4px; margin-bottom: 2px; }
-    .quiz-banner-msg { font-size: 13px; color: var(--ink-soft); font-weight: 500; }
-    .quiz-banner-tap { font-size: 11px; color: var(--flame); font-weight: 700; margin-top: 3px; }
+    .quiz-banner-label { font-size: 10px; font-weight: 800; color: var(--flame); letter-spacing: 0.4px; margin-bottom: 3px; }
+    .quiz-banner-msg { font-size: 13px; color: var(--ink-soft); font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .quiz-banner-tap { font-size: 11px; color: var(--flame); font-weight: 700; margin-top: 2px; }
     /* 펼쳐진 퀴즈 본문 */
     .quiz-body-wrap { display: none; margin-top: 8px; }
     .quiz-body-wrap.open { display: block; animation: fadeUp 0.3s var(--ease-spring); }
@@ -468,7 +468,8 @@
             </div>
             <div class="quiz-banner-text">
               <div class="quiz-banner-label">🎯 소화기 AI 퀴즈</div>
-              <div class="quiz-banner-tap" id="quizBannerMsg">탭해서 풀어보세요 ▶</div>
+              <div class="quiz-banner-msg" id="quizBannerMsg">퀴즈를 준비 중이에요</div>
+              <div class="quiz-banner-tap">탭해서 풀어보세요</div>
             </div>
           </div>
           <!-- 펼쳐지는 퀴즈 본문 -->
@@ -833,7 +834,7 @@
 
     var summary = data.summary || '소방시설';
     document.getElementById('quizBannerMsg').textContent =
-      summary + ' 관련 퀴즈! 탭해서 풀어보세요 ▶';
+      summary + ' 관련 퀴즈!';
 
     var context = {
       summary:    data.summary    || '',
