@@ -219,12 +219,19 @@
 
     /* ── QUIZ CARD ── */
     .quiz-section { margin-bottom: 12px; }
-    .quiz-invite { display: flex; align-items: center; gap: 12px; background: white; border: 1.5px solid rgba(255,90,54,0.12); border-radius: var(--radius-lg); padding: 14px 16px; margin-bottom: 10px; box-shadow: var(--shadow-sm); }
-    .quiz-invite-avatar { width: 44px; height: 44px; flex-shrink: 0; }
-    .quiz-invite-avatar img { width: 44px; height: 44px; object-fit: contain; animation: chatCharFloat 2.8s ease-in-out infinite; filter: drop-shadow(0 2px 6px rgba(255,90,54,0.25)); }
-    .quiz-invite-text { flex: 1; }
-    .quiz-invite-label { font-size: 10px; font-weight: 800; color: var(--flame); letter-spacing: 0.4px; margin-bottom: 3px; }
-    .quiz-invite-msg { font-size: 13px; color: var(--ink-soft); line-height: 1.5; font-weight: 500; }
+    /* 접힌 배너 토글 버튼 */
+    .quiz-banner { display: flex; align-items: center; gap: 12px; background: white; border: 1.5px solid rgba(255,90,54,0.2); border-radius: var(--radius-lg); padding: 14px 16px; cursor: pointer; box-shadow: var(--shadow-sm); -webkit-tap-highlight-color: transparent; transition: all 0.18s var(--ease-smooth); }
+    .quiz-banner:active { opacity: 0.88; transform: scale(0.99); }
+    .quiz-banner-avatar { width: 40px; height: 40px; flex-shrink: 0; }
+    .quiz-banner-avatar img { width: 40px; height: 40px; object-fit: contain; animation: chatCharFloat 2.8s ease-in-out infinite; filter: drop-shadow(0 2px 6px rgba(255,90,54,0.25)); }
+    .quiz-banner-text { flex: 1; }
+    .quiz-banner-label { font-size: 10px; font-weight: 800; color: var(--flame); letter-spacing: 0.4px; margin-bottom: 2px; }
+    .quiz-banner-msg { font-size: 13px; color: var(--ink-soft); font-weight: 500; }
+    .quiz-banner-arrow { font-size: 13px; color: var(--flame); font-weight: 700; transition: transform 0.25s var(--ease-smooth); flex-shrink: 0; }
+    .quiz-banner-arrow.open { transform: rotate(90deg); }
+    /* 펼쳐진 퀴즈 본문 */
+    .quiz-body-wrap { display: none; margin-top: 8px; }
+    .quiz-body-wrap.open { display: block; animation: fadeUp 0.3s var(--ease-spring); }
     .quiz-card { background: linear-gradient(135deg, #FFF3F0, #FFF9F6); border: 1.5px solid rgba(255,90,54,0.15); border-radius: var(--radius-lg); padding: 18px 16px; overflow: hidden; }
     .quiz-loading { display: flex; align-items: center; gap: 10px; padding: 8px 0; }
     .quiz-loading-text { font-size: 13px; color: var(--ink-muted); }
@@ -250,10 +257,7 @@
     .quiz-result-box.correct-box .quiz-result-title { color: #0E7A5A; }
     .quiz-result-box.wrong-box   .quiz-result-title { color: #CC2200; }
     .quiz-result-desc { font-size: 12px; color: var(--ink-soft); line-height: 1.7; }
-    .quiz-next-btn { margin-top: 12px; width: 100%; padding: 12px; background: linear-gradient(135deg, var(--flame), var(--ember)); color: white; border: none; border-radius: 100px; font-family: var(--font-main); font-size: 13px; font-weight: 700; cursor: pointer; box-shadow: 0 4px 14px rgba(255,90,54,0.3); -webkit-tap-highlight-color: transparent; display: none; }
-    .quiz-next-btn.show { display: block; }
-    .quiz-next-btn:active { transform: scale(0.97); }
-    .quiz-score-bar { display: flex; align-items: center; gap: 10px; margin-top: 14px; padding-top: 12px; border-top: 1px solid rgba(0,0,0,0.06); }
+    .quiz-score-bar { display: flex; align-items: center; gap: 10px; margin-top: 14px; padding-top: 12px; border-top: 1px solid rgba(0,0,0,0.06); flex-wrap: wrap; }
     .quiz-score-label { font-size: 11px; color: var(--ink-muted); font-weight: 600; }
     .quiz-score-stars { display: flex; gap: 3px; }
     .quiz-star { font-size: 14px; filter: grayscale(1) opacity(0.3); transition: all 0.3s var(--ease-spring); }
@@ -456,6 +460,51 @@
         <div class="voice-bar" onclick="toggleVoice()" role="button" tabindex="0">
           <span id="voiceIcon" style="font-size:20px">🔊</span><span class="voice-label" id="voiceLabel">음성으로 들어보기</span><span class="voice-chip">TTS</span>
         </div>
+        <!-- ── 퀴즈 섹션: 배너 클릭으로 펼치기 (전문가 안심노트 위) ── -->
+        <div class="quiz-section" id="quizSection" style="display:none;">
+          <!-- 접힌 배너 -->
+          <div class="quiz-banner" id="quizBanner" onclick="toggleQuizBody()">
+            <div class="quiz-banner-avatar">
+              <img src="https://raw.githubusercontent.com/alchemist2399-star/sossodam-ai/main/splash.png" alt="소화기AI" onerror="this.outerHTML='<span style=font-size:26px>🧯</span>'" />
+            </div>
+            <div class="quiz-banner-text">
+              <div class="quiz-banner-label">🎯 소화기 AI 퀴즈</div>
+              <div class="quiz-banner-msg" id="quizBannerMsg">퀴즈 풀고 오늘 점수 확인하기! 탭하세요 ▶</div>
+            </div>
+            <div class="quiz-banner-arrow" id="quizBannerArrow">▶</div>
+          </div>
+          <!-- 펼쳐지는 퀴즈 본문 -->
+          <div class="quiz-body-wrap" id="quizBodyWrap">
+            <div class="quiz-card">
+              <div class="quiz-loading" id="quizLoading">
+                <div class="dot-loader" style="margin-top:0;"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+                <span class="quiz-loading-text">퀴즈 준비 중...</span>
+              </div>
+              <div id="quizBody" style="display:none;">
+                <div class="quiz-q-label">📝 소방안전 퀴즈 <span id="quizCategoryBadge">소화기</span></div>
+                <div class="quiz-question" id="quizQuestion"></div>
+                <div class="quiz-options" id="quizOptions"></div>
+                <div class="quiz-result-box" id="quizResultBox">
+                  <div class="quiz-result-emoji" id="quizResultEmoji"></div>
+                  <div class="quiz-result-title" id="quizResultTitle"></div>
+                  <div class="quiz-result-desc" id="quizResultDesc"></div>
+                </div>
+                <div class="quiz-score-bar" id="quizScoreBar" style="display:none;">
+                  <span class="quiz-score-label">오늘의 점수 (정답 ⭐×5 / 오답 ⭐×1)</span>
+                  <div class="quiz-score-stars">
+                    <span class="quiz-star" id="qstar1">⭐</span>
+                    <span class="quiz-star" id="qstar2">⭐</span>
+                    <span class="quiz-star" id="qstar3">⭐</span>
+                    <span class="quiz-star" id="qstar4">⭐</span>
+                    <span class="quiz-star" id="qstar5">⭐</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- 퀴즈 섹션 끝 -->
+
         <div class="expert-card">
           <div class="expert-title">📋 전문가 안심 노트</div>
           <div class="expert-row"><div class="expert-icon">📖</div><div><div class="expert-label">법적 근거</div><div class="expert-val" id="expertBasis"></div></div></div>
@@ -471,47 +520,6 @@
           <button class="btn btn-ghost" onclick="goToScreen('screen-chat')">💬 더 물어보기</button>
           <button class="btn btn-mint" id="completeBtn" onclick="goToComplete()">✅ 안심 완료!</button>
         </div>
-
-        <!-- ── 퀴즈 섹션 (버튼 아래로 이동) ── -->
-        <div class="quiz-section" id="quizSection" style="display:none; margin-top:12px;">
-          <div class="quiz-invite">
-            <div class="quiz-invite-avatar">
-              <img src="https://raw.githubusercontent.com/alchemist2399-star/sossodam-ai/main/splash.png" alt="소화기AI" onerror="this.outerHTML='<span style=font-size:28px>🧯</span>'" />
-            </div>
-            <div class="quiz-invite-text">
-              <div class="quiz-invite-label">🎯 소화기 AI 퀴즈</div>
-              <div class="quiz-invite-msg" id="quizInviteMsg">오늘 점검하신 내용으로 한 가지만 더 알아볼까요? 🧯</div>
-            </div>
-          </div>
-          <div class="quiz-card">
-            <div class="quiz-loading" id="quizLoading">
-              <div class="dot-loader" style="margin-top:0;"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
-              <span class="quiz-loading-text">퀴즈 준비 중...</span>
-            </div>
-            <div id="quizBody" style="display:none;">
-              <div class="quiz-q-label">📝 소방안전 퀴즈 <span id="quizCategoryBadge">소화기</span></div>
-              <div class="quiz-question" id="quizQuestion"></div>
-              <div class="quiz-options" id="quizOptions"></div>
-              <div class="quiz-result-box" id="quizResultBox">
-                <div class="quiz-result-emoji" id="quizResultEmoji"></div>
-                <div class="quiz-result-title" id="quizResultTitle"></div>
-                <div class="quiz-result-desc" id="quizResultDesc"></div>
-              </div>
-              <!-- 퀴즈 내부 안심완료 버튼 없음 — 아래 더물어보기/안심완료 버튼으로 통일 -->
-              <div class="quiz-score-bar" id="quizScoreBar" style="display:none;">
-                <span class="quiz-score-label">오늘의 점수 (정답 ⭐⭐⭐⭐⭐ / 오답 ⭐)</span>
-                <div class="quiz-score-stars">
-                  <span class="quiz-star" id="qstar1">⭐</span>
-                  <span class="quiz-star" id="qstar2">⭐</span>
-                  <span class="quiz-star" id="qstar3">⭐</span>
-                  <span class="quiz-star" id="qstar4">⭐</span>
-                  <span class="quiz-star" id="qstar5">⭐</span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <!-- 퀴즈 섹션 끝 -->
       </div>
       <div id="unrelatedBtn" style="display:none; margin-top:16px;"><button class="btn btn-primary" onclick="retakePhoto()">📷 다시 찍어볼게요</button></div>
     </div>
@@ -822,10 +830,13 @@
     section.style.display = 'block';
     document.getElementById('quizLoading').style.display = 'flex';
     document.getElementById('quizBody').style.display = 'none';
+    // 배너는 접힌 상태로 시작
+    document.getElementById('quizBodyWrap').classList.remove('open');
+    document.getElementById('quizBannerArrow').classList.remove('open');
 
     var summary = data.summary || '소방시설';
-    document.getElementById('quizInviteMsg').textContent =
-      '오늘 점검하신 ' + summary + ' 관련 퀴즈예요. 한 번 풀어볼까요? 🧯';
+    document.getElementById('quizBannerMsg').textContent =
+      summary + ' 관련 퀴즈! 탭해서 풀어보세요 ▶';
 
     var context = {
       summary:    data.summary    || '',
@@ -834,6 +845,22 @@
       detectedItems: (data.detectedItems || []).map(function(i){ return i.name || ''; }).filter(Boolean)
     };
     GAS.run('generateQuiz', [context], onQuizSuccess, onQuizError);
+  }
+
+  function toggleQuizBody() {
+    var wrap  = document.getElementById('quizBodyWrap');
+    var arrow = document.getElementById('quizBannerArrow');
+    var isOpen = wrap.classList.contains('open');
+    if (isOpen) {
+      wrap.classList.remove('open');
+      arrow.classList.remove('open');
+    } else {
+      wrap.classList.add('open');
+      arrow.classList.add('open');
+      setTimeout(function() {
+        document.getElementById('quizSection').scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }, 150);
+    }
   }
 
   function onQuizSuccess(res) {
@@ -1186,6 +1213,8 @@
     document.getElementById('chatMessages').textContent = '';
     document.getElementById('fileInput').removeAttribute('capture');
     document.getElementById('quizSection').style.display = 'none';
+    document.getElementById('quizBodyWrap').classList.remove('open');
+    document.getElementById('quizBannerArrow').classList.remove('open');
     heroTextShown = false;
     var greeting = document.getElementById('heroGreeting');
     var title    = document.getElementById('heroTitle');
