@@ -217,7 +217,18 @@
     .unrelated-msg  { font-size: 15px; font-weight: 700; color: var(--ink-soft); line-height: 1.7; margin-bottom: 6px; }
     .unrelated-hint { font-size: 13px; color: var(--ink-muted); line-height: 1.6; }
 
-    /* ── QUIZ CARD ── */
+    /* ── ACCORDION ── */
+    .acc-item { background: white; border: 1px solid rgba(0,0,0,0.07); border-radius: var(--radius-lg); margin-bottom: 8px; overflow: hidden; transition: box-shadow 0.2s var(--ease-smooth), border-color 0.2s; }
+    .acc-item.open { box-shadow: 0 4px 16px rgba(255,90,54,0.10); border-color: rgba(255,90,54,0.22); }
+    .acc-header { display: flex; align-items: center; gap: 12px; padding: 14px 16px; cursor: pointer; -webkit-tap-highlight-color: transparent; user-select: none; }
+    .acc-header-icon { font-size: 18px; flex-shrink: 0; }
+    .acc-header-label { font-size: 14px; font-weight: 700; color: var(--ink); flex: 1; }
+    .acc-header-chip { font-size: 10px; background: #E8F4FD; color: #1A7ABF; border-radius: 100px; padding: 3px 9px; font-weight: 700; }
+    .acc-arrow { font-size: 11px; color: var(--ink-muted); transition: transform 0.25s var(--ease-smooth), color 0.2s; flex-shrink: 0; }
+    .acc-item.open .acc-arrow { transform: rotate(180deg); color: var(--flame); }
+    .acc-body { max-height: 0; overflow: hidden; transition: max-height 0.38s cubic-bezier(0.4,0,0.2,1); }
+    .acc-item.open .acc-body { max-height: 2000px; }
+    .acc-inner { padding: 0 16px 16px; border-top: 1px solid rgba(0,0,0,0.05); }
     .quiz-section { margin-bottom: 12px; }
     /* 접힌 배너 토글 버튼 */
     .quiz-banner { display: flex; align-items: center; gap: 12px; background: white; border: 1.5px solid rgba(255,90,54,0.2); border-radius: var(--radius-lg); padding: 14px 16px; cursor: pointer; box-shadow: var(--shadow-sm); -webkit-tap-highlight-color: transparent; transition: all 0.18s var(--ease-smooth); }
@@ -456,64 +467,99 @@
           <div class="step-sep"></div>
           <div class="docent-step" style="margin-top:12px"><div><div class="step-badge sb3">3</div></div><div><div class="step-label">AI의 제안</div><div class="step-text" id="resultSolution"></div></div></div>
         </div>
-        <div class="voice-bar" onclick="toggleVoice()" role="button" tabindex="0">
-          <span id="voiceIcon" style="font-size:20px">🔊</span><span class="voice-label" id="voiceLabel">음성으로 들어보기</span><span class="voice-chip">TTS</span>
-        </div>
-        <!-- ── 퀴즈 섹션: 배너 클릭으로 펼치기 (전문가 안심노트 위) ── -->
-        <div class="quiz-section" id="quizSection" style="display:none;">
-          <!-- 접힌 배너 -->
-          <div class="quiz-banner" id="quizBanner" onclick="toggleQuizBody()">
-            <div class="quiz-banner-avatar">
-              <img src="https://raw.githubusercontent.com/alchemist2399-star/sossodam-ai/main/splash.png" alt="소화기AI" onerror="this.outerHTML='<span style=font-size:26px>🧯</span>'" />
-            </div>
-            <div class="quiz-banner-text">
-              <div class="quiz-banner-label">🎯 소화기 AI 퀴즈</div>
-              <div class="quiz-banner-msg" id="quizBannerMsg">퀴즈를 준비 중이에요</div>
-              <div class="quiz-banner-tap">탭해서 풀어보세요</div>
+        <!-- ── 아코디언 4개 섹션 ── -->
+
+        <!-- 1. 음성으로 들어보기 -->
+        <div class="acc-item" id="accVoice">
+          <div class="acc-header" onclick="toggleAcc('accVoice')">
+            <span class="acc-header-icon">🔊</span>
+            <span class="acc-header-label">음성으로 들어보기</span>
+            <span class="acc-header-chip">TTS</span>
+            <span class="acc-arrow">▼</span>
+          </div>
+          <div class="acc-body">
+            <div class="acc-inner" style="padding-top:14px;">
+              <div class="voice-bar" onclick="toggleVoice()" role="button" tabindex="0" style="margin-bottom:0;">
+                <span id="voiceIcon" style="font-size:20px">🔊</span>
+                <span class="voice-label" id="voiceLabel">재생 버튼을 눌러주세요</span>
+              </div>
             </div>
           </div>
-          <!-- 펼쳐지는 퀴즈 본문 -->
-          <div class="quiz-body-wrap" id="quizBodyWrap">
-            <div class="quiz-card">
-              <div class="quiz-loading" id="quizLoading">
-                <div class="dot-loader" style="margin-top:0;"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
-                <span class="quiz-loading-text">퀴즈 준비 중...</span>
-              </div>
-              <div id="quizBody" style="display:none;">
-                <div class="quiz-q-label">📝 소방안전 퀴즈 <span id="quizCategoryBadge">소화기</span></div>
-                <div class="quiz-question" id="quizQuestion"></div>
-                <div class="quiz-options" id="quizOptions"></div>
-                <div class="quiz-result-box" id="quizResultBox">
-                  <div class="quiz-result-emoji" id="quizResultEmoji"></div>
-                  <div class="quiz-result-title" id="quizResultTitle"></div>
-                  <div class="quiz-result-desc" id="quizResultDesc"></div>
+        </div>
+
+        <!-- 2. 소화기 AI 퀴즈 -->
+        <div class="acc-item" id="accQuiz" style="display:none;">
+          <div class="acc-header" onclick="toggleAcc('accQuiz')">
+            <span class="acc-header-icon">🎯</span>
+            <span class="acc-header-label">
+              <span id="quizBannerMsg">소화기 AI 퀴즈</span>
+            </span>
+            <span class="acc-arrow">▼</span>
+          </div>
+          <div class="acc-body">
+            <div class="acc-inner" style="padding-top:14px;">
+              <div class="quiz-card">
+                <div class="quiz-loading" id="quizLoading">
+                  <div class="dot-loader" style="margin-top:0;"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+                  <span class="quiz-loading-text">퀴즈 준비 중...</span>
                 </div>
-                <div class="quiz-score-bar" id="quizScoreBar" style="display:none;">
-                  <span class="quiz-score-label">오늘의 점수 (정답 ⭐×5 / 오답 ⭐×1)</span>
-                  <div class="quiz-score-stars">
-                    <span class="quiz-star" id="qstar1">⭐</span>
-                    <span class="quiz-star" id="qstar2">⭐</span>
-                    <span class="quiz-star" id="qstar3">⭐</span>
-                    <span class="quiz-star" id="qstar4">⭐</span>
-                    <span class="quiz-star" id="qstar5">⭐</span>
+                <div id="quizBody" style="display:none;">
+                  <div class="quiz-q-label">📝 소방안전 퀴즈 <span id="quizCategoryBadge">소화기</span></div>
+                  <div class="quiz-question" id="quizQuestion"></div>
+                  <div class="quiz-options" id="quizOptions"></div>
+                  <div class="quiz-result-box" id="quizResultBox">
+                    <div class="quiz-result-emoji" id="quizResultEmoji"></div>
+                    <div class="quiz-result-title" id="quizResultTitle"></div>
+                    <div class="quiz-result-desc" id="quizResultDesc"></div>
+                  </div>
+                  <div class="quiz-score-bar" id="quizScoreBar" style="display:none;">
+                    <span class="quiz-score-label">오늘의 점수 (정답 ⭐×5 / 오답 ⭐×1)</span>
+                    <div class="quiz-score-stars">
+                      <span class="quiz-star" id="qstar1">⭐</span>
+                      <span class="quiz-star" id="qstar2">⭐</span>
+                      <span class="quiz-star" id="qstar3">⭐</span>
+                      <span class="quiz-star" id="qstar4">⭐</span>
+                      <span class="quiz-star" id="qstar5">⭐</span>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
-        <!-- 퀴즈 섹션 끝 -->
 
-        <div class="expert-card">
-          <div class="expert-title">📋 전문가 안심 노트</div>
-          <div class="expert-row"><div class="expert-icon">📖</div><div><div class="expert-label">법적 근거</div><div class="expert-val" id="expertBasis"></div></div></div>
-          <div class="expert-row"><div class="expert-icon">❗</div><div><div class="expert-label">왜 중요할까요</div><div class="expert-val" id="expertImportance"></div></div></div>
-          <div class="expert-row"><div class="expert-icon">✅</div><div><div class="expert-label">조치 팁</div><div class="expert-val" id="expertTip"></div></div></div>
-          <div class="expert-row"><div class="expert-icon">🗓️</div><div><div class="expert-label">권장 점검 주기</div><div class="expert-val" id="expertInspection"></div></div></div>
+        <!-- 3. 전문가 안심 노트 -->
+        <div class="acc-item" id="accExpert">
+          <div class="acc-header" onclick="toggleAcc('accExpert')">
+            <span class="acc-header-icon">📋</span>
+            <span class="acc-header-label">전문가 안심 노트</span>
+            <span class="acc-arrow">▼</span>
+          </div>
+          <div class="acc-body">
+            <div class="acc-inner" style="padding-top:14px;">
+              <div class="expert-row"><div class="expert-icon">📖</div><div><div class="expert-label">법적 근거</div><div class="expert-val" id="expertBasis"></div></div></div>
+              <div class="expert-row"><div class="expert-icon">❗</div><div><div class="expert-label">왜 중요할까요</div><div class="expert-val" id="expertImportance"></div></div></div>
+              <div class="expert-row"><div class="expert-icon">✅</div><div><div class="expert-label">조치 팁</div><div class="expert-val" id="expertTip"></div></div></div>
+              <div class="expert-row" style="margin-bottom:0;"><div class="expert-icon">🗓️</div><div><div class="expert-label">권장 점검 주기</div><div class="expert-val" id="expertInspection"></div></div></div>
+            </div>
+          </div>
         </div>
-        <div class="curiosity-card" onclick="sendCuriosity()" role="button" tabindex="0">
-          <div class="curiosity-label">💡 더 궁금하신가요?</div><div class="curiosity-q" id="resultCuriosity"></div>
+
+        <!-- 4. 더 궁금하신가요? -->
+        <div class="acc-item" id="accCuriosity">
+          <div class="acc-header" onclick="toggleAcc('accCuriosity')">
+            <span class="acc-header-icon">💡</span>
+            <span class="acc-header-label">더 궁금하신가요?</span>
+            <span class="acc-arrow">▼</span>
+          </div>
+          <div class="acc-body">
+            <div class="acc-inner" style="padding-top:14px; cursor:pointer;" onclick="sendCuriosity()">
+              <div class="curiosity-q" id="resultCuriosity"></div>
+              <div style="font-size:11px; color:var(--flame); font-weight:700; margin-top:8px;">탭해서 AI에게 물어보기 →</div>
+            </div>
+          </div>
         </div>
+        <!-- ── 아코디언 끝 ── -->
 
         <div class="btn-row mt8">
           <button class="btn btn-ghost" onclick="goToScreen('screen-chat')">💬 더 물어보기</button>
@@ -820,21 +866,30 @@
     showErrorScreen(code);
   }
 
+  // ── 아코디언 토글 ──
+  function toggleAcc(id) {
+    var el = document.getElementById(id);
+    el.classList.toggle('open');
+    // 열릴 때 스크롤
+    if (el.classList.contains('open')) {
+      setTimeout(function() {
+        el.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      }, 150);
+    }
+  }
+
   // ── 퀴즈 관련 함수 ──
 
   function showQuizSection(data) {
     quizData = null;
     quizAnswered = false;
-    var section = document.getElementById('quizSection');
-    section.style.display = 'block';
+    var accQuiz = document.getElementById('accQuiz');
+    accQuiz.style.display = 'block';
     document.getElementById('quizLoading').style.display = 'flex';
     document.getElementById('quizBody').style.display = 'none';
-    // 배너는 접힌 상태로 시작
-    document.getElementById('quizBodyWrap').classList.remove('open');
 
     var summary = data.summary || '소방시설';
-    document.getElementById('quizBannerMsg').textContent =
-      summary + ' 관련 퀴즈!';
+    document.getElementById('quizBannerMsg').textContent = summary + ' 관련 퀴즈!';
 
     var context = {
       summary:    data.summary    || '',
@@ -843,19 +898,6 @@
       detectedItems: (data.detectedItems || []).map(function(i){ return i.name || ''; }).filter(Boolean)
     };
     GAS.run('generateQuiz', [context], onQuizSuccess, onQuizError);
-  }
-
-  function toggleQuizBody() {
-    var wrap  = document.getElementById('quizBodyWrap');
-    var isOpen = wrap.classList.contains('open');
-    if (isOpen) {
-      wrap.classList.remove('open');
-    } else {
-      wrap.classList.add('open');
-      setTimeout(function() {
-        document.getElementById('quizSection').scrollIntoView({ behavior: 'smooth', block: 'start' });
-      }, 150);
-    }
   }
 
   function onQuizSuccess(res) {
@@ -870,7 +912,7 @@
   }
 
   function hideQuizSection() {
-    document.getElementById('quizSection').style.display = 'none';
+    document.getElementById('accQuiz').style.display = 'none';
   }
 
   function renderQuiz(q) {
@@ -1243,8 +1285,11 @@
     removeImage();
     document.getElementById('chatMessages').textContent = '';
     document.getElementById('fileInput').removeAttribute('capture');
-    document.getElementById('quizSection').style.display = 'none';
-    document.getElementById('quizBodyWrap').classList.remove('open');
+    document.getElementById('accQuiz').style.display = 'none';
+    document.getElementById('accQuiz').classList.remove('open');
+    document.getElementById('accVoice').classList.remove('open');
+    document.getElementById('accExpert').classList.remove('open');
+    document.getElementById('accCuriosity').classList.remove('open');
     heroTextShown = false;
     var greeting = document.getElementById('heroGreeting');
     var title    = document.getElementById('heroTitle');
