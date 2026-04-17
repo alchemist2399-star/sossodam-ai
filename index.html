@@ -469,7 +469,6 @@
             <div class="quiz-banner-text">
               <div class="quiz-banner-label">🎯 소화기 AI 퀴즈</div>
               <div class="quiz-banner-msg" id="quizBannerMsg">퀴즈 풀고 오늘 점수 확인하기!</div>
-              <div class="quiz-banner-tap">탭해서 풀어보세요 ▶</div>
             </div>
           </div>
           <!-- 펼쳐지는 퀴즈 본문 -->
@@ -981,28 +980,65 @@
   function renderMarkers(items) {
     var wrap = document.getElementById('markerImgWrap');
     if (!items || items.length === 0) { wrap.style.display = 'none'; document.getElementById('detectedList').style.display = 'none'; return; }
-    document.getElementById('markerImg').src = 'data:' + imageMimeType + ';base64,' + imageBase64;
+    var imgEl = document.getElementById('markerImg');
+    imgEl.src = 'data:' + imageMimeType + ';base64,' + imageBase64;
     wrap.style.display = 'block';
     wrap.querySelectorAll('.marker-pin,.marker-pulse-ring,.marker-label').forEach(function(el){el.remove();});
     activeMarkerIdx = -1;
-    var positions = gridPositions(items.length);
-    items.forEach(function(item, idx) {
-      var risk = item.risk || 'low', color = RISK_COLOR[risk] || RISK_COLOR.low;
-      var px = positions[idx].px, py = positions[idx].py, lp = calcLabelPos(px, py);
-      var ring = document.createElement('div'); ring.className = 'marker-pulse-ring';
-      ring.style.left = px+'%'; ring.style.top = py+'%'; ring.style.background = color;
-      ring.style.animationDelay = (idx*0.4)+'s'; wrap.appendChild(ring);
-      var pin = document.createElement('div'); pin.className = 'marker-pin';
-      pin.style.left = px+'%'; pin.style.top = py+'%'; pin.style.background = color;
-      pin.setAttribute('data-idx', idx);
-      pin.innerHTML = '<svg viewBox="0 0 13 13" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="6.5" cy="6.5" r="4.5" fill="white" fill-opacity="0.9"/><rect x="5.8" y="2.8" width="1.4" height="3.8" rx="0.7" fill="'+color+'"/><rect x="5.8" y="7.5" width="1.4" height="1.4" rx="0.7" fill="'+color+'"/></svg>';
-      pin.addEventListener('click', function(){toggleMarker(idx);}); wrap.appendChild(pin);
-      var label = document.createElement('div'); label.className = 'marker-label'; label.setAttribute('data-label', idx);
-      label.style.left = lp.lx+'%'; label.style.top = lp.ly+'%'; label.style.borderTopColor = color;
-      label.innerHTML = '<span class="marker-label-dot" style="background:'+color+';"></span><span class="marker-label-name">'+escapeHtml(item.name||'')+'</span><span class="marker-label-risk mlr-'+risk+'">'+escapeHtml(RISK_LABEL[risk])+'</span>';
-      wrap.appendChild(label);
-    });
-    renderDetectedList(items);
+
+    function placeMarkers() {
+      // 이미지가 실제로 렌더된 크기 기준으로 마커 좌표 계산
+      var imgW = imgEl.naturalWidth  || 1;
+      var imgH = imgEl.naturalHeight || 1;
+      var dispW = imgEl.offsetWidth  || imgEl.clientWidth  || 1;
+      var dispH = imgEl.offsetHeight || imgEl.clientHeight || 1;
+      // object-fit:cover 이므로 실제 표시 영역 내 이미지 스케일/오프셋 계산
+      var scaleX = dispW / imgW;
+      var scaleY = dispH / imgH;
+      var scale  = Math.max(scaleX, scaleY);
+      var rendW  = imgW * scale;
+      var rendH  = imgH * scale;
+      var offX   = (dispW - rendW) / 2;
+      var offY   = (dispH - rendH) / 2;
+
+      wrap.querySelectorAll('.marker-pin,.marker-pulse-ring,.marker-label').forEach(function(el){el.remove();});
+
+      items.forEach(function(item, idx) {
+        var risk  = item.risk  || 'low';
+        var color = RISK_COLOR[risk] || RISK_COLOR.low;
+        // item.x, item.y 는 0~100 퍼센트 (normalizeDetectedItems에서 변환됨)
+        var xPct  = typeof item.x === 'number' ? item.x : 50;
+        var yPct  = typeof item.y === 'number' ? item.y : 50;
+        // 이미지 원본 좌표 → 표시 영역 픽셀 → 컨테이너 퍼센트
+        var pxAbs = offX + (xPct / 100) * rendW;
+        var pyAbs = offY + (yPct / 100) * rendH;
+        var px    = Math.min(97, Math.max(3, (pxAbs / dispW) * 100));
+        var py    = Math.min(97, Math.max(3, (pyAbs / dispH) * 100));
+        var lp    = calcLabelPos(px, py);
+
+        var ring = document.createElement('div'); ring.className = 'marker-pulse-ring';
+        ring.style.left = px+'%'; ring.style.top = py+'%'; ring.style.background = color;
+        ring.style.animationDelay = (idx*0.4)+'s'; wrap.appendChild(ring);
+
+        var pin = document.createElement('div'); pin.className = 'marker-pin';
+        pin.style.left = px+'%'; pin.style.top = py+'%'; pin.style.background = color;
+        pin.setAttribute('data-idx', idx);
+        pin.innerHTML = '<svg viewBox="0 0 13 13" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="6.5" cy="6.5" r="4.5" fill="white" fill-opacity="0.9"/><rect x="5.8" y="2.8" width="1.4" height="3.8" rx="0.7" fill="'+color+'"/><rect x="5.8" y="7.5" width="1.4" height="1.4" rx="0.7" fill="'+color+'"/></svg>';
+        pin.addEventListener('click', function(){toggleMarker(idx);}); wrap.appendChild(pin);
+
+        var label = document.createElement('div'); label.className = 'marker-label'; label.setAttribute('data-label', idx);
+        label.style.left = lp.lx+'%'; label.style.top = lp.ly+'%'; label.style.borderTopColor = color;
+        label.innerHTML = '<span class="marker-label-dot" style="background:'+color+';"></span><span class="marker-label-name">'+escapeHtml(item.name||'')+'</span><span class="marker-label-risk mlr-'+risk+'">'+escapeHtml(RISK_LABEL[risk])+'</span>';
+        wrap.appendChild(label);
+      });
+      renderDetectedList(items);
+    }
+
+    if (imgEl.complete && imgEl.naturalWidth > 0) {
+      placeMarkers();
+    } else {
+      imgEl.onload = placeMarkers;
+    }
   }
 
   function toggleMarker(idx) {
