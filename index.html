@@ -467,8 +467,13 @@
           <div class="curiosity-label">💡 더 궁금하신가요?</div><div class="curiosity-q" id="resultCuriosity"></div>
         </div>
 
-        <!-- ── 퀴즈 섹션 ── -->
-        <div class="quiz-section" id="quizSection" style="display:none;">
+        <div class="btn-row mt8">
+          <button class="btn btn-ghost" onclick="goToScreen('screen-chat')">💬 더 물어보기</button>
+          <button class="btn btn-mint" id="completeBtn" onclick="goToComplete()">✅ 안심 완료!</button>
+        </div>
+
+        <!-- ── 퀴즈 섹션 (버튼 아래로 이동) ── -->
+        <div class="quiz-section" id="quizSection" style="display:none; margin-top:12px;">
           <div class="quiz-invite">
             <div class="quiz-invite-avatar">
               <img src="https://raw.githubusercontent.com/alchemist2399-star/sossodam-ai/main/splash.png" alt="소화기AI" onerror="this.outerHTML='<span style=font-size:28px>🧯</span>'" />
@@ -492,24 +497,21 @@
                 <div class="quiz-result-title" id="quizResultTitle"></div>
                 <div class="quiz-result-desc" id="quizResultDesc"></div>
               </div>
-              <button class="quiz-next-btn" id="quizNextBtn" onclick="goToComplete()">✅ 안심 완료!</button>
+              <!-- 퀴즈 내부 안심완료 버튼 없음 — 아래 더물어보기/안심완료 버튼으로 통일 -->
               <div class="quiz-score-bar" id="quizScoreBar" style="display:none;">
-                <span class="quiz-score-label">오늘의 점수</span>
+                <span class="quiz-score-label">오늘의 점수 (정답 ⭐⭐⭐⭐⭐ / 오답 ⭐)</span>
                 <div class="quiz-score-stars">
                   <span class="quiz-star" id="qstar1">⭐</span>
                   <span class="quiz-star" id="qstar2">⭐</span>
                   <span class="quiz-star" id="qstar3">⭐</span>
+                  <span class="quiz-star" id="qstar4">⭐</span>
+                  <span class="quiz-star" id="qstar5">⭐</span>
                 </div>
               </div>
             </div>
           </div>
         </div>
         <!-- 퀴즈 섹션 끝 -->
-
-        <div class="btn-row mt8">
-          <button class="btn btn-ghost" onclick="goToScreen('screen-chat')">💬 더 물어보기</button>
-          <button class="btn btn-mint" id="completeBtn" onclick="goToComplete()">✅ 안심 완료!</button>
-        </div>
       </div>
       <div id="unrelatedBtn" style="display:none; margin-top:16px;"><button class="btn btn-primary" onclick="retakePhoto()">📷 다시 찍어볼게요</button></div>
     </div>
@@ -854,7 +856,6 @@
     document.getElementById('quizCategoryBadge').textContent = q.category || '소방안전';
     document.getElementById('quizQuestion').textContent = q.question || '';
     document.getElementById('quizResultBox').classList.remove('show','correct-box','wrong-box');
-    document.getElementById('quizNextBtn').classList.remove('show');
     document.getElementById('quizScoreBar').style.display = 'none';
 
     var optWrap = document.getElementById('quizOptions');
@@ -891,16 +892,16 @@
     document.getElementById('quizResultTitle').textContent = isCorrect ? '정답이에요!' : '아쉽지만 다음엔 맞출 수 있어요!';
     document.getElementById('quizResultDesc').textContent = quizData.explanation || '';
 
-    document.getElementById('quizNextBtn').classList.add('show');
-
+    // 별점: 정답 5개, 오답 1개
     var scoreBar = document.getElementById('quizScoreBar');
     scoreBar.style.display = 'flex';
-    var starCount = isCorrect ? 3 : 1;
-    ['qstar1','qstar2','qstar3'].forEach(function(id, i) {
+    var starCount = isCorrect ? 5 : 1;
+    ['qstar1','qstar2','qstar3','qstar4','qstar5'].forEach(function(id, i) {
       var el = document.getElementById(id);
+      if (!el) return;
       el.classList.remove('lit');
       if (i < starCount) {
-        setTimeout(function() { el.classList.add('lit'); }, i * 180);
+        setTimeout(function() { el.classList.add('lit'); }, i * 150);
       }
     });
   }
