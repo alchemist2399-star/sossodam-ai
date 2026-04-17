@@ -479,12 +479,10 @@
             </div>
           </div>
           <div class="quiz-card">
-            <!-- 로딩 -->
             <div class="quiz-loading" id="quizLoading">
               <div class="dot-loader" style="margin-top:0;"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
               <span class="quiz-loading-text">퀴즈 준비 중...</span>
             </div>
-            <!-- 퀴즈 본문 -->
             <div id="quizBody" style="display:none;">
               <div class="quiz-q-label">📝 소방안전 퀴즈 <span id="quizCategoryBadge">소화기</span></div>
               <div class="quiz-question" id="quizQuestion"></div>
@@ -793,8 +791,15 @@
     renderResult(analysisResult);
     goToScreen('screen-result');
     initChat();
-    // 분석 완료 후 퀴즈 자동 생성
-    showQuizSection(analysisResult);
+
+    // ============================================================
+    // [v8.31 수정] 퀴즈 생성: 2초 딜레이 후 호출
+    // analyzeImage 완료 직후 바로 호출하면 Worker가 pending 상태로
+    // 멈추는 문제가 있어, 2초 후 별도 요청으로 분리
+    // ============================================================
+    setTimeout(function() {
+      showQuizSection(analysisResult);
+    }, 2000);
   }
 
   function onAnalysisError(err) {
@@ -816,12 +821,10 @@
     document.getElementById('quizLoading').style.display = 'flex';
     document.getElementById('quizBody').style.display = 'none';
 
-    // 분석된 항목 기반 초대 메시지
     var summary = data.summary || '소방시설';
     document.getElementById('quizInviteMsg').textContent =
       '오늘 점검하신 ' + summary + ' 관련 퀴즈예요. 한 번 풀어볼까요? 🧯';
 
-    // worker에 퀴즈 생성 요청
     var context = {
       summary:    data.summary    || '',
       riskLevel:  data.riskLevel  || 'low',
@@ -874,7 +877,6 @@
     quizAnswered = true;
     var isCorrect = (selectedIdx === correctIdx);
 
-    // 모든 버튼 비활성화 + 정답/오답 표시
     var btns = document.querySelectorAll('.quiz-option');
     btns.forEach(function(b, i) {
       b.classList.add('disabled');
@@ -882,7 +884,6 @@
       else if (i === selectedIdx && !isCorrect) b.classList.add('wrong');
     });
 
-    // 결과 박스
     var box = document.getElementById('quizResultBox');
     box.classList.remove('correct-box','wrong-box');
     box.classList.add(isCorrect ? 'correct-box' : 'wrong-box', 'show');
@@ -890,10 +891,8 @@
     document.getElementById('quizResultTitle').textContent = isCorrect ? '정답이에요!' : '아쉽지만 다음엔 맞출 수 있어요!';
     document.getElementById('quizResultDesc').textContent = quizData.explanation || '';
 
-    // 다음 버튼 (안심 완료로 연결)
     document.getElementById('quizNextBtn').classList.add('show');
 
-    // 별점
     var scoreBar = document.getElementById('quizScoreBar');
     scoreBar.style.display = 'flex';
     var starCount = isCorrect ? 3 : 1;
