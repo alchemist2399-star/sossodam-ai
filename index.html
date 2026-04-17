@@ -578,27 +578,12 @@
         <button class="btn-back" onclick="goToScreen('screen-result')" style="margin-left:auto;">← 뒤로가기</button>
       </div>
       <div class="chat-messages" id="chatMessages"></div>
-      <!-- 기본 칩 -->
+      <!-- 자주 하는 질문 -->
+      <div style="font-size:11px; color:var(--ink-muted); font-weight:700; letter-spacing:0.3px; margin-bottom:6px; padding-left:2px;">💬 자주 하는 질문</div>
       <div class="chip-row" id="defaultChips">
         <button class="chip-btn" onclick="sendChip('소화기 버리는 방법이 궁금해요')">🗑️ 소화기 폐기</button>
         <button class="chip-btn" onclick="sendChip('가까운 소화기 판매처가 어디예요?')">🛒 구매처 안내</button>
         <button class="chip-btn" onclick="sendChip('전문가 점검은 어떻게 받나요?')">🔧 전문가 점검</button>
-      </div>
-      <!-- 사용자 추가 칩 -->
-      <div id="customChipSection" style="margin-bottom:8px;">
-        <div style="font-size:10px; color:var(--ink-muted); font-weight:700; letter-spacing:0.3px; margin-bottom:6px; padding-left:2px;">📌 내가 추가한 질문</div>
-        <div class="chip-row" id="customChips" style="flex-wrap:wrap;"></div>
-        <button class="chip-btn" id="addChipBtn" onclick="showAddChipModal()" style="border-style:dashed; color:var(--flame); border-color:rgba(255,90,54,0.35); background:#FFF3F0;">+ 질문 추가하기</button>
-      </div>
-      <!-- 질문 추가 모달 -->
-      <div id="addChipModal" style="display:none; background:white; border:1.5px solid rgba(255,90,54,0.2); border-radius:16px; padding:14px; margin-bottom:8px;">
-        <div style="font-size:13px; font-weight:700; color:var(--ink); margin-bottom:8px;">자주 쓸 질문을 입력해주세요</div>
-        <div style="display:flex; gap:8px;">
-          <input id="newChipInput" type="text" maxlength="30" placeholder="예: 소화기 교체 비용이 얼마예요?" style="flex:1; padding:10px 12px; border-radius:12px; border:1.5px solid rgba(0,0,0,0.08); font-family:var(--font-main); font-size:13px; color:var(--ink); outline:none;" onkeydown="if(event.key==='Enter'){saveCustomChip();}" />
-          <button onclick="saveCustomChip()" style="padding:10px 14px; background:linear-gradient(135deg,var(--flame),var(--ember)); color:white; border:none; border-radius:12px; font-family:var(--font-main); font-size:13px; font-weight:700; cursor:pointer;">저장</button>
-          <button onclick="hideAddChipModal()" style="padding:10px 12px; background:rgba(0,0,0,0.05); color:var(--ink-soft); border:none; border-radius:12px; font-family:var(--font-main); font-size:13px; cursor:pointer;">취소</button>
-        </div>
-        <div style="font-size:11px; color:var(--ink-muted); margin-top:6px;">최대 5개까지 저장할 수 있어요</div>
       </div>
       <div class="chat-input-row">
         <textarea id="chatInput" placeholder="궁금한 점을 물어보세요 😊" rows="1" maxlength="200" onkeydown="handleChatKey(event)" oninput="autoResize(this); updateCharCount(this)"></textarea>
@@ -1184,7 +1169,6 @@
     var strong = document.createElement('strong');
     strong.textContent = (analysisResult && analysisResult.summary) ? analysisResult.summary : '소방안전';
     addAiMessageParts(['안녕하세요! ', strong, '에 대해 살펴봤어요. 더 궁금한 점 편하게 물어보세요 😊']);
-    renderCustomChips();
   }
 
   function makeAiAv() {
