@@ -227,8 +227,7 @@
     .quiz-banner-text { flex: 1; }
     .quiz-banner-label { font-size: 10px; font-weight: 800; color: var(--flame); letter-spacing: 0.4px; margin-bottom: 2px; }
     .quiz-banner-msg { font-size: 13px; color: var(--ink-soft); font-weight: 500; }
-    .quiz-banner-arrow { font-size: 13px; color: var(--flame); font-weight: 700; transition: transform 0.25s var(--ease-smooth); flex-shrink: 0; }
-    .quiz-banner-arrow.open { transform: rotate(90deg); }
+    .quiz-banner-tap { font-size: 11px; color: var(--flame); font-weight: 700; margin-top: 3px; }
     /* 펼쳐진 퀴즈 본문 */
     .quiz-body-wrap { display: none; margin-top: 8px; }
     .quiz-body-wrap.open { display: block; animation: fadeUp 0.3s var(--ease-spring); }
@@ -469,9 +468,9 @@
             </div>
             <div class="quiz-banner-text">
               <div class="quiz-banner-label">🎯 소화기 AI 퀴즈</div>
-              <div class="quiz-banner-msg" id="quizBannerMsg">퀴즈 풀고 오늘 점수 확인하기! 탭하세요 ▶</div>
+              <div class="quiz-banner-msg" id="quizBannerMsg">퀴즈 풀고 오늘 점수 확인하기!</div>
+              <div class="quiz-banner-tap">탭해서 풀어보세요 ▶</div>
             </div>
-            <div class="quiz-banner-arrow" id="quizBannerArrow">▶</div>
           </div>
           <!-- 펼쳐지는 퀴즈 본문 -->
           <div class="quiz-body-wrap" id="quizBodyWrap">
@@ -832,7 +831,6 @@
     document.getElementById('quizBody').style.display = 'none';
     // 배너는 접힌 상태로 시작
     document.getElementById('quizBodyWrap').classList.remove('open');
-    document.getElementById('quizBannerArrow').classList.remove('open');
 
     var summary = data.summary || '소방시설';
     document.getElementById('quizBannerMsg').textContent =
@@ -849,14 +847,11 @@
 
   function toggleQuizBody() {
     var wrap  = document.getElementById('quizBodyWrap');
-    var arrow = document.getElementById('quizBannerArrow');
     var isOpen = wrap.classList.contains('open');
     if (isOpen) {
       wrap.classList.remove('open');
-      arrow.classList.remove('open');
     } else {
       wrap.classList.add('open');
-      arrow.classList.add('open');
       setTimeout(function() {
         document.getElementById('quizSection').scrollIntoView({ behavior: 'smooth', block: 'start' });
       }, 150);
@@ -990,8 +985,7 @@
     wrap.style.display = 'block';
     wrap.querySelectorAll('.marker-pin,.marker-pulse-ring,.marker-label').forEach(function(el){el.remove();});
     activeMarkerIdx = -1;
-    var positions = items.map(function(item) { return calcPinOffset(item.x != null ? item.x : 50, item.y != null ? item.y : 50); });
-    positions = isClustered(positions) ? gridPositions(items.length) : spreadSamePositions(positions);
+    var positions = gridPositions(items.length);
     items.forEach(function(item, idx) {
       var risk = item.risk || 'low', color = RISK_COLOR[risk] || RISK_COLOR.low;
       var px = positions[idx].px, py = positions[idx].py, lp = calcLabelPos(px, py);
@@ -1214,7 +1208,6 @@
     document.getElementById('fileInput').removeAttribute('capture');
     document.getElementById('quizSection').style.display = 'none';
     document.getElementById('quizBodyWrap').classList.remove('open');
-    document.getElementById('quizBannerArrow').classList.remove('open');
     heroTextShown = false;
     var greeting = document.getElementById('heroGreeting');
     var title    = document.getElementById('heroTitle');
