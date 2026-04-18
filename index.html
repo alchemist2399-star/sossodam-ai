@@ -148,6 +148,10 @@
     .progress-fill { height: 100%; border-radius: 100px; background: linear-gradient(90deg, var(--flame), var(--ember)); transition: width 0.8s ease; }
     .progress-step { font-size: 12px; font-weight: 700; color: var(--flame); transition: opacity 0.3s; }
 
+    /* ── [v8.39] 지연 안내 메시지 ── */
+    .delay-notice { display: none; margin-top: 12px; background: linear-gradient(135deg, #FFF8EE, #FFFDF5); border: 1.5px solid rgba(255,179,71,0.3); border-radius: var(--radius-md); padding: 12px 16px; font-size: 13px; color: var(--ink-soft); line-height: 1.6; text-align: center; animation: fadeUp 0.4s var(--ease-spring); }
+    .delay-notice.show { display: block; }
+
     /* ── RESULT ── */
     #screen-result { padding-top: 16px; }
     .result-tag { display: inline-flex; align-items: center; gap: 5px; background: linear-gradient(135deg, var(--flame), var(--ember)); color: white; padding: 5px 12px; border-radius: 100px; font-size: 11px; font-weight: 700; margin-bottom: 10px; box-shadow: 0 3px 10px rgba(255,90,54,0.3); }
@@ -156,6 +160,24 @@
     .risk-low    { background: #E6FFF4; color: #1A9E6E; }
     .risk-medium { background: #FFF8E3; color: #C47A00; }
     .risk-high   { background: #FFE8E3; color: #CC2200; }
+
+    /* ── [v8.39] AI 참고용 고정 배너 ── */
+    .ai-disclaimer-banner { display: flex; align-items: center; gap: 8px; background: rgba(28,28,46,0.05); border: 1px solid rgba(28,28,46,0.08); border-radius: 12px; padding: 8px 12px; margin-bottom: 12px; font-size: 11px; color: var(--ink-muted); font-weight: 600; }
+    .ai-disclaimer-banner span { flex: 1; }
+
+    /* ── [v8.39] confidence 경고 배너 ── */
+    .confidence-warning { display: none; align-items: center; gap: 8px; background: linear-gradient(135deg, #FFF8EE, #FFF3E0); border: 1.5px solid rgba(255,152,0,0.3); border-radius: 14px; padding: 10px 14px; margin-bottom: 12px; font-size: 12px; color: #B35C00; font-weight: 600; line-height: 1.55; animation: fadeUp 0.4s var(--ease-spring); }
+    .confidence-warning.show { display: flex; }
+    .confidence-warning-icon { font-size: 16px; flex-shrink: 0; }
+
+    /* ── [v8.39] 사용량 경고 배너 ── */
+    .usage-warning { display: none; align-items: center; gap: 8px; background: linear-gradient(135deg, #FFF3CD, #FFF8E1); border: 1.5px solid rgba(255,193,7,0.4); border-radius: 14px; padding: 10px 14px; margin-bottom: 12px; font-size: 12px; color: #7B5800; font-weight: 600; line-height: 1.55; animation: fadeUp 0.4s var(--ease-spring); }
+    .usage-warning.show { display: flex; }
+
+    /* ── [v8.39] 사진 품질 경고 배너 ── */
+    .image-quality-warning { display: none; align-items: center; gap: 8px; background: linear-gradient(135deg, #E8F4FD, #D6EAF8); border: 1.5px solid rgba(26,122,191,0.2); border-radius: 14px; padding: 10px 14px; margin-bottom: 12px; font-size: 12px; color: #1A5276; font-weight: 600; line-height: 1.55; animation: fadeUp 0.4s var(--ease-spring); }
+    .image-quality-warning.show { display: flex; }
+
     .marker-img-wrap { position: relative; width: 100%; border-radius: var(--radius-lg); overflow: hidden; margin-bottom: 12px; background: #1a1a1a; box-shadow: var(--shadow-md); }
     .marker-img-wrap img { width: 100%; max-height: 260px; object-fit: cover; display: block; border-radius: var(--radius-lg); }
     .marker-img-hint { position: absolute; bottom: 8px; right: 10px; font-size: 10px; color: rgba(255,255,255,0.7); background: rgba(0,0,0,0.35); padding: 3px 8px; border-radius: 100px; pointer-events: none; }
@@ -225,21 +247,10 @@
     .acc-header-label { font-size: 14px; font-weight: 700; color: var(--ink); flex: 1; }
     .acc-header-chip { font-size: 10px; background: #E8F4FD; color: #1A7ABF; border-radius: 100px; padding: 3px 9px; font-weight: 700; }
     .acc-arrow { font-size: 11px; color: var(--flame); transition: transform 0.25s var(--ease-smooth); flex-shrink: 0; }
-    .acc-item.open .acc-arrow { transform: rotate(180deg); color: var(--flame); }
+    .acc-item.open .acc-arrow { transform: rotate(180deg); }
     .acc-body { max-height: 0; overflow: hidden; transition: max-height 0.38s cubic-bezier(0.4,0,0.2,1); }
     .acc-item.open .acc-body { max-height: 2000px; }
     .acc-inner { padding: 0 16px 16px; border-top: 1px solid rgba(0,0,0,0.05); }
-    .quiz-section { margin-bottom: 12px; }
-    .quiz-banner { display: flex; align-items: center; gap: 12px; background: white; border: 1.5px solid rgba(255,90,54,0.2); border-radius: var(--radius-lg); padding: 14px 16px; cursor: pointer; box-shadow: var(--shadow-sm); -webkit-tap-highlight-color: transparent; transition: all 0.18s var(--ease-smooth); }
-    .quiz-banner:active { opacity: 0.88; transform: scale(0.99); }
-    .quiz-banner-avatar { width: 40px; height: 40px; flex-shrink: 0; }
-    .quiz-banner-avatar img { width: 40px; height: 40px; object-fit: contain; animation: chatCharFloat 2.8s ease-in-out infinite; filter: drop-shadow(0 2px 6px rgba(255,90,54,0.25)); }
-    .quiz-banner-text { flex: 1; }
-    .quiz-banner-label { font-size: 10px; font-weight: 800; color: var(--flame); letter-spacing: 0.4px; margin-bottom: 3px; }
-    .quiz-banner-msg { font-size: 13px; color: var(--ink-soft); font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-    .quiz-banner-tap { font-size: 11px; color: var(--flame); font-weight: 700; margin-top: 2px; }
-    .quiz-body-wrap { display: none; margin-top: 8px; }
-    .quiz-body-wrap.open { display: block; animation: fadeUp 0.3s var(--ease-spring); }
     .quiz-card { background: linear-gradient(135deg, #FFF3F0, #FFF9F6); border: 1.5px solid rgba(255,90,54,0.15); border-radius: var(--radius-lg); padding: 18px 16px; overflow: hidden; }
     .quiz-loading { display: flex; align-items: center; gap: 10px; padding: 8px 0; }
     .quiz-loading-text { font-size: 13px; color: var(--ink-muted); }
@@ -325,6 +336,10 @@
     .error-desc strong { color: var(--ink); }
     .error-action-btn { display: inline-flex; align-items: center; gap: 6px; padding: 12px 22px; border-radius: 100px; font-size: 14px; font-weight: 700; border: none; cursor: pointer; font-family: var(--font-main); -webkit-tap-highlight-color: transparent; }
     .error-action-btn:active { opacity: 0.85; transform: scale(0.97); }
+    /* [v8.39] 재시도 버튼 */
+    .error-retry-btn { display: none; margin-top: 10px; align-items: center; justify-content: center; gap: 6px; padding: 12px 22px; border-radius: 100px; font-size: 14px; font-weight: 700; border: none; cursor: pointer; font-family: var(--font-main); background: linear-gradient(135deg, var(--flame), var(--ember)); color: white; box-shadow: 0 4px 14px rgba(255,90,54,0.3); -webkit-tap-highlight-color: transparent; width: 100%; }
+    .error-retry-btn.show { display: flex; }
+    .error-retry-btn:active { opacity: 0.88; transform: scale(0.97); }
     .err-quota  .error-icon-circle { background: #FFF3CD; }
     .err-quota  .error-action-btn  { background: #FFF3CD; color: #856404; }
     .err-rate   .error-icon-circle { background: #FFE8E3; }
@@ -425,6 +440,8 @@
         <div class="error-title" id="errorTitle"></div>
         <div class="error-desc" id="errorDesc"></div>
         <button class="error-action-btn" id="errorActionBtn" onclick="handleErrorAction()"></button>
+        <!-- [v8.39] 같은 사진으로 재시도 버튼 -->
+        <button class="error-retry-btn" id="errorRetryBtn" onclick="retryWithSameImage()">🔄 같은 사진으로 다시 시도하기</button>
       </div>
     </div>
     <!-- SCREEN 3: ANALYZING -->
@@ -440,6 +457,11 @@
         <div class="progress-step" id="progressStep">🔍 소방시설 확인 중...</div>
       </div>
       <div class="dot-loader"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+      <!-- [v8.39] 지연 안내 메시지 -->
+      <div class="delay-notice" id="delayNotice">
+        조금 더 걸리고 있어요. 거의 다 됐어요! 💪<br/>
+        <span style="font-size:11px; color:var(--ink-muted); margin-top:4px; display:block;">복잡한 사진일수록 분석이 더 꼼꼼해져요</span>
+      </div>
     </div>
     <!-- SCREEN 4: RESULT -->
     <div class="screen" id="screen-result">
@@ -449,6 +471,31 @@
       </div>
       <div class="result-title" id="resultSummary">소방안전 분석 결과</div>
       <div id="riskIndicator"></div>
+
+      <!-- [v8.39] AI 참고용 고정 면책 배너 -->
+      <div class="ai-disclaimer-banner">
+        <span>🤖</span>
+        <span>AI 분석은 참고용이에요 · 정확한 판단은 소방전문가에게</span>
+      </div>
+
+      <!-- [v8.39] confidence 낮음 경고 배너 -->
+      <div class="confidence-warning" id="confidenceWarning">
+        <span class="confidence-warning-icon">⚠️</span>
+        <span>AI 확신도가 낮아요. 이 결과는 참고만 해주시고 반드시 소방전문가에게 확인해 주세요.</span>
+      </div>
+
+      <!-- [v8.39] 사진 품질 경고 배너 -->
+      <div class="image-quality-warning" id="imageQualityWarning">
+        <span>📸</span>
+        <span id="imageQualityMsg">사진이 어두워서 정확한 분석이 어려울 수 있어요. 밝은 곳에서 가까이 찍어주세요.</span>
+      </div>
+
+      <!-- [v8.39] 사용량 경고 배너 -->
+      <div class="usage-warning" id="usageWarning">
+        <span>⏳</span>
+        <span id="usageWarningMsg"></span>
+      </div>
+
       <div id="unrelatedCard" class="unrelated-card" style="display:none;">
         <span class="unrelated-icon">📷</span>
         <div class="unrelated-detected" id="unrelatedDetected"></div>
@@ -484,23 +531,16 @@
           </div>
         </div>
 
-        <!-- ============================================================
-             [FIX 1] 퀴즈 아코디언
-             변경: quizLoading 초기상태 = none, quizBody 초기상태 = none
-             onQuizSuccess에서 순서 제어 (showQuizSection → 로딩숨김 → 본문표시)
-        ============================================================ -->
+        <!-- 2. 퀴즈 -->
         <div class="acc-item" id="accQuiz" style="display:none;">
           <div class="acc-header" onclick="toggleAcc('accQuiz')">
             <span class="acc-header-icon">🎯</span>
-            <span class="acc-header-label">
-              <span id="quizBannerMsg">소화기 AI 퀴즈</span>
-            </span>
+            <span class="acc-header-label"><span id="quizBannerMsg">소화기 AI 퀴즈</span></span>
             <span class="acc-arrow">▼</span>
           </div>
           <div class="acc-body">
             <div class="acc-inner" style="padding-top:14px;">
               <div class="quiz-card">
-                <!-- 초기에는 둘 다 숨겨진 상태 → onQuizSuccess에서 제어 -->
                 <div class="quiz-loading" id="quizLoading" style="display:none;">
                   <div class="dot-loader" style="margin-top:0;"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
                   <span class="quiz-loading-text">퀴즈 준비 중...</span>
@@ -517,10 +557,8 @@
                   <div class="quiz-score-bar" id="quizScoreBar" style="display:none;">
                     <span class="quiz-score-label">오늘의 점수 (정답 ⭐×5 / 오답 ⭐×1)</span>
                     <div class="quiz-score-stars">
-                      <span class="quiz-star" id="qstar1">⭐</span>
-                      <span class="quiz-star" id="qstar2">⭐</span>
-                      <span class="quiz-star" id="qstar3">⭐</span>
-                      <span class="quiz-star" id="qstar4">⭐</span>
+                      <span class="quiz-star" id="qstar1">⭐</span><span class="quiz-star" id="qstar2">⭐</span>
+                      <span class="quiz-star" id="qstar3">⭐</span><span class="quiz-star" id="qstar4">⭐</span>
                       <span class="quiz-star" id="qstar5">⭐</span>
                     </div>
                   </div>
@@ -622,8 +660,8 @@
   var activeMarkerIdx = -1;
   var stepTimer       = null;
   var analysisTimer   = null;
+  var delayTimer      = null;   // [v8.39] 지연 안내 타이머
   var heroTextShown   = false;
-
   var quizData        = null;
   var quizAnswered    = false;
 
@@ -644,16 +682,16 @@
   var SPLASH_STEPS = ['AI 엔진 준비 중...', '소방 데이터 로딩...', '준비 완료!'];
   var splashStep = 0;
   function runSplash() {
-    var fill = document.getElementById('splashProgressFill');
+    var fill  = document.getElementById('splashProgressFill');
     var label = document.getElementById('splashProgressLabel');
-    var dots = [document.getElementById('sdot1'), document.getElementById('sdot2'), document.getElementById('sdot3')];
-    var pcts = [30, 70, 100];
+    var dots  = [document.getElementById('sdot1'), document.getElementById('sdot2'), document.getElementById('sdot3')];
+    var pcts  = [30, 70, 100];
     function advance() {
       if (splashStep >= SPLASH_STEPS.length) {
         setTimeout(function() { var s = document.getElementById('screen-splash'); s.classList.add('hide'); setTimeout(function() { s.style.display = 'none'; }, 650); }, 300);
         return;
       }
-      fill.style.width = pcts[splashStep] + '%';
+      fill.style.width  = pcts[splashStep] + '%';
       label.textContent = SPLASH_STEPS[splashStep];
       dots.forEach(function(d, i) { d.classList.toggle('active', i === splashStep); });
       splashStep++;
@@ -664,14 +702,19 @@
   }
   window.addEventListener('load', runSplash);
 
+  // ============================================================
+  // [v8.39] 에러 정의 — 재시도 가능 여부 추가
+  // canRetry: true → 같은 사진으로 재시도 버튼 표시
+  // ============================================================
   var ERROR_INFO = {
-    QUOTA_EXCEEDED: { cls:'err-quota', icon:'📊', title:'오늘 분석 한도에\n도달했어요', desc:'Gemini AI 무료 일일 한도를 모두 사용했어요.<br/><strong>내일 자정 이후</strong>에 다시 시도해 주세요.', action:'📅 내일 다시 시도할게요', next:'welcome' },
-    RATE_LIMIT:     { cls:'err-rate',  icon:'⏳', title:'AI가 잠시 바빠요', desc:'요청이 너무 많이 몰렸어요.<br/><strong>10~30초 후</strong>에 다시 시도해 주세요.', action:'🔄 다시 시도하기', next:'upload' },
-    IMAGE_TOO_BIG:  { cls:'err-image', icon:'📷', title:'이미지가 너무 커요', desc:'사진 용량이 5MB를 초과해요.<br/>더 작은 사진으로 <strong>다시 선택</strong>해 주세요.', action:'📁 다른 사진 선택하기', next:'upload' },
-    INVALID_IMAGE:  { cls:'err-image', icon:'📷', title:'지원하지 않는 파일이에요', desc:'JPG, PNG, WEBP, GIF 형식만 가능해요.<br/><strong>다른 사진</strong>을 선택해 주세요.', action:'📁 다른 사진 선택하기', next:'upload' },
-    SAFETY_BLOCK:   { cls:'err-safety',icon:'🚫', title:'이 사진은 분석할 수 없어요', desc:'AI 안전 필터에 의해 처리가 제한됐어요.<br/><strong>다른 사진</strong>으로 시도해 주세요.', action:'📷 다른 사진으로 시도하기', next:'upload' },
-    API_ERROR:      { cls:'err-api',   icon:'🔧', title:'AI 서비스에\n일시적 문제가 생겼어요', desc:'서버가 잠깐 바빠요.<br/><strong>잠시 후</strong> 다시 시도해 주세요.', action:'🔄 다시 시도하기', next:'upload' },
-    UNKNOWN:        { cls:'err-api',   icon:'❓', title:'알 수 없는 오류가 발생했어요', desc:'일시적인 문제일 수 있어요.<br/><strong>잠시 후</strong> 다시 시도해 주세요.', action:'🔄 다시 시도하기', next:'upload' }
+    QUOTA_EXCEEDED:      { cls:'err-quota',  icon:'📊', title:'오늘 분석 한도에\n도달했어요',     desc:'Gemini AI 무료 일일 한도를 모두 사용했어요.<br/><strong>내일 자정 이후</strong>에 다시 시도해 주세요.', action:'📅 내일 다시 시도할게요', next:'welcome', canRetry: false },
+    FREE_LIMIT_EXCEEDED: { cls:'err-quota',  icon:'📊', title:'오늘 무료 한도에\n도달했어요',     desc:'하루 무료 분석 한도(200회)를 모두 사용했어요.<br/>매일 <strong>오전 9시(한국시간)</strong>에 초기화돼요. 🙏', action:'📅 내일 다시 시도할게요', next:'welcome', canRetry: false },
+    RATE_LIMIT:          { cls:'err-rate',   icon:'⏳', title:'AI가 잠시 바빠요',               desc:'요청이 너무 많이 몰렸어요.<br/><strong>10~30초 후</strong>에 다시 시도해 주세요.', action:'← 업로드로 돌아가기', next:'upload', canRetry: true },
+    IMAGE_TOO_BIG:       { cls:'err-image',  icon:'📷', title:'이미지가 너무 커요',              desc:'사진 용량이 5MB를 초과해요.<br/>더 작은 사진으로 <strong>다시 선택</strong>해 주세요.', action:'📁 다른 사진 선택하기', next:'upload', canRetry: false },
+    INVALID_IMAGE:       { cls:'err-image',  icon:'📷', title:'지원하지 않는 파일이에요',        desc:'JPG, PNG, WEBP, GIF 형식만 가능해요.<br/><strong>다른 사진</strong>을 선택해 주세요.', action:'📁 다른 사진 선택하기', next:'upload', canRetry: false },
+    SAFETY_BLOCK:        { cls:'err-safety', icon:'🚫', title:'이 사진은 분석할 수 없어요',      desc:'AI 안전 필터에 의해 처리가 제한됐어요.<br/><strong>다른 사진</strong>으로 시도해 주세요.', action:'📷 다른 사진으로 시도하기', next:'upload', canRetry: false },
+    API_ERROR:           { cls:'err-api',    icon:'🔧', title:'AI 서비스에\n일시적 문제가 생겼어요', desc:'서버가 잠깐 바빠요.<br/><strong>잠시 후</strong> 다시 시도해 주세요.', action:'← 업로드로 돌아가기', next:'upload', canRetry: true },
+    UNKNOWN:             { cls:'err-api',    icon:'❓', title:'알 수 없는 오류가 발생했어요',    desc:'일시적인 문제일 수 있어요.<br/><strong>잠시 후</strong> 다시 시도해 주세요.', action:'← 업로드로 돌아가기', next:'upload', canRetry: true },
   };
   var errorNextAction = 'upload';
 
@@ -680,10 +723,19 @@
     errorNextAction = info.next;
     var box = document.getElementById('errorCardBox');
     box.className = 'error-card-box ' + info.cls;
-    document.getElementById('errorIcon').textContent = info.icon;
-    document.getElementById('errorTitle').textContent = info.title;
-    document.getElementById('errorDesc').innerHTML = info.desc;
+    document.getElementById('errorIcon').textContent    = info.icon;
+    document.getElementById('errorTitle').textContent   = info.title;
+    document.getElementById('errorDesc').innerHTML      = info.desc;
     document.getElementById('errorActionBtn').textContent = info.action;
+
+    // [v8.39] 사진이 메모리에 있고 재시도 가능한 에러면 버튼 표시
+    var retryBtn = document.getElementById('errorRetryBtn');
+    if (info.canRetry && imageBase64) {
+      retryBtn.classList.add('show');
+    } else {
+      retryBtn.classList.remove('show');
+    }
+
     var cur = document.getElementById(currentScreen);
     if (cur) cur.classList.remove('active');
     document.getElementById('screen-error').classList.add('active');
@@ -694,9 +746,39 @@
 
   function handleErrorAction() {
     document.getElementById('screen-error').classList.remove('active');
-    if (errorNextAction === 'welcome') { currentScreen = 'screen-welcome'; document.getElementById('screen-welcome').classList.add('active'); }
-    else { currentScreen = 'screen-upload'; removeImage(); document.getElementById('screen-upload').classList.add('active'); }
-    updateProgress(); window.scrollTo({ top: 0, behavior: 'smooth' });
+    document.getElementById('errorRetryBtn').classList.remove('show');
+    if (errorNextAction === 'welcome') {
+      currentScreen = 'screen-welcome';
+      document.getElementById('screen-welcome').classList.add('active');
+    } else {
+      currentScreen = 'screen-upload';
+      document.getElementById('screen-upload').classList.add('active');
+    }
+    updateProgress();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  // [v8.39] 같은 사진으로 재시도
+  function retryWithSameImage() {
+    if (!imageBase64) { handleErrorAction(); return; }
+    document.getElementById('screen-error').classList.remove('active');
+    document.getElementById('errorRetryBtn').classList.remove('show');
+    document.getElementById('scanImg').src = 'data:' + imageMimeType + ';base64,' + imageBase64;
+    currentScreen = 'screen-analyzing';
+    var next = document.getElementById('screen-analyzing');
+    void next.offsetWidth;
+    next.classList.add('active');
+    updateProgress();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    startStepMessages();
+    startDelayNotice();
+
+    analysisTimer = setTimeout(function() {
+      stopStepMessages(); stopDelayNotice();
+      showErrorScreen('RATE_LIMIT');
+    }, 30000);
+
+    GAS.run('analyzeImage', [imageBase64, imageMimeType], onAnalysisSuccess, onAnalysisError);
   }
 
   function showToast(msg, duration) {
@@ -721,8 +803,8 @@
 
   function updateProgress() {
     var steps = ['screen-welcome','screen-upload','screen-analyzing','screen-result','screen-chat','screen-complete'];
-    var idx = steps.indexOf(currentScreen);
-    var bar = document.getElementById('progressBar');
+    var idx   = steps.indexOf(currentScreen);
+    var bar   = document.getElementById('progressBar');
     if (idx <= 0) { bar.style.display = 'none'; return; }
     bar.style.display = 'flex';
     ['ps1','ps2','ps3','ps4','ps5'].forEach(function(pid, i) {
@@ -733,9 +815,9 @@
     });
   }
 
-  function goToUpload() { goToScreen('screen-upload'); }
-  function retakePhoto() { removeImage(); goToScreen('screen-upload'); }
-  function triggerCamera() { var fi = document.getElementById('fileInput'); fi.setAttribute('capture', 'environment'); fi.click(); }
+  function goToUpload()   { goToScreen('screen-upload'); }
+  function retakePhoto()  { removeImage(); goToScreen('screen-upload'); }
+  function triggerCamera(){ var fi = document.getElementById('fileInput'); fi.setAttribute('capture','environment'); fi.click(); }
 
   function handleFile(event) {
     try {
@@ -753,10 +835,10 @@
           canvas.width = w; canvas.height = h;
           canvas.getContext('2d').drawImage(img, 0, 0, w, h);
           var compressed = canvas.toDataURL('image/jpeg', 0.85);
-          imageBase64 = compressed.split(',')[1];
-          var preview = document.getElementById('previewImg');
-          preview.src = compressed; preview.style.display = 'block';
-          document.getElementById('removeBtn').style.display = 'flex';
+          imageBase64   = compressed.split(',')[1];
+          var preview   = document.getElementById('previewImg');
+          preview.src   = compressed; preview.style.display = 'block';
+          document.getElementById('removeBtn').style.display  = 'flex';
           document.getElementById('analyzeBtn').style.display = 'flex';
           document.getElementById('uploadZone').style.display = 'none';
         };
@@ -771,15 +853,15 @@
     imageBase64 = '';
     var preview = document.getElementById('previewImg');
     preview.src = ''; preview.style.display = 'none';
-    document.getElementById('removeBtn').style.display = 'none';
+    document.getElementById('removeBtn').style.display  = 'none';
     document.getElementById('analyzeBtn').style.display = 'none';
     document.getElementById('uploadZone').style.display = 'block';
     document.getElementById('fileInput').value = '';
   }
 
   var uz = document.getElementById('uploadZone');
-  uz.addEventListener('dragover', function(e) { e.preventDefault(); uz.classList.add('drag-over'); });
-  uz.addEventListener('dragleave', function() { uz.classList.remove('drag-over'); });
+  uz.addEventListener('dragover',  function(e) { e.preventDefault(); uz.classList.add('drag-over'); });
+  uz.addEventListener('dragleave', function()  { uz.classList.remove('drag-over'); });
   uz.addEventListener('drop', function(e) {
     e.preventDefault(); uz.classList.remove('drag-over');
     var file = e.dataTransfer.files[0];
@@ -793,7 +875,7 @@
     { pct: 35, text: '🧯 소화기 상태 분석 중...' },
     { pct: 55, text: '🚪 비상구·유도등 검토 중...' },
     { pct: 72, text: '📋 점검 보고서 작성 중...' },
-    { pct: 88, text: '✨ 마지막 확인 중...' }
+    { pct: 88, text: '✨ 마지막 확인 중...' },
   ];
   var stepIdx = 0;
   function startStepMessages() { stepIdx = 0; updateStep(); }
@@ -811,49 +893,97 @@
     document.getElementById('progressStep').textContent = '✅ 분석 완료!';
   }
 
+  // [v8.39] 지연 안내 — 15초 경과 시 표시
+  function startDelayNotice() {
+    clearTimeout(delayTimer);
+    document.getElementById('delayNotice').classList.remove('show');
+    delayTimer = setTimeout(function() {
+      if (currentScreen === 'screen-analyzing') {
+        document.getElementById('delayNotice').classList.add('show');
+      }
+    }, 15000);
+  }
+  function stopDelayNotice() {
+    clearTimeout(delayTimer);
+    document.getElementById('delayNotice').classList.remove('show');
+  }
+
   function startAnalysis() {
     if (!navigator.onLine) { showToast('📡 인터넷 연결이 없어요. 연결 후 다시 시도해 주세요.', 5000); return; }
     if (!imageBase64) { showToast('사진을 먼저 선택해 주세요.'); return; }
     var btn = document.getElementById('analyzeBtn');
     if (btn) { btn.disabled = true; btn.style.opacity = '0.6'; }
     document.getElementById('scanImg').src = 'data:' + imageMimeType + ';base64,' + imageBase64;
-    goToScreen('screen-analyzing'); startStepMessages();
+    goToScreen('screen-analyzing');
+    startStepMessages();
+    startDelayNotice(); // [v8.39]
+
     analysisTimer = setTimeout(function() {
-      stopStepMessages();
+      stopStepMessages(); stopDelayNotice();
       if (btn) { btn.disabled = false; btn.style.opacity = '1'; }
       showErrorScreen('RATE_LIMIT');
     }, 30000);
+
     GAS.run('analyzeImage', [imageBase64, imageMimeType], onAnalysisSuccess, onAnalysisError);
   }
 
   function onAnalysisSuccess(response) {
-    clearTimeout(analysisTimer); stopStepMessages();
+    clearTimeout(analysisTimer);
+    stopStepMessages();
+    stopDelayNotice(); // [v8.39]
     var btn = document.getElementById('analyzeBtn');
     if (btn) { btn.disabled = false; btn.style.opacity = '1'; }
     if (!response || !response.success) { onAnalysisError(response || { code: 'UNKNOWN' }); return; }
     analysisResult = response.data;
+
     if (analysisResult.isFireSafetyRelated === false) {
       goToScreen('screen-result');
-      document.getElementById('unrelatedCard').style.display = 'block';
-      document.getElementById('normalResult').style.display = 'none';
-      document.getElementById('unrelatedBtn').style.display = 'block';
-      document.getElementById('resultSummary').style.display = 'none';
-      document.getElementById('riskIndicator').style.display = 'none';
+      document.getElementById('unrelatedCard').style.display   = 'block';
+      document.getElementById('normalResult').style.display    = 'none';
+      document.getElementById('unrelatedBtn').style.display    = 'block';
+      document.getElementById('resultSummary').style.display   = 'none';
+      document.getElementById('riskIndicator').style.display   = 'none';
       var items = analysisResult.detectedItems || [];
       var names = items.map(function(it) { return typeof it === 'string' ? it : (it.name || ''); }).filter(Boolean);
       if (names.length > 0) setText('unrelatedDetected', '감지된 항목: ' + names.join(', ') + ' 입니다.');
       return;
     }
-    document.getElementById('unrelatedCard').style.display = 'none';
-    document.getElementById('normalResult').style.display = 'block';
-    document.getElementById('unrelatedBtn').style.display = 'none';
-    document.getElementById('resultSummary').style.display = 'block';
-    document.getElementById('riskIndicator').style.display = 'block';
+
+    document.getElementById('unrelatedCard').style.display   = 'none';
+    document.getElementById('normalResult').style.display    = 'block';
+    document.getElementById('unrelatedBtn').style.display    = 'none';
+    document.getElementById('resultSummary').style.display   = 'block';
+    document.getElementById('riskIndicator').style.display   = 'block';
     renderResult(analysisResult);
     goToScreen('screen-result');
     initChat();
 
-    // ── v8.33: Worker가 quiz를 함께 반환
+    // [v8.39] confidence 경고 배너
+    var confWarn = document.getElementById('confidenceWarning');
+    if (analysisResult.confidence < 70) {
+      confWarn.classList.add('show');
+    } else {
+      confWarn.classList.remove('show');
+    }
+
+    // [v8.39] 사진 품질 경고 배너
+    var qualWarn = document.getElementById('imageQualityWarning');
+    if (analysisResult.imageQuality === 'poor' && analysisResult.poorReason) {
+      document.getElementById('imageQualityMsg').textContent = analysisResult.poorReason + ' 밝은 곳에서 가까이 찍어주시면 더 정확해져요 📸';
+      qualWarn.classList.add('show');
+    } else {
+      qualWarn.classList.remove('show');
+    }
+
+    // [v8.39] 사용량 경고 배너
+    var usageWarn = document.getElementById('usageWarning');
+    if (response.usageWarning) {
+      document.getElementById('usageWarningMsg').textContent = response.usageWarning;
+      usageWarn.classList.add('show');
+    } else {
+      usageWarn.classList.remove('show');
+    }
+
     if (response.quiz) {
       onQuizSuccess({ success: true, quiz: response.quiz });
     } else {
@@ -863,9 +993,11 @@
 
   function onAnalysisError(err) {
     clearTimeout(analysisTimer);
+    stopDelayNotice(); // [v8.39]
     var btn = document.getElementById('analyzeBtn');
     if (btn) { btn.disabled = false; btn.style.opacity = '1'; }
-    console.error('Analysis error:', err); stopStepMessages();
+    console.error('Analysis error:', err);
+    stopStepMessages();
     var code = (typeof err === 'object' && err && err.code) ? err.code : (typeof err === 'string' ? err : 'UNKNOWN');
     showErrorScreen(code);
   }
@@ -874,111 +1006,66 @@
     var el = document.getElementById(id);
     el.classList.toggle('open');
     if (el.classList.contains('open')) {
-      setTimeout(function() {
-        el.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-      }, 150);
+      setTimeout(function() { el.scrollIntoView({ behavior: 'smooth', block: 'nearest' }); }, 150);
     }
   }
 
-  // ============================================================
-  // [FIX 1] 퀴즈 관련 함수 수정
-  // 핵심: showQuizSection은 아코디언 표시 + 배너 텍스트만 담당
-  //       로딩/본문 표시는 onQuizSuccess에서 순서대로 직접 제어
-  // ============================================================
-
+  // 퀴즈 관련
   function showQuizSection(data) {
-    var accQuiz = document.getElementById('accQuiz');
-    accQuiz.style.display = 'block';
-    // ❌ 이전: 여기서 quizLoading을 flex로 켜버렸음 → 버그 원인
-    // ✅ 수정: 배너 텍스트 업데이트만 담당, 로딩/본문은 건드리지 않음
+    document.getElementById('accQuiz').style.display = 'block';
     var summary = (data && data.summary) ? data.summary : '소방시설';
     document.getElementById('quizBannerMsg').textContent = summary + ' 관련 퀴즈!';
   }
-
   function onQuizSuccess(res) {
     if (!res || !res.success || !res.quiz) { hideQuizSection(); return; }
-    quizData = res.quiz;
-    quizAnswered = false;
-
-    // 1단계: 아코디언 표시 + 배너 텍스트 설정 (로딩/본문 상태는 변경 안 함)
+    quizData = res.quiz; quizAnswered = false;
     showQuizSection(analysisResult);
-
-    // 2단계: 로딩 숨기고 퀴즈 본문 바로 표시
     document.getElementById('quizLoading').style.display = 'none';
-    document.getElementById('quizBody').style.display = 'block';
-
-    // 3단계: 퀴즈 렌더링
+    document.getElementById('quizBody').style.display    = 'block';
     renderQuiz(quizData);
   }
-
-  function onQuizError() {
-    hideQuizSection();
-  }
-
-  function hideQuizSection() {
-    document.getElementById('accQuiz').style.display = 'none';
-  }
-
+  function hideQuizSection() { document.getElementById('accQuiz').style.display = 'none'; }
   function renderQuiz(q) {
     document.getElementById('quizCategoryBadge').textContent = q.category || '소방안전';
-    document.getElementById('quizQuestion').textContent = q.question || '';
+    document.getElementById('quizQuestion').textContent      = q.question || '';
     document.getElementById('quizResultBox').classList.remove('show','correct-box','wrong-box');
-    document.getElementById('quizScoreBar').style.display = 'none';
-
-    var optWrap = document.getElementById('quizOptions');
-    optWrap.innerHTML = '';
-    var opts = q.options || [];
-    opts.forEach(function(opt, idx) {
-      var btn = document.createElement('button');
-      btn.className = 'quiz-option';
+    document.getElementById('quizScoreBar').style.display   = 'none';
+    var optWrap = document.getElementById('quizOptions'); optWrap.innerHTML = '';
+    (q.options || []).forEach(function(opt, idx) {
+      var btn = document.createElement('button'); btn.className = 'quiz-option';
       btn.setAttribute('data-idx', idx);
-      btn.innerHTML =
-        '<span class="quiz-opt-num">' + (idx + 1) + '</span>' +
-        '<span>' + escapeHtml(opt) + '</span>';
+      btn.innerHTML = '<span class="quiz-opt-num">'+(idx+1)+'</span><span>'+escapeHtml(opt)+'</span>';
       btn.addEventListener('click', function() { selectQuizOption(idx, q.answer); });
       optWrap.appendChild(btn);
     });
   }
-
   function selectQuizOption(selectedIdx, correctIdx) {
     if (quizAnswered) return;
     quizAnswered = true;
     var isCorrect = (selectedIdx === correctIdx);
-
-    var btns = document.querySelectorAll('.quiz-option');
-    btns.forEach(function(b, i) {
+    document.querySelectorAll('.quiz-option').forEach(function(b, i) {
       b.classList.add('disabled');
       if (i === correctIdx) b.classList.add('correct');
       else if (i === selectedIdx && !isCorrect) b.classList.add('wrong');
     });
-
     var box = document.getElementById('quizResultBox');
     box.classList.remove('correct-box','wrong-box');
     box.classList.add(isCorrect ? 'correct-box' : 'wrong-box', 'show');
     document.getElementById('quizResultEmoji').textContent = isCorrect ? '🎉' : '💡';
     document.getElementById('quizResultTitle').textContent = isCorrect ? '정답이에요!' : '아쉽지만 다음엔 맞출 수 있어요!';
-    document.getElementById('quizResultDesc').textContent = quizData.explanation || '';
-
-    var scoreBar = document.getElementById('quizScoreBar');
-    scoreBar.style.display = 'flex';
+    document.getElementById('quizResultDesc').textContent  = quizData.explanation || '';
+    var scoreBar = document.getElementById('quizScoreBar'); scoreBar.style.display = 'flex';
     var starCount = isCorrect ? 5 : 1;
     ['qstar1','qstar2','qstar3','qstar4','qstar5'].forEach(function(id, i) {
-      var el = document.getElementById(id);
-      if (!el) return;
+      var el = document.getElementById(id); if (!el) return;
       el.classList.remove('lit');
-      if (i < starCount) {
-        setTimeout(function() { el.classList.add('lit'); }, i * 150);
-      }
+      if (i < starCount) setTimeout(function() { el.classList.add('lit'); }, i * 150);
     });
   }
 
   var RISK_COLOR = { high:'#E24B4A', medium:'#EF9F27', low:'#2EC4A1' };
   var RISK_LABEL = { high:'즉시 조치', medium:'주의 필요', low:'확인 권장' };
 
-  function calcPinOffset(xPct, yPct) {
-    var ox = xPct > 75 ? -7 : 7, oy = yPct > 75 ? -7 : 7;
-    return { px: Math.min(97, Math.max(3, xPct + ox)), py: Math.min(97, Math.max(3, yPct + oy)) };
-  }
   function calcLabelPos(px, py) { return { lx: px, ly: py > 20 ? py - 15 : py + 18 }; }
 
   function renderMarkers(items) {
@@ -987,45 +1074,33 @@
     var imgEl = document.getElementById('markerImg');
     imgEl.src = 'data:' + imageMimeType + ';base64,' + imageBase64;
     wrap.style.display = 'block';
-    wrap.querySelectorAll('.marker-pin,.marker-pulse-ring,.marker-label').forEach(function(el){el.remove();});
+    wrap.querySelectorAll('.marker-pin,.marker-pulse-ring,.marker-label').forEach(function(el){ el.remove(); });
     activeMarkerIdx = -1;
 
     function placeMarkers() {
-      var imgW = imgEl.naturalWidth  || 1;
-      var imgH = imgEl.naturalHeight || 1;
-      var dispW = imgEl.offsetWidth  || imgEl.clientWidth  || 1;
-      var dispH = imgEl.offsetHeight || imgEl.clientHeight || 1;
-      var scaleX = dispW / imgW;
-      var scaleY = dispH / imgH;
-      var scale  = Math.max(scaleX, scaleY);
-      var rendW  = imgW * scale;
-      var rendH  = imgH * scale;
-      var offX   = (dispW - rendW) / 2;
-      var offY   = (dispH - rendH) / 2;
-
-      wrap.querySelectorAll('.marker-pin,.marker-pulse-ring,.marker-label').forEach(function(el){el.remove();});
-
+      var imgW = imgEl.naturalWidth || 1, imgH = imgEl.naturalHeight || 1;
+      var dispW = imgEl.offsetWidth || 1,  dispH = imgEl.offsetHeight || 1;
+      var scale = Math.max(dispW / imgW, dispH / imgH);
+      var rendW = imgW * scale, rendH = imgH * scale;
+      var offX  = (dispW - rendW) / 2, offY = (dispH - rendH) / 2;
+      wrap.querySelectorAll('.marker-pin,.marker-pulse-ring,.marker-label').forEach(function(el){ el.remove(); });
       items.forEach(function(item, idx) {
-        var risk  = item.risk  || 'low';
+        var risk  = item.risk || 'low';
         var color = RISK_COLOR[risk] || RISK_COLOR.low;
         var xPct  = typeof item.x === 'number' ? item.x : 50;
         var yPct  = typeof item.y === 'number' ? item.y : 50;
-        var pxAbs = offX + (xPct / 100) * rendW;
-        var pyAbs = offY + (yPct / 100) * rendH;
+        var pxAbs = offX + (xPct / 100) * rendW, pyAbs = offY + (yPct / 100) * rendH;
         var px    = Math.min(97, Math.max(3, (pxAbs / dispW) * 100));
         var py    = Math.min(97, Math.max(3, (pyAbs / dispH) * 100));
         var lp    = calcLabelPos(px, py);
-
-        var ring = document.createElement('div'); ring.className = 'marker-pulse-ring';
+        var ring  = document.createElement('div'); ring.className = 'marker-pulse-ring';
         ring.style.left = px+'%'; ring.style.top = py+'%'; ring.style.background = color;
         ring.style.animationDelay = (idx*0.4)+'s'; wrap.appendChild(ring);
-
         var pin = document.createElement('div'); pin.className = 'marker-pin';
         pin.style.left = px+'%'; pin.style.top = py+'%'; pin.style.background = color;
         pin.setAttribute('data-idx', idx);
         pin.innerHTML = '<svg viewBox="0 0 13 13" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="6.5" cy="6.5" r="4.5" fill="white" fill-opacity="0.9"/><rect x="5.8" y="2.8" width="1.4" height="3.8" rx="0.7" fill="'+color+'"/><rect x="5.8" y="7.5" width="1.4" height="1.4" rx="0.7" fill="'+color+'"/></svg>';
-        pin.addEventListener('click', function(){toggleMarker(idx);}); wrap.appendChild(pin);
-
+        pin.addEventListener('click', function(){ toggleMarker(idx); }); wrap.appendChild(pin);
         var label = document.createElement('div'); label.className = 'marker-label'; label.setAttribute('data-label', idx);
         label.style.left = lp.lx+'%'; label.style.top = lp.ly+'%'; label.style.borderTopColor = color;
         label.innerHTML = '<span class="marker-label-dot" style="background:'+color+';"></span><span class="marker-label-name">'+escapeHtml(item.name||'')+'</span><span class="marker-label-risk mlr-'+risk+'">'+escapeHtml(RISK_LABEL[risk])+'</span>';
@@ -1033,24 +1108,20 @@
       });
       renderDetectedList(items);
     }
-
-    if (imgEl.complete && imgEl.naturalWidth > 0) {
-      placeMarkers();
-    } else {
-      imgEl.onload = placeMarkers;
-    }
+    if (imgEl.complete && imgEl.naturalWidth > 0) placeMarkers();
+    else imgEl.onload = placeMarkers;
   }
 
   function toggleMarker(idx) {
     var wasActive = (activeMarkerIdx === idx);
-    document.querySelectorAll('.marker-pin').forEach(function(p){p.classList.remove('active');});
-    document.querySelectorAll('.marker-label').forEach(function(l){l.classList.remove('visible');});
-    document.querySelectorAll('.detected-list-item').forEach(function(li){li.classList.remove('active');});
+    document.querySelectorAll('.marker-pin').forEach(function(p){ p.classList.remove('active'); });
+    document.querySelectorAll('.marker-label').forEach(function(l){ l.classList.remove('visible'); });
+    document.querySelectorAll('.detected-list-item').forEach(function(li){ li.classList.remove('active'); });
     activeMarkerIdx = -1;
     if (!wasActive) {
       var tp = document.querySelector('.marker-pin[data-idx="'+idx+'"]');
       var tl = document.querySelector('.marker-label[data-label="'+idx+'"]');
-      var tli = document.querySelector('.detected-list-item[data-idx="'+idx+'"]');
+      var tli= document.querySelector('.detected-list-item[data-idx="'+idx+'"]');
       if(tp) tp.classList.add('active'); if(tl) tl.classList.add('visible'); if(tli) tli.classList.add('active');
       activeMarkerIdx = idx;
     }
@@ -1058,12 +1129,12 @@
 
   function renderDetectedList(items) {
     var list = document.getElementById('detectedList');
-    list.querySelectorAll('.detected-list-item').forEach(function(el){el.remove();});
+    list.querySelectorAll('.detected-list-item').forEach(function(el){ el.remove(); });
     items.forEach(function(item, idx) {
       var risk = item.risk || 'low', row = document.createElement('div');
       row.className = 'detected-list-item'; row.setAttribute('data-idx', idx);
       row.innerHTML = '<span class="detected-dot dot-'+risk+'"></span><span class="detected-item-name">'+escapeHtml(item.name||'')+'</span><span class="detected-item-badge badge-'+risk+'">'+escapeHtml(RISK_LABEL[risk]||risk)+'</span>';
-      row.addEventListener('click', function(){toggleMarker(idx);}); list.appendChild(row);
+      row.addEventListener('click', function(){ toggleMarker(idx); }); list.appendChild(row);
     });
     list.style.display = items.length > 0 ? 'block' : 'none';
   }
@@ -1071,8 +1142,8 @@
   function renderResult(data) {
     setText('resultSummary', data.summary || '소방안전 분석 결과');
     var riskLevel = data.riskLevel || 'low';
-    var riskMap = { low:['🟢 안전 양호','risk-low'], medium:['🟡 주의 필요','risk-medium'], high:['🔴 즉시 조치 권고','risk-high'] };
-    var riskArr = riskMap[riskLevel] || riskMap.low;
+    var riskMap   = { low:['🟢 안전 양호','risk-low'], medium:['🟡 주의 필요','risk-medium'], high:['🔴 즉시 조치 권고','risk-high'] };
+    var riskArr   = riskMap[riskLevel] || riskMap.low;
     var indicatorHtml = '<span class="risk-pill '+riskArr[1]+'">'+escapeHtml(riskArr[0])+'</span>';
     var items = data.detectedItems || [], shownRisks = {};
     shownRisks[riskLevel] = true;
@@ -1081,10 +1152,15 @@
       if (!shownRisks[r] && riskMap[r]) { shownRisks[r] = true; var ra = riskMap[r]; indicatorHtml += '<span class="risk-pill '+ra[1]+'" style="margin-left:6px;">'+escapeHtml(ra[0])+'</span>'; }
     });
     document.getElementById('riskIndicator').innerHTML = indicatorHtml;
-    setText('resultGreeting', data.greeting || ''); setText('resultAnalysis', data.analysis || ''); setText('resultSolution', data.solution || '');
+    setText('resultGreeting',   data.greeting          || '');
+    setText('resultAnalysis',   data.analysis          || '');
+    setText('resultSolution',   data.solution          || '');
     var note = data.expertNote || {};
-    setText('expertBasis', note.basis || ''); setText('expertImportance', note.importance || ''); setText('expertTip', note.tip || ''); setText('expertInspection', note.inspection || '');
-    setText('resultCuriosity', data.curiosityQuestion || '');
+    setText('expertBasis',      note.basis      || '');
+    setText('expertImportance', note.importance || '');
+    setText('expertTip',        note.tip        || '');
+    setText('expertInspection', note.inspection || '');
+    setText('resultCuriosity',  data.curiosityQuestion || '');
     renderMarkers(data.detectedItems || []);
   }
 
@@ -1092,10 +1168,10 @@
   function getKoreanVoice(callback) {
     if (cachedKoVoice) { callback(cachedKoVoice); return; }
     var voices = window.speechSynthesis.getVoices();
-    if (voices.length > 0) { cachedKoVoice = voices.find(function(v) { return v.lang.startsWith('ko'); }) || null; callback(cachedKoVoice); return; }
+    if (voices.length > 0) { cachedKoVoice = voices.find(function(v){ return v.lang.startsWith('ko'); }) || null; callback(cachedKoVoice); return; }
     window.speechSynthesis.addEventListener('voiceschanged', function handler() {
       window.speechSynthesis.removeEventListener('voiceschanged', handler);
-      cachedKoVoice = window.speechSynthesis.getVoices().find(function(v) { return v.lang.startsWith('ko'); }) || null;
+      cachedKoVoice = window.speechSynthesis.getVoices().find(function(v){ return v.lang.startsWith('ko'); }) || null;
       callback(cachedKoVoice);
     });
   }
@@ -1114,13 +1190,11 @@
       window.speechSynthesis.speak(speechUtterance); setVoiceUI(true);
     });
   }
-
   function setVoiceUI(playing) {
     voicePlaying = playing;
     document.getElementById('voiceLabel').textContent = playing ? '재생 중... (탭하여 중지)' : '음성으로 들어보기';
     document.getElementById('voiceIcon').textContent  = playing ? '⏸️' : '🔊';
   }
-
   document.addEventListener('visibilitychange', function() {
     if (document.hidden && voicePlaying) { window.speechSynthesis && window.speechSynthesis.cancel(); setVoiceUI(false); }
   });
@@ -1131,13 +1205,11 @@
     strong.textContent = (analysisResult && analysisResult.summary) ? analysisResult.summary : '소방안전';
     addAiMessageParts(['안녕하세요! ', strong, '에 대해 살펴봤어요. 더 궁금한 점 편하게 물어보세요 😊']);
   }
-
   function makeAiAv() {
     var av = document.createElement('div'); av.className = 'msg-av';
     av.innerHTML = '<img src="https://raw.githubusercontent.com/alchemist2399-star/sossodam-ai/main/hero%20icon.png" style="width:52px;height:52px;object-fit:contain;" onerror="this.outerHTML=\'🔥\'" />';
     return av;
   }
-
   function addAiMessageParts(parts) {
     var msgs = document.getElementById('chatMessages');
     var row = document.createElement('div'); row.className = 'msg msg-ai';
@@ -1145,7 +1217,6 @@
     parts.forEach(function(p){ bubble.appendChild(typeof p === 'string' ? document.createTextNode(p) : p); });
     row.appendChild(makeAiAv()); row.appendChild(bubble); msgs.appendChild(row); msgs.scrollTop = msgs.scrollHeight;
   }
-
   function addAiMessage(text) {
     var msgs = document.getElementById('chatMessages');
     var row = document.createElement('div'); row.className = 'msg msg-ai';
@@ -1156,7 +1227,6 @@
     });
     row.appendChild(makeAiAv()); row.appendChild(bubble); msgs.appendChild(row); msgs.scrollTop = msgs.scrollHeight;
   }
-
   function addUserMessage(text) {
     var msgs = document.getElementById('chatMessages');
     var row = document.createElement('div'); row.className = 'msg msg-user';
@@ -1164,7 +1234,6 @@
     var av = document.createElement('div'); av.className = 'msg-av'; av.textContent = '😊';
     row.appendChild(bubble); row.appendChild(av); msgs.appendChild(row); msgs.scrollTop = msgs.scrollHeight;
   }
-
   function showTyping() {
     var msgs = document.getElementById('chatMessages');
     var row = document.createElement('div'); row.className = 'msg msg-ai'; row.id = 'typingMsg';
@@ -1172,7 +1241,6 @@
     ind.innerHTML = '<div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div>';
     row.appendChild(makeAiAv()); row.appendChild(ind); msgs.appendChild(row); msgs.scrollTop = msgs.scrollHeight;
   }
-
   function hideTyping() { var t = document.getElementById('typingMsg'); if(t) t.remove(); }
 
   var isSending = false;
@@ -1183,21 +1251,17 @@
     if (text.length > 200) { showToast('메시지는 200자 이내로 입력해 주세요. 😊', 3000); return; }
     input.value = ''; input.style.height = 'auto'; setSendingUI(true); sendMessage(text);
   }
-
   function setSendingUI(sending) {
     isSending = sending;
     var btn = document.querySelector('.btn-send'), input = document.getElementById('chatInput');
     if (btn) { btn.disabled = sending; btn.style.opacity = sending ? '0.5' : '1'; }
     if (input) input.disabled = sending;
   }
-
   function sendChip(text) { if(currentScreen !== 'screen-chat') goToScreen('screen-chat'); sendMessage(text); }
-
   function sendCuriosity() {
     var q = document.getElementById('resultCuriosity').textContent.trim();
     if (q) { goToScreen('screen-chat'); sendMessage(q); }
   }
-
   function sendMessage(text) {
     if (!navigator.onLine) { showToast('📡 인터넷 연결이 없어요. 연결 후 다시 시도해 주세요.', 5000); setSendingUI(false); return; }
     addUserMessage(text); showTyping();
@@ -1207,7 +1271,6 @@
       function()    { hideTyping(); setSendingUI(false); addAiMessage('연결에 문제가 생겼어요. 잠시 후 다시 시도해 주세요 😊'); }
     );
   }
-
   function handleChatKey(e) { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendChat(); } }
   function autoResize(el) { el.style.height = 'auto'; el.style.height = Math.min(el.scrollHeight, 110)+'px'; }
   function updateCharCount(el) {
@@ -1216,7 +1279,6 @@
     counter.textContent = count;
     counter.style.color = count >= 180 ? '#E24B4A' : count >= 150 ? '#EF9F27' : 'var(--ink-muted)';
   }
-
   var chatInputEl = document.getElementById('chatInput');
   if (chatInputEl) {
     chatInputEl.addEventListener('focus', function() { setTimeout(function() { chatInputEl.scrollIntoView({ behavior: 'smooth', block: 'end' }); }, 350); });
@@ -1234,11 +1296,11 @@
     goToScreen('screen-complete');
     var tip = analysisResult && analysisResult.safetyTip;
     if (tip) {
-      document.getElementById('safetyTipText').textContent = tip;
-      document.getElementById('safetyTipCard').style.display = 'block';
+      document.getElementById('safetyTipText').textContent    = tip;
+      document.getElementById('safetyTipCard').style.display   = 'block';
       document.getElementById('safetyTipDefault').style.display = 'none';
     } else {
-      document.getElementById('safetyTipCard').style.display = 'none';
+      document.getElementById('safetyTipCard').style.display   = 'none';
       document.getElementById('safetyTipDefault').style.display = 'flex';
     }
     GAS.run('recordUsage', [], function(res) { if (res && res.success) setText('statsText', res.message); }, function() {});
@@ -1252,29 +1314,34 @@
     document.getElementById('chatMessages').textContent = '';
     document.getElementById('fileInput').removeAttribute('capture');
 
-    // 퀴즈 상태 완전 초기화
+    // 배너 초기화
+    document.getElementById('confidenceWarning').classList.remove('show');
+    document.getElementById('imageQualityWarning').classList.remove('show');
+    document.getElementById('usageWarning').classList.remove('show');
+
+    // 퀴즈 초기화
     var accQuiz = document.getElementById('accQuiz');
-    accQuiz.style.display = 'none';
-    accQuiz.classList.remove('open');
+    accQuiz.style.display = 'none'; accQuiz.classList.remove('open');
     document.getElementById('quizLoading').style.display = 'none';
-    document.getElementById('quizBody').style.display = 'none';
-    document.getElementById('quizOptions').innerHTML = '';
+    document.getElementById('quizBody').style.display   = 'none';
+    document.getElementById('quizOptions').innerHTML    = '';
     document.getElementById('quizResultBox').classList.remove('show','correct-box','wrong-box');
     document.getElementById('quizScoreBar').style.display = 'none';
     ['qstar1','qstar2','qstar3','qstar4','qstar5'].forEach(function(id) {
       var el = document.getElementById(id); if (el) el.classList.remove('lit');
     });
 
-    document.getElementById('accVoice').classList.remove('open');
-    document.getElementById('accExpert').classList.remove('open');
-    document.getElementById('accCuriosity').classList.remove('open');
+    ['accVoice','accExpert','accCuriosity'].forEach(function(id) {
+      document.getElementById(id).classList.remove('open');
+    });
+
     heroTextShown = false;
-    var greeting = document.getElementById('heroGreeting');
-    var title    = document.getElementById('heroTitle');
-    if (greeting) greeting.classList.remove('visible');
-    if (title)    title.classList.remove('visible');
+    var g = document.getElementById('heroGreeting'), t = document.getElementById('heroTitle');
+    if (g) g.classList.remove('visible');
+    if (t) t.classList.remove('visible');
     var hv = document.getElementById('heroVideo');
     if (hv) { hv.currentTime = 0; hv.play().catch(function(){}); }
+
     var cur = document.getElementById(currentScreen);
     if (cur) cur.classList.remove('active');
     currentScreen = 'screen-welcome';
