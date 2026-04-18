@@ -161,10 +161,6 @@
     .risk-medium { background: #FFF8E3; color: #C47A00; }
     .risk-high   { background: #FFE8E3; color: #CC2200; }
 
-    /* ── [v8.39] AI 참고용 고정 배너 ── */
-    .ai-disclaimer-banner { display: flex; align-items: center; gap: 8px; background: rgba(28,28,46,0.05); border: 1px solid rgba(28,28,46,0.08); border-radius: 12px; padding: 8px 12px; margin-bottom: 12px; font-size: 11px; color: var(--ink-muted); font-weight: 600; }
-    .ai-disclaimer-banner span { flex: 1; }
-
     /* ── [v8.39] confidence 경고 배너 ── */
     .confidence-warning { display: none; align-items: center; gap: 8px; background: linear-gradient(135deg, #FFF8EE, #FFF3E0); border: 1.5px solid rgba(255,152,0,0.3); border-radius: 14px; padding: 10px 14px; margin-bottom: 12px; font-size: 12px; color: #B35C00; font-weight: 600; line-height: 1.55; animation: fadeUp 0.4s var(--ease-spring); }
     .confidence-warning.show { display: flex; }
@@ -336,7 +332,6 @@
     .error-desc strong { color: var(--ink); }
     .error-action-btn { display: inline-flex; align-items: center; gap: 6px; padding: 12px 22px; border-radius: 100px; font-size: 14px; font-weight: 700; border: none; cursor: pointer; font-family: var(--font-main); -webkit-tap-highlight-color: transparent; }
     .error-action-btn:active { opacity: 0.85; transform: scale(0.97); }
-    /* [v8.39] 재시도 버튼 */
     .error-retry-btn { display: none; margin-top: 10px; align-items: center; justify-content: center; gap: 6px; padding: 12px 22px; border-radius: 100px; font-size: 14px; font-weight: 700; border: none; cursor: pointer; font-family: var(--font-main); background: linear-gradient(135deg, var(--flame), var(--ember)); color: white; box-shadow: 0 4px 14px rgba(255,90,54,0.3); -webkit-tap-highlight-color: transparent; width: 100%; }
     .error-retry-btn.show { display: flex; }
     .error-retry-btn:active { opacity: 0.88; transform: scale(0.97); }
@@ -440,7 +435,6 @@
         <div class="error-title" id="errorTitle"></div>
         <div class="error-desc" id="errorDesc"></div>
         <button class="error-action-btn" id="errorActionBtn" onclick="handleErrorAction()"></button>
-        <!-- [v8.39] 같은 사진으로 재시도 버튼 -->
         <button class="error-retry-btn" id="errorRetryBtn" onclick="retryWithSameImage()">🔄 같은 사진으로 다시 시도하기</button>
       </div>
     </div>
@@ -457,7 +451,6 @@
         <div class="progress-step" id="progressStep">🔍 소방시설 확인 중...</div>
       </div>
       <div class="dot-loader"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
-      <!-- [v8.39] 지연 안내 메시지 -->
       <div class="delay-notice" id="delayNotice">
         조금 더 걸리고 있어요. 거의 다 됐어요! 💪<br/>
         <span style="font-size:11px; color:var(--ink-muted); margin-top:4px; display:block;">복잡한 사진일수록 분석이 더 꼼꼼해져요</span>
@@ -471,12 +464,6 @@
       </div>
       <div class="result-title" id="resultSummary">소방안전 분석 결과</div>
       <div id="riskIndicator"></div>
-
-      <!-- [v8.39] AI 참고용 고정 면책 배너 -->
-      <div class="ai-disclaimer-banner">
-        <span>🤖</span>
-        <span>AI 분석은 참고용이에요 · 정확한 판단은 소방전문가에게</span>
-      </div>
 
       <!-- [v8.39] confidence 낮음 경고 배너 -->
       <div class="confidence-warning" id="confidenceWarning">
@@ -660,7 +647,7 @@
   var activeMarkerIdx = -1;
   var stepTimer       = null;
   var analysisTimer   = null;
-  var delayTimer      = null;   // [v8.39] 지연 안내 타이머
+  var delayTimer      = null;
   var heroTextShown   = false;
   var quizData        = null;
   var quizAnswered    = false;
@@ -702,10 +689,6 @@
   }
   window.addEventListener('load', runSplash);
 
-  // ============================================================
-  // [v8.39] 에러 정의 — 재시도 가능 여부 추가
-  // canRetry: true → 같은 사진으로 재시도 버튼 표시
-  // ============================================================
   var ERROR_INFO = {
     QUOTA_EXCEEDED:      { cls:'err-quota',  icon:'📊', title:'오늘 분석 한도에\n도달했어요',     desc:'Gemini AI 무료 일일 한도를 모두 사용했어요.<br/><strong>내일 자정 이후</strong>에 다시 시도해 주세요.', action:'📅 내일 다시 시도할게요', next:'welcome', canRetry: false },
     FREE_LIMIT_EXCEEDED: { cls:'err-quota',  icon:'📊', title:'오늘 무료 한도에\n도달했어요',     desc:'하루 무료 분석 한도(200회)를 모두 사용했어요.<br/>매일 <strong>오전 9시(한국시간)</strong>에 초기화돼요. 🙏', action:'📅 내일 다시 시도할게요', next:'welcome', canRetry: false },
@@ -727,15 +710,12 @@
     document.getElementById('errorTitle').textContent   = info.title;
     document.getElementById('errorDesc').innerHTML      = info.desc;
     document.getElementById('errorActionBtn').textContent = info.action;
-
-    // [v8.39] 사진이 메모리에 있고 재시도 가능한 에러면 버튼 표시
     var retryBtn = document.getElementById('errorRetryBtn');
     if (info.canRetry && imageBase64) {
       retryBtn.classList.add('show');
     } else {
       retryBtn.classList.remove('show');
     }
-
     var cur = document.getElementById(currentScreen);
     if (cur) cur.classList.remove('active');
     document.getElementById('screen-error').classList.add('active');
@@ -758,7 +738,6 @@
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
-  // [v8.39] 같은 사진으로 재시도
   function retryWithSameImage() {
     if (!imageBase64) { handleErrorAction(); return; }
     document.getElementById('screen-error').classList.remove('active');
@@ -772,12 +751,10 @@
     window.scrollTo({ top: 0, behavior: 'smooth' });
     startStepMessages();
     startDelayNotice();
-
     analysisTimer = setTimeout(function() {
       stopStepMessages(); stopDelayNotice();
       showErrorScreen('RATE_LIMIT');
     }, 30000);
-
     GAS.run('analyzeImage', [imageBase64, imageMimeType], onAnalysisSuccess, onAnalysisError);
   }
 
@@ -893,7 +870,6 @@
     document.getElementById('progressStep').textContent = '✅ 분석 완료!';
   }
 
-  // [v8.39] 지연 안내 — 15초 경과 시 표시
   function startDelayNotice() {
     clearTimeout(delayTimer);
     document.getElementById('delayNotice').classList.remove('show');
@@ -916,21 +892,19 @@
     document.getElementById('scanImg').src = 'data:' + imageMimeType + ';base64,' + imageBase64;
     goToScreen('screen-analyzing');
     startStepMessages();
-    startDelayNotice(); // [v8.39]
-
+    startDelayNotice();
     analysisTimer = setTimeout(function() {
       stopStepMessages(); stopDelayNotice();
       if (btn) { btn.disabled = false; btn.style.opacity = '1'; }
       showErrorScreen('RATE_LIMIT');
     }, 30000);
-
     GAS.run('analyzeImage', [imageBase64, imageMimeType], onAnalysisSuccess, onAnalysisError);
   }
 
   function onAnalysisSuccess(response) {
     clearTimeout(analysisTimer);
     stopStepMessages();
-    stopDelayNotice(); // [v8.39]
+    stopDelayNotice();
     var btn = document.getElementById('analyzeBtn');
     if (btn) { btn.disabled = false; btn.style.opacity = '1'; }
     if (!response || !response.success) { onAnalysisError(response || { code: 'UNKNOWN' }); return; }
@@ -958,7 +932,6 @@
     goToScreen('screen-result');
     initChat();
 
-    // [v8.39] confidence 경고 배너
     var confWarn = document.getElementById('confidenceWarning');
     if (analysisResult.confidence < 70) {
       confWarn.classList.add('show');
@@ -966,7 +939,6 @@
       confWarn.classList.remove('show');
     }
 
-    // [v8.39] 사진 품질 경고 배너
     var qualWarn = document.getElementById('imageQualityWarning');
     if (analysisResult.imageQuality === 'poor' && analysisResult.poorReason) {
       document.getElementById('imageQualityMsg').textContent = analysisResult.poorReason + ' 밝은 곳에서 가까이 찍어주시면 더 정확해져요 📸';
@@ -975,7 +947,6 @@
       qualWarn.classList.remove('show');
     }
 
-    // [v8.39] 사용량 경고 배너
     var usageWarn = document.getElementById('usageWarning');
     if (response.usageWarning) {
       document.getElementById('usageWarningMsg').textContent = response.usageWarning;
@@ -993,7 +964,7 @@
 
   function onAnalysisError(err) {
     clearTimeout(analysisTimer);
-    stopDelayNotice(); // [v8.39]
+    stopDelayNotice();
     var btn = document.getElementById('analyzeBtn');
     if (btn) { btn.disabled = false; btn.style.opacity = '1'; }
     console.error('Analysis error:', err);
@@ -1010,7 +981,6 @@
     }
   }
 
-  // 퀴즈 관련
   function showQuizSection(data) {
     document.getElementById('accQuiz').style.display = 'block';
     var summary = (data && data.summary) ? data.summary : '소방시설';
@@ -1314,12 +1284,10 @@
     document.getElementById('chatMessages').textContent = '';
     document.getElementById('fileInput').removeAttribute('capture');
 
-    // 배너 초기화
     document.getElementById('confidenceWarning').classList.remove('show');
     document.getElementById('imageQualityWarning').classList.remove('show');
     document.getElementById('usageWarning').classList.remove('show');
 
-    // 퀴즈 초기화
     var accQuiz = document.getElementById('accQuiz');
     accQuiz.style.display = 'none'; accQuiz.classList.remove('open');
     document.getElementById('quizLoading').style.display = 'none';
