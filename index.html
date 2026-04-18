@@ -230,7 +230,6 @@
     .acc-item.open .acc-body { max-height: 2000px; }
     .acc-inner { padding: 0 16px 16px; border-top: 1px solid rgba(0,0,0,0.05); }
     .quiz-section { margin-bottom: 12px; }
-    /* 접힌 배너 토글 버튼 */
     .quiz-banner { display: flex; align-items: center; gap: 12px; background: white; border: 1.5px solid rgba(255,90,54,0.2); border-radius: var(--radius-lg); padding: 14px 16px; cursor: pointer; box-shadow: var(--shadow-sm); -webkit-tap-highlight-color: transparent; transition: all 0.18s var(--ease-smooth); }
     .quiz-banner:active { opacity: 0.88; transform: scale(0.99); }
     .quiz-banner-avatar { width: 40px; height: 40px; flex-shrink: 0; }
@@ -239,7 +238,6 @@
     .quiz-banner-label { font-size: 10px; font-weight: 800; color: var(--flame); letter-spacing: 0.4px; margin-bottom: 3px; }
     .quiz-banner-msg { font-size: 13px; color: var(--ink-soft); font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
     .quiz-banner-tap { font-size: 11px; color: var(--flame); font-weight: 700; margin-top: 2px; }
-    /* 펼쳐진 퀴즈 본문 */
     .quiz-body-wrap { display: none; margin-top: 8px; }
     .quiz-body-wrap.open { display: block; animation: fadeUp 0.3s var(--ease-spring); }
     .quiz-card { background: linear-gradient(135deg, #FFF3F0, #FFF9F6); border: 1.5px solid rgba(255,90,54,0.15); border-radius: var(--radius-lg); padding: 18px 16px; overflow: hidden; }
@@ -467,7 +465,6 @@
           <div class="step-sep"></div>
           <div class="docent-step" style="margin-top:12px"><div><div class="step-badge sb3">3</div></div><div><div class="step-label">AI의 제안</div><div class="step-text" id="resultSolution"></div></div></div>
         </div>
-        <!-- ── 아코디언 4개 섹션 ── -->
 
         <!-- 1. 음성으로 들어보기 -->
         <div class="acc-item" id="accVoice">
@@ -487,7 +484,11 @@
           </div>
         </div>
 
-        <!-- 2. 소화기 AI 퀴즈 -->
+        <!-- ============================================================
+             [FIX 1] 퀴즈 아코디언
+             변경: quizLoading 초기상태 = none, quizBody 초기상태 = none
+             onQuizSuccess에서 순서 제어 (showQuizSection → 로딩숨김 → 본문표시)
+        ============================================================ -->
         <div class="acc-item" id="accQuiz" style="display:none;">
           <div class="acc-header" onclick="toggleAcc('accQuiz')">
             <span class="acc-header-icon">🎯</span>
@@ -499,7 +500,8 @@
           <div class="acc-body">
             <div class="acc-inner" style="padding-top:14px;">
               <div class="quiz-card">
-                <div class="quiz-loading" id="quizLoading">
+                <!-- 초기에는 둘 다 숨겨진 상태 → onQuizSuccess에서 제어 -->
+                <div class="quiz-loading" id="quizLoading" style="display:none;">
                   <div class="dot-loader" style="margin-top:0;"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
                   <span class="quiz-loading-text">퀴즈 준비 중...</span>
                 </div>
@@ -559,7 +561,6 @@
             </div>
           </div>
         </div>
-        <!-- ── 아코디언 끝 ── -->
 
         <div class="btn-row mt8">
           <button class="btn btn-ghost" onclick="goToScreen('screen-chat')">💬 더 물어보기</button>
@@ -578,7 +579,6 @@
         <button class="btn-back" onclick="goToScreen('screen-result')" style="margin-left:auto;">← 뒤로가기</button>
       </div>
       <div class="chat-messages" id="chatMessages"></div>
-      <!-- 자주 하는 질문 -->
       <div style="font-size:11px; color:var(--ink-muted); font-weight:700; letter-spacing:0.3px; margin-bottom:6px; padding-left:2px;">💬 자주 하는 질문</div>
       <div class="chip-row" id="defaultChips">
         <button class="chip-btn" onclick="sendChip('소화기 버리는 방법이 궁금해요')">🗑️ 소화기 폐기</button>
@@ -597,7 +597,6 @@
       <div class="complete-icon">🛡️</div>
       <div class="complete-title">오늘도 <span>안전</span>하게!<br/>잘 하셨어요 🎉</div>
       <div class="complete-msg"><p id="completeMsg">오늘 덕분에 이 공간이 훨씬 더 따뜻하고 안전해졌어요.<br/><br/>작은 관심 하나가 소중한 생명을 지키는 큰 힘이 된답니다. 💛</p></div>
-      <!-- 안전 팁 카드 (기존 칩 대체) -->
       <div id="safetyTipCard" style="display:none; background:linear-gradient(135deg,#FFF3F0,#FFF9F6); border:1.5px solid rgba(255,90,54,0.2); border-radius:20px; padding:16px 18px; margin-bottom:20px;">
         <div style="font-size:10px; font-weight:800; color:var(--flame); letter-spacing:0.5px; margin-bottom:6px;">🔥 오늘의 핵심 안전 팁</div>
         <div id="safetyTipText" style="font-size:14px; color:var(--ink-soft); line-height:1.7; font-weight:500;"></div>
@@ -625,7 +624,6 @@
   var analysisTimer   = null;
   var heroTextShown   = false;
 
-  // 퀴즈 상태
   var quizData        = null;
   var quizAnswered    = false;
 
@@ -855,7 +853,7 @@
     goToScreen('screen-result');
     initChat();
 
-    // ── v8.33: Worker가 quiz를 함께 반환 → 별도 호출 불필요 ──
+    // ── v8.33: Worker가 quiz를 함께 반환
     if (response.quiz) {
       onQuizSuccess({ success: true, quiz: response.quiz });
     } else {
@@ -872,7 +870,6 @@
     showErrorScreen(code);
   }
 
-  // ── 아코디언 토글 ──
   function toggleAcc(id) {
     var el = document.getElementById(id);
     el.classList.toggle('open');
@@ -883,23 +880,34 @@
     }
   }
 
-  // ── 퀴즈 관련 함수 ──
+  // ============================================================
+  // [FIX 1] 퀴즈 관련 함수 수정
+  // 핵심: showQuizSection은 아코디언 표시 + 배너 텍스트만 담당
+  //       로딩/본문 표시는 onQuizSuccess에서 순서대로 직접 제어
+  // ============================================================
 
   function showQuizSection(data) {
     var accQuiz = document.getElementById('accQuiz');
     accQuiz.style.display = 'block';
-    document.getElementById('quizLoading').style.display = 'flex';
-    document.getElementById('quizBody').style.display = 'none';
-    var summary = data.summary || '소방시설';
+    // ❌ 이전: 여기서 quizLoading을 flex로 켜버렸음 → 버그 원인
+    // ✅ 수정: 배너 텍스트 업데이트만 담당, 로딩/본문은 건드리지 않음
+    var summary = (data && data.summary) ? data.summary : '소방시설';
     document.getElementById('quizBannerMsg').textContent = summary + ' 관련 퀴즈!';
   }
 
   function onQuizSuccess(res) {
-    document.getElementById('quizLoading').style.display = 'none';
     if (!res || !res.success || !res.quiz) { hideQuizSection(); return; }
     quizData = res.quiz;
     quizAnswered = false;
+
+    // 1단계: 아코디언 표시 + 배너 텍스트 설정 (로딩/본문 상태는 변경 안 함)
     showQuizSection(analysisResult);
+
+    // 2단계: 로딩 숨기고 퀴즈 본문 바로 표시
+    document.getElementById('quizLoading').style.display = 'none';
+    document.getElementById('quizBody').style.display = 'block';
+
+    // 3단계: 퀴즈 렌더링
     renderQuiz(quizData);
   }
 
@@ -912,7 +920,6 @@
   }
 
   function renderQuiz(q) {
-    document.getElementById('quizBody').style.display = 'block';
     document.getElementById('quizCategoryBadge').textContent = q.category || '소방안전';
     document.getElementById('quizQuestion').textContent = q.question || '';
     document.getElementById('quizResultBox').classList.remove('show','correct-box','wrong-box');
@@ -952,7 +959,6 @@
     document.getElementById('quizResultTitle').textContent = isCorrect ? '정답이에요!' : '아쉽지만 다음엔 맞출 수 있어요!';
     document.getElementById('quizResultDesc').textContent = quizData.explanation || '';
 
-    // 별점: 정답 5개, 오답 1개
     var scoreBar = document.getElementById('quizScoreBar');
     scoreBar.style.display = 'flex';
     var starCount = isCorrect ? 5 : 1;
@@ -966,8 +972,6 @@
     });
   }
 
-  // ── 기존 함수들 ──
-
   var RISK_COLOR = { high:'#E24B4A', medium:'#EF9F27', low:'#2EC4A1' };
   var RISK_LABEL = { high:'즉시 조치', medium:'주의 필요', low:'확인 권장' };
 
@@ -976,45 +980,6 @@
     return { px: Math.min(97, Math.max(3, xPct + ox)), py: Math.min(97, Math.max(3, yPct + oy)) };
   }
   function calcLabelPos(px, py) { return { lx: px, ly: py > 20 ? py - 15 : py + 18 }; }
-
-  function spreadSamePositions(positions) {
-    var result = positions.map(function(p) { return { px: p.px, py: p.py }; });
-    var MIN_DIST = 9, MAX_ITER = 30;
-    for (var iter = 0; iter < MAX_ITER; iter++) {
-      var moved = false;
-      for (var i = 0; i < result.length; i++) {
-        for (var j = i + 1; j < result.length; j++) {
-          var dx = result[j].px - result[i].px, dy = result[j].py - result[i].py;
-          var dist = Math.sqrt(dx*dx + dy*dy);
-          if (dist < MIN_DIST) {
-            moved = true;
-            if (dist < 0.01) { dx = 1; dy = 0; dist = 1; }
-            var overlap = (MIN_DIST - dist) / 2;
-            var nx = (dx/dist)*overlap, ny = (dy/dist)*overlap;
-            result[i].px = Math.min(95, Math.max(5, result[i].px - nx));
-            result[i].py = Math.min(95, Math.max(5, result[i].py - ny));
-            result[j].px = Math.min(95, Math.max(5, result[j].px + nx));
-            result[j].py = Math.min(95, Math.max(5, result[j].py + ny));
-          }
-        }
-      }
-      if (!moved) break;
-    }
-    return result;
-  }
-
-  function isClustered(positions) {
-    if (positions.length <= 1) return false;
-    var xs = positions.map(function(p){return p.px;}), ys = positions.map(function(p){return p.py;});
-    return (Math.max.apply(null,xs)-Math.min.apply(null,xs) < 15) && (Math.max.apply(null,ys)-Math.min.apply(null,ys) < 15);
-  }
-
-  function gridPositions(count) {
-    var cols = Math.ceil(Math.sqrt(count)), rows = Math.ceil(count/cols), result = [];
-    var xStep = 80/(cols+1), yStep = 80/(rows+1);
-    for (var i = 0; i < count; i++) result.push({ px: Math.round(10+xStep*(i%cols+1)), py: Math.round(10+yStep*(Math.floor(i/cols)+1)) });
-    return result;
-  }
 
   function renderMarkers(items) {
     var wrap = document.getElementById('markerImgWrap');
@@ -1026,12 +991,10 @@
     activeMarkerIdx = -1;
 
     function placeMarkers() {
-      // 이미지가 실제로 렌더된 크기 기준으로 마커 좌표 계산
       var imgW = imgEl.naturalWidth  || 1;
       var imgH = imgEl.naturalHeight || 1;
       var dispW = imgEl.offsetWidth  || imgEl.clientWidth  || 1;
       var dispH = imgEl.offsetHeight || imgEl.clientHeight || 1;
-      // object-fit:cover 이므로 실제 표시 영역 내 이미지 스케일/오프셋 계산
       var scaleX = dispW / imgW;
       var scaleY = dispH / imgH;
       var scale  = Math.max(scaleX, scaleY);
@@ -1045,10 +1008,8 @@
       items.forEach(function(item, idx) {
         var risk  = item.risk  || 'low';
         var color = RISK_COLOR[risk] || RISK_COLOR.low;
-        // item.x, item.y 는 0~100 퍼센트 (normalizeDetectedItems에서 변환됨)
         var xPct  = typeof item.x === 'number' ? item.x : 50;
         var yPct  = typeof item.y === 'number' ? item.y : 50;
-        // 이미지 원본 좌표 → 표시 영역 픽셀 → 컨테이너 퍼센트
         var pxAbs = offX + (xPct / 100) * rendW;
         var pyAbs = offY + (yPct / 100) * rendH;
         var px    = Math.min(97, Math.max(3, (pxAbs / dispW) * 100));
@@ -1271,7 +1232,6 @@
   function goToComplete() {
     if (voicePlaying) { window.speechSynthesis && window.speechSynthesis.cancel(); setVoiceUI(false); }
     goToScreen('screen-complete');
-    // 안전 팁 표시
     var tip = analysisResult && analysisResult.safetyTip;
     if (tip) {
       document.getElementById('safetyTipText').textContent = tip;
@@ -1284,72 +1244,6 @@
     GAS.run('recordUsage', [], function(res) { if (res && res.success) setText('statsText', res.message); }, function() {});
   }
 
-  // ── 커스텀 칩 ──
-  var CUSTOM_CHIPS_KEY = 'sossodam_custom_chips';
-  var MAX_CUSTOM_CHIPS = 5;
-
-  function getCustomChips() {
-    try { return JSON.parse(localStorage.getItem(CUSTOM_CHIPS_KEY) || '[]'); } catch(e) { return []; }
-  }
-  function saveCustomChips(arr) {
-    try { localStorage.setItem(CUSTOM_CHIPS_KEY, JSON.stringify(arr)); } catch(e) {}
-  }
-
-  function renderCustomChips() {
-    var chips = getCustomChips();
-    var container = document.getElementById('customChips');
-    var addBtn    = document.getElementById('addChipBtn');
-    if (!container) return;
-    container.textContent = '';
-    chips.forEach(function(text, idx) {
-      var btn = document.createElement('button');
-      btn.className = 'chip-btn';
-      btn.style.cssText = 'background:#FFF3F0; color:var(--flame); border-color:rgba(255,90,54,0.25); display:inline-flex; align-items:center; gap:6px; flex-shrink:0;';
-      var label = document.createElement('span');
-      label.textContent = '📌 ' + text;
-      var del = document.createElement('span');
-      del.textContent = '✕';
-      del.style.cssText = 'font-size:10px; font-weight:800; color:var(--flame); margin-left:2px;';
-      del.onclick = function(e) { e.stopPropagation(); deleteCustomChip(idx); };
-      btn.appendChild(label);
-      btn.appendChild(del);
-      btn.onclick = function(e) {
-        if (e.target === del) return;
-        sendChip(text);
-      };
-      container.appendChild(btn);
-    });
-    if (addBtn) addBtn.style.display = chips.length >= MAX_CUSTOM_CHIPS ? 'none' : 'inline-flex';
-  }
-
-  function showAddChipModal() {
-    document.getElementById('addChipModal').style.display = 'block';
-    document.getElementById('newChipInput').value = '';
-    document.getElementById('newChipInput').focus();
-  }
-  function hideAddChipModal() {
-    document.getElementById('addChipModal').style.display = 'none';
-    document.getElementById('newChipInput').value = '';
-  }
-  function saveCustomChip() {
-    var input = document.getElementById('newChipInput');
-    var text  = input.value.trim();
-    if (!text) return;
-    var chips = getCustomChips();
-    if (chips.length >= MAX_CUSTOM_CHIPS) { hideAddChipModal(); return; }
-    if (chips.includes(text)) { hideAddChipModal(); return; }
-    chips.push(text);
-    saveCustomChips(chips);
-    hideAddChipModal();
-    renderCustomChips();
-  }
-  function deleteCustomChip(idx) {
-    var chips = getCustomChips();
-    chips.splice(idx, 1);
-    saveCustomChips(chips);
-    renderCustomChips();
-  }
-
   function restartApp() {
     imageBase64 = ''; imageMimeType = 'image/jpeg'; analysisResult = null; activeMarkerIdx = -1;
     quizData = null; quizAnswered = false;
@@ -1357,8 +1251,20 @@
     removeImage();
     document.getElementById('chatMessages').textContent = '';
     document.getElementById('fileInput').removeAttribute('capture');
-    document.getElementById('accQuiz').style.display = 'none';
-    document.getElementById('accQuiz').classList.remove('open');
+
+    // 퀴즈 상태 완전 초기화
+    var accQuiz = document.getElementById('accQuiz');
+    accQuiz.style.display = 'none';
+    accQuiz.classList.remove('open');
+    document.getElementById('quizLoading').style.display = 'none';
+    document.getElementById('quizBody').style.display = 'none';
+    document.getElementById('quizOptions').innerHTML = '';
+    document.getElementById('quizResultBox').classList.remove('show','correct-box','wrong-box');
+    document.getElementById('quizScoreBar').style.display = 'none';
+    ['qstar1','qstar2','qstar3','qstar4','qstar5'].forEach(function(id) {
+      var el = document.getElementById(id); if (el) el.classList.remove('lit');
+    });
+
     document.getElementById('accVoice').classList.remove('open');
     document.getElementById('accExpert').classList.remove('open');
     document.getElementById('accCuriosity').classList.remove('open');
